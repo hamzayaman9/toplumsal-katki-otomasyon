@@ -57,7 +57,7 @@ class Article(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     source_id: Mapped[int] = mapped_column(ForeignKey("sources.id"))
     url: Mapped[str] = mapped_column(String(1000), unique=True)
-    external_id: Mapped[str | None] = mapped_column(String(100))
+    external_id: Mapped[str | None] = mapped_column(String(500))  # RSS guid bazen uzun URL
     title: Mapped[str] = mapped_column(Text)
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     text: Mapped[str] = mapped_column(Text, default="")

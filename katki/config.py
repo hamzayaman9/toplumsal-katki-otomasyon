@@ -20,6 +20,8 @@ def _database_url() -> str:
 @dataclass(frozen=True)
 class Settings:
     database_url: str = _database_url()
+    # haftalık turdan sonra verinin HTTPS ile gönderildiği bulut veritabanı (bulut-esitle)
+    neon_database_url: str = os.getenv("NEON_DATABASE_URL", "")
     # Vercel'de çalışırken tarama/canlı izleme kapalı (uzun iş ve Playwright yok)
     bulut: bool = bool(os.getenv("VERCEL"))
     # boş değilse panel bu şifreyi ister

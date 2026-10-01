@@ -238,6 +238,13 @@ def cmd_web(args) -> None:
     run(port=args.port)
 
 
+def cmd_bulut_esitle(args) -> None:
+    from .bulut import esitle
+
+    init_db()
+    esitle(tam=args.tam)
+
+
 def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -289,6 +296,10 @@ def main() -> None:
     w = sub.add_parser("web", help="Yerel paneli başlat (http://127.0.0.1:8000)")
     w.add_argument("--port", type=int, default=8000)
     w.set_defaults(fn=cmd_web)
+
+    b = sub.add_parser("bulut-esitle", help="Yeni kayıtları Vercel paneli için bulut veritabanına (Neon) gönder")
+    b.add_argument("--tam", action="store_true", help="yalnız yenileri değil tüm satırları gönder")
+    b.set_defaults(fn=cmd_bulut_esitle)
 
     args = p.parse_args()
     args.fn(args)
