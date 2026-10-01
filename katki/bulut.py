@@ -54,6 +54,12 @@ def _sema_olustur(neon: Neon) -> None:
         neon.sorgu(str(CreateTable(table, if_not_exists=True).compile(dialect=dialect)))
         for index in table.indexes:
             neon.sorgu(str(CreateIndex(index, if_not_exists=True).compile(dialect=dialect)))
+        # create_all gibi CREATE TABLE da mevcut tabloya sonradan eklenen sütunları getirmez
+        mevcut = {r["column_name"] for r in neon.sorgu(
+            "SELECT column_name FROM information_schema.columns WHERE table_name = $1", [table.name])}
+        for col in table.columns:
+            if col.name not in mevcut:
+                neon.sorgu(f"ALTER TABLE {table.name} ADD COLUMN {col.name} {col.type.compile(dialect=dialect)}")
 
 
 def _etiketleri_cek(neon: Neon) -> int:

@@ -2,7 +2,6 @@
 
 import asyncio
 import logging
-from typing import Literal, get_args
 
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select
@@ -12,34 +11,9 @@ from .db import Article, Classification, Session, Source
 from .events import EventFn, noop
 from .jev import decide
 from .llm import LLMError, Usage, chat_json
+from .sorular import BOLGE_ILLERI, BOLGE_SORUSU, KARAR_SORULARI, FaaliyetTuru, Kategori, il_sorusu
 
 log = logging.getLogger(__name__)
-
-Kategori = Literal[
-    "Sağlık ve iyi yaşam",
-    "Eğitim ve yaşam boyu öğrenme",
-    "Çevre, iklim ve sürdürülebilirlik",
-    "Kültür, sanat ve miras",
-    "Sosyal içerme ve dezavantajlı gruplar",
-    "Ekonomik kalkınma, girişimcilik ve istihdam",
-    "Bilim iletişimi ve halkı bilgilendirme",
-    "Afet, acil durum ve insani yardım",
-    "Kamu politikası ve kurumlara danışmanlık",
-    "Uluslararası iş birliği ve kalkınma",
-    "Diğer",
-]
-
-FaaliyetTuru = Literal[
-    "Toplumsal proje",
-    "Gönüllülük faaliyeti",
-    "Halka açık eğitim / kurs / seminer",
-    "Ücretsiz hizmet (sağlık taraması, hukuki destek vb.)",
-    "Bağış / yardım kampanyası",
-    "Kurumlarla protokol / iş birliği",
-    "Halka açık etkinlik (konferans, sergi, festival)",
-    "Rapor / yayın / politika önerisi",
-    "Diğer",
-]
 
 
 class KatkiSinifi(BaseModel):
@@ -71,30 +45,7 @@ SYSTEM = (
 
 # --- Jev (karar) + LLM (metin) hibrit yöntemi -------------------------------------
 
-JEV_QUESTIONS = {
-    "katki": {
-        "type": "noul",
-        "instructions": "Bu haber, kurumun (üniversite, vakıf, dernek, STK, kamu kurumu) bilgi, uzmanlık veya "
-        "kaynaklarını toplumun yararına kullandığı bir toplumsal katkı faaliyetini mi anlatıyor?",
-        "criteria": {
-            "true": "Topluma doğrudan fayda: halka açık etkinlik/eğitim, ücretsiz hizmet, sosyal proje, yardım, "
-            "gönüllülük, dezavantajlı gruplara destek, öğrencilere burs/yemek/barınma desteği, kurumlarla topluma "
-            "yönelik iş birliği.",
-            "false": "Kurum içi işleyiş: sınav/kayıt/ders programı, atama, ihale, genel kurul, akademik ödül veya "
-            "sıralama başarısı, iş ilanı, taziye, tören.",
-        },
-    },
-    "kategori": {
-        "type": "choice",
-        "instructions": "Faaliyet en çok hangi alana giriyor?",
-        "criteria": {k: k for k in get_args(Kategori)},
-    },
-    "faaliyet": {
-        "type": "choice",
-        "instructions": "Faaliyetin türü nedir?",
-        "criteria": {k: k for k in get_args(FaaliyetTuru)},
-    },
-}
+JEV_QUESTIONS = KARAR_SORULARI
 KATKI_ESIGI = 0.5
 
 
@@ -133,6 +84,22 @@ def _add_usage(total: Usage, part: Usage) -> None:
         setattr(total, k, getattr(total, k) + getattr(part, k))
 
 
+async def konum_sor(state: dict) -> tuple[dict, dict, Usage]:
+    """Faaliyetin yeri: önce bölge, tek bölgeyse il (Jev). (alanlar, ham cevaplar, kullanım)"""
+    jev = await decide(state, BOLGE_SORUSU)
+    usage, b = jev.usage, jev.answers["bolge"]
+    fields = {"bolge": b["choice"], "il": None, "konum_guven": b.get("confidence")}
+    raw = {"bolge": b}
+    if b["choice"] in BOLGE_ILLERI:
+        il_jev = await decide(state, il_sorusu(b["choice"]))
+        i = il_jev.answers["il"]
+        fields["il"] = i["choice"]
+        fields["konum_guven"] = (b.get("confidence") or 0) * (i.get("confidence") or 0)
+        raw["il"] = i
+        _add_usage(usage, il_jev.usage)
+    return fields, raw, usage
+
+
 async def _classify_jev(article: Article) -> tuple[dict, str, Usage, int]:
     """Kararlar Jev'den; katkıysa özet/paydaş LLM'den. (alanlar, model, kullanım, girdi_karakter)"""
     state = _state(article)
@@ -163,6 +130,10 @@ async def _classify_jev(article: Article) -> tuple[dict, str, Usage, int]:
         _add_usage(usage, det.usage)
         model = f"{jev.model} + {det.model}"
         chars += len(DETAY_SYSTEM) + len(prompt)
+        konum, konum_raw, konum_usage = await konum_sor(state)
+        fields.update(konum)
+        fields["raw"]["jev"].update(konum_raw)
+        _add_usage(usage, konum_usage)
     return fields, model, usage, chars
 
 
@@ -272,3 +243,44 @@ async def classify_pending(
     ok = sum(c is not None for c in results)
     on_event("siniflandirma_bitti", basarili=ok, hatali=len(results) - ok)
     return ok, len(results) - ok, failed_cost
+
+
+async def konumlari_doldur(limit: int = 10000, concurrency: int = 4, rastgele: bool = False) -> tuple[int, int, float]:
+    """Konumu sorulmamış katkılara bölge/il sorar (eski kayıtlar için). (başarılı, hatalı, maliyet $)
+
+    rastgele=True: en yeniler yerine rastgele örnek (Laya'nın eğitim verisi çeşitli olsun).
+    """
+    with Session() as session:
+        rows = session.execute(
+            select(Classification, Article).join(Article)
+            .where(Classification.is_contribution, Classification.bolge.is_(None))
+            .order_by(func.random() if rastgele else Article.published_at.desc().nulls_last()).limit(limit)
+        ).all()
+        for _, a in rows:
+            _ = a.source  # ilişkiyi oturum açıkken yükle
+
+    sem = asyncio.Semaphore(concurrency)
+    toplam = {"ok": 0, "hata": 0, "usd": 0.0}
+
+    async def one(c: Classification, article: Article) -> None:
+        async with sem:
+            try:
+                fields, raw, usage = await konum_sor(_state(article))
+            except (LLMError, KeyError, ValueError, TypeError) as exc:
+                log.warning("konum belirlenemedi #%s: %s", article.id, exc)
+                toplam["hata"] += 1
+                return
+        with Session() as session:
+            row = session.get(Classification, c.id)
+            for k, v in fields.items():
+                setattr(row, k, v)
+            row.raw = {**(row.raw or {}), "jev": {**(row.raw or {}).get("jev", {}), **raw}}
+            row.cost_usd = (row.cost_usd or 0) + usage.cost_usd  # maliyet sekmesi gerçek harcamayı göstersin
+            session.commit()
+        toplam["ok"] += 1
+        toplam["usd"] += usage.cost_usd
+        if toplam["ok"] % 100 == 0:
+            log.info("konum: %s / %s ($%.4f)", toplam["ok"], len(rows), toplam["usd"])
+
+    await asyncio.gather(*(one(c, a) for c, a in rows))
+    return toplam["ok"], toplam["hata"], toplam["usd"]

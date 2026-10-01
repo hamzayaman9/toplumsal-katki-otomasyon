@@ -136,6 +136,14 @@ def cmd_classify(args) -> None:
     ev.flush()
 
 
+def cmd_konum_belirle(args) -> None:
+    from .classify import konumlari_doldur
+
+    init_db()
+    ok, hata, usd = asyncio.run(konumlari_doldur(args.limit, rastgele=args.rastgele))
+    print(f"Konum: {ok} katkı belirlendi, {hata} hatalı, maliyet ${usd:.4f}")
+
+
 def cmd_rapor(args) -> None:
     from .rapor import write_report
 
@@ -280,6 +288,11 @@ def main() -> None:
     c.add_argument("--limit", type=int, default=50)
     c.add_argument("--karisik", action="store_true", help="Kurum türlerinden dengeli rastgele örnek")
     c.set_defaults(fn=cmd_classify)
+
+    k = sub.add_parser("konum-belirle", help="Konumu sorulmamış katkılara bölge/il sor (Jev)")
+    k.add_argument("--limit", type=int, default=10000)
+    k.add_argument("--rastgele", action="store_true", help="en yeniler yerine rastgele örnek")
+    k.set_defaults(fn=cmd_konum_belirle)
 
     sub.add_parser("sources", help="Kaynak durumunu göster").set_defaults(fn=cmd_sources)
     sub.add_parser("rapor", help="Sayısal özet raporu (raporlar/ altına md + json, haftalık CSV'ye satır)").set_defaults(fn=cmd_rapor)

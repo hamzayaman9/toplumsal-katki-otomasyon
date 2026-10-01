@@ -17,6 +17,7 @@ from sqlalchemy.orm import defer
 from .config import settings
 from .db import Article, Classification, CrawlRun, Session, Source, init_db
 from .events import Bus
+from .sorular import GENEL_KAPSAMLAR
 
 STATIC = Path(__file__).parent / "static"
 app = FastAPI(title="Toplumsal Katkı Paneli")
@@ -149,6 +150,34 @@ def ozet(gun: int | None = None, birim: int | None = None,
         }
 
 
+@app.get("/static/tr-iller.json")
+def il_sinirlari() -> FileResponse:
+    # il sınırları: github.com/alpers/Turkey-Maps-GeoJSON (Apache-2.0); "Afyon" -> "Afyonkarahisar"
+    return FileResponse(STATIC / "tr-iller.json", media_type="application/json",
+                        headers={"Cache-Control": "private, max-age=86400"})
+
+
+@app.get("/api/harita")
+def harita(gun: int | None = None, birim: int | None = None, org_type: str = "", org: str = "",
+           kategori: str = "") -> dict:
+    """Katkıların il dağılımı; il dışı kapsamlar (Türkiye geneli, yurt dışı, çevrimiçi) ayrı sayılır."""
+    with Session() as s:
+        query = _period_filter(
+            select(Classification.bolge, Classification.il).join(Article, Classification.article_id == Article.id)
+            .join(Source).where(Classification.is_contribution),
+            gun,
+        )
+        if kategori:
+            query = query.where(Classification.category == kategori)
+        rows = s.execute(_scope(query, birim, org_type, org)).all()
+    return {
+        "toplam": len(rows),
+        "iller": Counter(r.il for r in rows if r.il),
+        "genel": Counter(r.bolge for r in rows if r.bolge in GENEL_KAPSAMLAR),
+        "belirlenmedi": sum(1 for r in rows if not r.bolge),
+    }
+
+
 @app.get("/api/durum")
 def durum() -> dict:
     """Başlık satırı: son tarama zamanı ve bulutta mı çalışıyoruz."""
@@ -276,6 +305,7 @@ def kayitlar(
     q: str = "",
     durum: str = "katki",  # katki | degil | hepsi | inceleme | siniflanmamis
     kategori: str = "",
+    il: str = "",  # il adı ya da Türkiye geneli / Yurt dışı / Çevrimiçi
     sayfa: int = 1,
     boyut: int = 50,
 ) -> dict:
@@ -296,6 +326,8 @@ def kayitlar(
             query = query.where(or_(Article.title.ilike(like), Classification.summary.ilike(like)))
         if kategori:
             query = query.where(Classification.category == kategori)
+        if il:
+            query = query.where(Classification.bolge == il if il in GENEL_KAPSAMLAR else Classification.il == il)
         if durum == "katki":
             query = query.where(Classification.is_contribution)
         elif durum == "degil":
@@ -328,6 +360,7 @@ def kayitlar(
                     "paydaslar": c.partners if c else [],
                     "ozet": c.summary if c else None,
                     "insan": c.human_label if c else None,
+                    "konum": (c.il or c.bolge) if c else None,
                     "model": c.model if c else None,
                 }
                 for a, c, src in rows

@@ -84,6 +84,10 @@ class Classification(Base):
     beneficiaries: Mapped[list] = mapped_column(JSON, default=list)
     partners: Mapped[list] = mapped_column(JSON, default=list)
     summary: Mapped[str | None] = mapped_column(Text)
+    # faaliyetin yeri: bolge = 7 bölgeden biri ya da Türkiye geneli / Yurt dışı / Çevrimiçi; il yalnız tek bölgede
+    bolge: Mapped[str | None] = mapped_column(String(50))
+    il: Mapped[str | None] = mapped_column(String(50))
+    konum_guven: Mapped[float | None] = mapped_column(Float)
     raw: Mapped[dict] = mapped_column(JSON, default=dict)
     # koordinatörlük onayı: None = bakılmadı, True/False = insan kararı
     human_label: Mapped[bool | None] = mapped_column(Boolean)

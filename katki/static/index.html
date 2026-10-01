@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Toplumsal Katkı Paneli</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   :root {
     color-scheme: light;
@@ -131,6 +133,37 @@
   .panel[hidden] { display: none; }
   .section-note { color: var(--muted); font-size: 12px; margin: -4px 0 12px; }
   table.compact td { padding: 7px 8px; }
+
+  /* harita */
+  .map-card { margin-bottom: 12px; }
+  .map-grid { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(220px, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .map-grid { grid-template-columns: 1fr; } }
+  #harita { height: 360px; background: transparent; border-radius: 8px; }
+  @media (max-width: 760px) { #harita { height: 240px; } }
+  .leaflet-container { background: transparent; font: inherit; }
+  .leaflet-tooltip { background: var(--surface); color: var(--ink); border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+  .leaflet-tooltip-top:before { border-top-color: var(--border); }
+  .leaflet-control-attribution.leaflet-control { background: transparent; color: var(--muted); font-size: 10px; }
+  .leaflet-control-attribution a { color: var(--ink-2); }
+  .leaflet-bar a { background: var(--surface); color: var(--ink); border-bottom-color: var(--border); }
+  .leaflet-bar a:hover { background: var(--hover); }
+  .leaflet-bar { border: 1px solid var(--border) !important; box-shadow: none !important; }
+  .legend { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; margin-top: 6px; }
+  .legend i { display: inline-block; width: 22px; height: 10px; border-radius: 2px; }
+  .scopes { display: grid; gap: 6px; margin-bottom: 14px; }
+  .scopes button {
+    font: inherit; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; cursor: pointer;
+    background: var(--page); color: var(--ink); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; text-align: left;
+  }
+  .scopes button:hover { background: var(--hover); }
+  .scopes button.on { border-color: var(--series-1); }
+  .scopes button span:last-child { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .scopes button.muted { color: var(--muted); cursor: default; }
+  h3 { font-size: 13px; font-weight: 600; color: var(--ink-2); margin: 0 0 8px; }
+  .filter-chip {
+    font: inherit; font-size: 12px; border: 1px solid var(--series-1); color: var(--ink); background: var(--surface);
+    border-radius: 999px; padding: 3px 10px; cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -170,6 +203,22 @@
       <div class="card kpi"><div class="label">İnsan onaylı</div><div class="value" id="k-onayli">–</div><div class="note">koordinatörlüğün karar verdiği katkılar</div></div>
     </section>
 
+    <section class="card map-card">
+      <h2>Katkıların yeri</h2>
+      <p class="section-note" id="h-not"></p>
+      <div class="map-grid">
+        <div>
+          <div id="harita" role="img" aria-label="İllere göre toplumsal katkı sayısı haritası"></div>
+          <div class="legend" id="h-legend"></div>
+        </div>
+        <div>
+          <div class="scopes" id="h-genel"></div>
+          <h3>En çok katkının yapıldığı iller</h3>
+          <div class="hbar" id="h-iller"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="grid2">
       <div class="card"><h2>Kategoriye göre katkılar</h2><div class="hbar" id="c-kategori"></div></div>
       <div class="card"><h2>Faaliyet türü</h2><div class="hbar" id="c-faaliyet"></div></div>
@@ -184,7 +233,7 @@
 
     <section class="card">
       <div class="tablehead">
-        <h2 style="margin:0">Katkılar <span class="sub" id="tk-say"></span></h2>
+        <h2 style="margin:0">Katkılar <span class="sub" id="tk-say"></span> <button class="filter-chip" id="tk-il" hidden></button></h2>
         <div class="filters" style="margin:0; flex: 1 1 520px; justify-content:flex-end">
           <select id="tk-durum" aria-label="Durum">
             <option value="katki">Tüm katkılar</option>
@@ -376,10 +425,10 @@ function decisionCell(r) {
     <button data-id="${r.id}" data-v="false" class="${r.insan === false ? "on-no" : ""}" title="Toplumsal katkı değildir">✗ Değil</button></div>`;
 }
 
-function recordTable(prefix, { kategori } = {}) {
+function recordTable(prefix, { kategori, il } = {}) {
   const t = { sayfa: 1 };
   const filters = () => ({ q: $(prefix + "-q").value.trim(), durum: $(prefix + "-durum").value,
-    kategori: kategori ? $(kategori).value : "" });
+    kategori: kategori ? $(kategori).value : "", il: il ? il() : "" });
   t.load = async (append = false) => {
     const d = await getJSON("/api/kayitlar?" + params({ ...filters(), sayfa: t.sayfa }));
     $(prefix + "-say").textContent = `· ${fmt.format(d.toplam)} kayıt`;
@@ -417,8 +466,78 @@ function recordTable(prefix, { kategori } = {}) {
   return t;
 }
 
-const tabloKatki = recordTable("tk", { kategori: "f-kategori" });
+let secilenIl = "";  // haritada seçilen il ya da Türkiye geneli / Yurt dışı / Çevrimiçi
+const tabloKatki = recordTable("tk", { kategori: "f-kategori", il: () => secilenIl });
 const tabloVeri = recordTable("tv");
+
+// --- harita: il sınırları bir kez yüklenir, her süzgeçte yalnız renkler güncellenir
+const GENEL = ["Türkiye geneli", "Yurt dışı", "Çevrimiçi"];
+let harita, ilKatmani, ilSayilari = {}, ilMax = 1;
+const cssVar = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function karistir(a, b, t) {
+  const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const [x, y] = [p(a), p(b)];
+  return "#" + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, "0")).join("");
+}
+// logaritmik: İstanbul/Ankara yüzlerce, çoğu il birkaç katkı; doğrusal ölçekte hepsi aynı renk kalıyordu
+const ilOrani = (n) => ilMax > 1 ? Math.log(n) / Math.log(ilMax) : 1;
+function ilRengi(n) {
+  if (!n) return cssVar("--grid");
+  return karistir(cssVar("--series-1-soft"), cssVar("--series-1"), 0.15 + 0.85 * ilOrani(n));
+}
+const ilStili = (f) => ({
+  fillColor: ilRengi(ilSayilari[f.properties.name]), fillOpacity: 1,
+  color: f.properties.name === secilenIl ? cssVar("--ink") : cssVar("--surface"),
+  weight: f.properties.name === secilenIl ? 2 : 0.7,
+});
+async function haritaKur() {
+  if (harita || !window.L) return;
+  harita = L.map("harita", { scrollWheelZoom: false, zoomSnap: 0.25, attributionControl: true });
+  harita.attributionControl.setPrefix(false)
+    .addAttribution('İl sınırları: <a href="https://github.com/alpers/Turkey-Maps-GeoJSON" target="_blank" rel="noopener">alpers</a>');
+  const geo = await getJSON("/static/tr-iller.json");
+  ilKatmani = L.geoJSON(geo, {
+    style: ilStili,
+    onEachFeature: (f, layer) => {
+      layer.bindTooltip(() => `<b>${esc(f.properties.name)}</b><br>${fmt.format(ilSayilari[f.properties.name] || 0)} katkı`, { sticky: true });
+      layer.on({ mouseover: (e) => e.target.setStyle({ weight: 2 }), mouseout: () => ilKatmani.setStyle(ilStili),
+        click: () => ilSec(f.properties.name) });
+    },
+  }).addTo(harita);
+  harita.fitBounds(ilKatmani.getBounds(), { padding: [4, 4] });
+}
+function ilSec(ad) {
+  secilenIl = secilenIl === ad ? "" : ad;
+  $("tk-il").hidden = !secilenIl;
+  $("tk-il").textContent = `${secilenIl} ✕`;
+  $("tk-il").title = "İl süzgecini kaldır";
+  ilKatmani?.setStyle(ilStili);
+  loadHarita();
+  tabloKatki.reload();
+}
+$("tk-il").addEventListener("click", () => ilSec(secilenIl));
+
+async function loadHarita() {
+  await haritaKur();
+  const d = await getJSON("/api/harita?" + params({ kategori: $("f-kategori").value }));
+  ilSayilari = d.iller;
+  ilMax = Math.max(1, ...Object.values(d.iller));
+  ilKatmani?.setStyle(ilStili);
+  const belirli = d.toplam - d.belirlenmedi;
+  $("h-not").textContent = d.toplam
+    ? `Konumu belirlenen: ${fmt.format(belirli)} / ${fmt.format(d.toplam)} katkı. Bir ile tıklayınca liste o ile süzülür.`
+    : "Bu süzgeçte katkı yok.";
+  $("h-genel").innerHTML = GENEL.map((g) => `<button data-kapsam="${esc(g)}" class="${secilenIl === g ? "on" : ""}">
+      <span>${esc(g)}</span><span>${fmt.format(d.genel[g] || 0)}</span></button>`).join("") +
+    `<button class="muted" disabled><span>Konumu belirlenmedi</span><span>${fmt.format(d.belirlenmedi)}</span></button>`;
+  const iller = Object.entries(d.iller).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  hbar($("h-iller"), iller, { total: d.toplam, active: secilenIl, onClick: (r) => ilSec(r[0]) });
+  const adim = [1, ...[0.25, 0.5, 0.75].map((t) => Math.round(Math.exp(t * Math.log(ilMax)))), ilMax]
+    .filter((v, i, a) => a.indexOf(v) === i);
+  $("h-legend").innerHTML = `<i style="background:${cssVar("--grid")}"></i><span>0</span>` +
+    adim.map((n) => `<i style="background:${ilRengi(n)}"></i><span>${fmt.format(n)}</span>`).join("") + "<span>katkı</span>";
+}
+$("h-genel").addEventListener("click", (e) => { const b = e.target.closest("button[data-kapsam]"); if (b) ilSec(b.dataset.kapsam); });
 
 // --- sekme içerikleri
 async function loadKatkilar() {
@@ -441,7 +560,7 @@ async function loadKatkilar() {
   const sel = $("f-kategori"), cur = sel.value;
   sel.innerHTML = '<option value="">Tüm kategoriler</option>' + d.kategori.map((k) => `<option>${esc(k[0])}</option>`).join("");
   sel.value = cur;
-  await tabloKatki.reload();
+  await Promise.all([loadHarita(), tabloKatki.reload()]);
 }
 
 async function loadVeriler() {
@@ -496,6 +615,7 @@ function showTab() {
   document.querySelectorAll(".tabs a").forEach((a) =>
     a.dataset.tab === tab ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
   if (stale.delete(tab)) LOADERS[tab]();
+  if (tab === "katkilar") harita?.invalidateSize();  // gizliyken boyutu ölçülemiyordu
 }
 function refresh() { Object.keys(LOADERS).forEach((n) => stale.add(n)); showTab(); }
 addEventListener("hashchange", showTab);
