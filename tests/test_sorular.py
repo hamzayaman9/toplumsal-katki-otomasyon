@@ -17,6 +17,12 @@ class SorularTests(unittest.TestCase):
         secenekler = set(BOLGE_SORUSU["bolge"]["criteria"])
         self.assertEqual(secenekler, set(BOLGE_ILLERI) | set(GENEL_KAPSAMLAR))
 
+    def test_bolge_secenekleri_dogru_illeri_sayar(self) -> None:
+        for bolge, metin in BOLGE_SORUSU["bolge"]["criteria"].items():
+            if bolge in BOLGE_ILLERI:
+                adlar = [x.strip() for x in metin.split(" ve diğer ")[0].split(",")]
+                self.assertTrue(set(adlar) <= set(BOLGE_ILLERI[bolge]), bolge)
+
     def test_il_sorusu_yalniz_o_bolgenin_illeri(self) -> None:
         for bolge, iller in BOLGE_ILLERI.items():
             self.assertEqual(list(il_sorusu(bolge)["il"]["criteria"]), iller)

@@ -8,3 +8,6 @@ raporlar/
 .vercel
 .env*
 !.env.example
+laya_katki/data/
+laya_katki/kaggle/push/
+models/

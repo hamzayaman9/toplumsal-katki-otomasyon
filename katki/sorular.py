@@ -75,13 +75,28 @@ KARAR_SORULARI = {
     },
 }
 
+# Laya her seçeneği 48 token'da kırpar: iller nüfus sırasıyla, sığmayanlar "ve diğer ... illeri"
+# (Laya tokenizer'ıyla ölçüldü; Jev de aynı metni görür ki iki model aynı soruya cevap versin)
+BOLGE_SECENEKLERI = {
+    "Marmara": "İstanbul, Bursa, Kocaeli, Balıkesir, Tekirdağ, Sakarya, Çanakkale, Edirne, Kırklareli, Yalova, Bilecik",
+    "Ege": "İzmir, Manisa, Aydın, Denizli, Muğla, Afyonkarahisar, Kütahya, Uşak",
+    "Akdeniz": "Antalya, Adana, Mersin, Hatay, Kahramanmaraş, Osmaniye, Isparta, Burdur",
+    "İç Anadolu": "Ankara, Konya, Kayseri, Eskişehir, Sivas, Aksaray, Yozgat, Niğde, Nevşehir, Kırıkkale, Karaman, "
+                  "Kırşehir, Çankırı",
+    "Karadeniz": "Samsun, Trabzon, Ordu, Zonguldak, Çorum, Tokat, Düzce, Giresun, Rize, Kastamonu ve diğer "
+                 "Karadeniz illeri",
+    "Doğu Anadolu": "Van, Erzurum, Malatya, Elazığ, Ağrı, Muş, Kars, Bitlis, Hakkari, Bingöl, Iğdır ve diğer "
+                    "Doğu Anadolu illeri",
+    "Güneydoğu Anadolu": "Şanlıurfa, Gaziantep, Diyarbakır, Mardin, Batman, Adıyaman, Şırnak, Siirt, Kilis",
+}
+
 BOLGE_SORUSU = {
     "bolge": {
         "type": "choice",
-        "instructions": "Faaliyet nerede yapıldı ya da hangi yerin halkına yönelik? Metinde yer geçmiyorsa "
-        "kurumun bulunduğu ili ('il' alanı) esas al.",
+        "instructions": "Faaliyet nerede yapıldı ya da hangi yerin halkına yönelik? Tek bir ildeyse o ilin "
+        "bölgesini seç. Metinde yer geçmiyorsa kurumun bulunduğu ili ('il' alanı) esas al.",
         "criteria": {
-            **{b: f"Türkiye'nin {b} Bölgesi'nde tek bir yer: {', '.join(iller)}." for b, iller in BOLGE_ILLERI.items()},
+            **BOLGE_SECENEKLERI,
             TURKIYE_GENELI: "Birden çok bölgede ya da ülke çapında (ulusal kampanya, birçok ilde aynı anda).",
             YURT_DISI: "Türkiye dışında bir ülkede yapıldı ya da oradaki insanlara yönelik.",
             CEVRIMICI: "Yalnız çevrimiçi (webinar, internet yayını); fiziksel bir yeri yok.",
