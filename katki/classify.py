@@ -46,6 +46,8 @@ SYSTEM = (
 # --- Jev (karar) + LLM (metin) hibrit yöntemi -------------------------------------
 
 JEV_QUESTIONS = KARAR_SORULARI
+# Laya Jev'in olasılığından damıtıldı: aynı eşik ikisine de geçerli (Laya v1'in calib'de F1 için seçtiği
+# 0,35 Jev'le uyumu %82,4'ten %78,6'ya düşürüyordu)
 KATKI_ESIGI = 0.5
 
 
@@ -54,11 +56,6 @@ async def decide(state: dict, questions: dict):
     if settings.classifier == "laya":
         return await laya.decide(state, questions)
     return await jev_model.decide(state, questions)
-
-
-def _katki_esigi(model: str) -> float:
-    # Laya'nın kendi eşiği calib'de seçildi; Jev'e düşen kayıtlarda Jev'in 0,5'i geçerli
-    return laya.esikler().get("katki", KATKI_ESIGI) if model.startswith("laya-") and "→" not in model else KATKI_ESIGI
 
 
 class KatkiDetay(BaseModel):
@@ -118,7 +115,7 @@ async def _classify_jev(article: Article) -> tuple[dict, str, Usage, int]:
     jev = await decide(state, JEV_QUESTIONS)
     a = jev.answers
     p = float(a["katki"]["noul"])
-    katki = p >= _katki_esigi(jev.model)
+    katki = p >= KATKI_ESIGI
     fields = {
         "is_contribution": katki,
         "confidence": max(p, 1 - p),  # verilen kararın olasılığı

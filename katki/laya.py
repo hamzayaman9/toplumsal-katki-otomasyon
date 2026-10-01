@@ -6,7 +6,6 @@ kayıtlarda kalite düşmez.
 """
 
 import asyncio
-import json
 import threading
 from pathlib import Path
 
@@ -28,15 +27,6 @@ def model_dir() -> Path:
     return adaylar[-1]
 
 
-def esikler() -> dict:
-    """calib'de seçilen karar eşikleri (ör. {"katki": 0.45}); model klasöründeki rl_agent_config.json'da."""
-    try:
-        cfg = json.loads((model_dir() / "rl_agent_config.json").read_text(encoding="utf-8"))
-        return cfg.get("decision_thresholds", {})
-    except (OSError, LLMError):
-        return {}
-
-
 def _predict(state: dict, questions: dict) -> dict:
     global _agent
     with _lock:
@@ -54,11 +44,18 @@ def _guven(cevap: dict) -> float:
     return float(cevap.get("confidence") or max((cevap.get("probabilities") or {0: 0}).values()))
 
 
+def _belirsiz_mi(answers: dict, esik: float) -> bool:
+    # katkı değilse kategori/faaliyet kullanılmıyor: onların belirsizliği Jev'e sordurmasın
+    if "katki" in answers and answers["katki"].get("noul", 1) < 0.5:
+        return _guven(answers["katki"]) < esik
+    return min(_guven(a) for a in answers.values()) < esik
+
+
 async def decide(state: dict, questions: dict) -> JevResult:
     res = await asyncio.to_thread(_predict, state, questions)
     answers = res["answers"]
     esik = settings.laya_yedek_esigi
-    if esik and min(_guven(a) for a in answers.values()) < esik:
+    if esik and _belirsiz_mi(answers, esik):
         jev = await jev_decide(state, questions)
         jev.answers = {k: {**v, "laya": answers.get(k)} for k, v in jev.answers.items()}
         jev.model = f"{model_dir().name} → {jev.model}"
