@@ -119,6 +119,18 @@
   .more button { font: inherit; border: 1px solid var(--border); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 7px 14px; cursor: pointer; }
   .empty { color: var(--muted); padding: 16px 0; }
   .clear { font-size: 12px; color: var(--series-1); cursor: pointer; background: none; border: 0; padding: 0; }
+
+  /* sekmeler */
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--axis); margin-bottom: 16px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+  .tabs a {
+    color: var(--ink-2); text-decoration: none; padding: 9px 14px; font-weight: 550; white-space: nowrap;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tabs a:hover { color: var(--ink); }
+  .tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--series-1); }
+  .panel[hidden] { display: none; }
+  .section-note { color: var(--muted); font-size: 12px; margin: -4px 0 12px; }
+  table.compact td { padding: 7px 8px; }
 </style>
 </head>
 <body>
@@ -130,6 +142,12 @@
     </div>
     <div class="sub"><span id="sontarama"></span><span id="canli-link"> · <a href="/canli" style="color:var(--series-1)">Canlı süreci izle →</a></span><span id="cikis" hidden> · <form method="post" action="/cikis" style="display:inline"><button type="submit" style="all:unset;cursor:pointer;color:var(--series-1)">Çıkış</button></form></span></div>
   </header>
+
+  <nav class="tabs" aria-label="Bölümler">
+    <a href="#katkilar" data-tab="katkilar">Toplumsal katkılar</a>
+    <a href="#veriler" data-tab="veriler">Taranan veriler</a>
+    <a href="#maliyet" data-tab="maliyet">Maliyet</a>
+  </nav>
 
   <div class="filters">
     <select id="f-gun" aria-label="Dönem">
@@ -143,44 +161,126 @@
     <select id="f-birim" aria-label="Birim"><option value="">Tüm birimler</option></select>
   </div>
 
-  <section class="kpis">
-    <div class="card kpi"><div class="label">Taranan kayıt</div><div class="value" id="k-toplam">–</div><div class="note" id="k-toplam-n"></div></div>
-    <div class="card kpi"><div class="label">Toplumsal katkı</div><div class="value" id="k-katki">–</div><div class="note" id="k-katki-n"></div></div>
-    <div class="card kpi"><div class="label">İnceleme bekleyen</div><div class="value" id="k-inceleme">–</div><div class="note">güveni 0,7'nin altındaki katkılar</div></div>
-    <div class="card kpi"><div class="label">Sınıflandırma maliyeti</div><div class="value" id="k-maliyet">–</div><div class="note" id="k-maliyet-n"></div></div>
-  </section>
+  <!-- Toplumsal katkılar -->
+  <div class="panel" id="p-katkilar">
+    <section class="kpis">
+      <div class="card kpi"><div class="label">Toplumsal katkı</div><div class="value" id="k-katki">–</div><div class="note" id="k-katki-n"></div></div>
+      <div class="card kpi"><div class="label">Katkı oranı</div><div class="value" id="k-oran">–</div><div class="note" id="k-oran-n"></div></div>
+      <div class="card kpi"><div class="label">İnceleme bekleyen</div><div class="value" id="k-inceleme">–</div><div class="note">güveni 0,7'nin altındaki katkılar</div></div>
+      <div class="card kpi"><div class="label">İnsan onaylı</div><div class="value" id="k-onayli">–</div><div class="note">koordinatörlüğün karar verdiği katkılar</div></div>
+    </section>
 
-  <section class="grid2">
-    <div class="card"><h2>Kategoriye göre katkılar</h2><div class="hbar" id="c-kategori"></div></div>
-    <div class="card"><h2>Aylık katkı sayısı</h2><div id="c-aylik"></div></div>
-  </section>
-  <section class="grid2">
-    <div class="card"><h2>En çok katkı üreten birimler</h2><div class="hbar" id="c-birim"></div></div>
-    <div class="card"><h2>Sürdürülebilir Kalkınma Amaçları (SDG)</h2><div class="hbar" id="c-sdg"></div></div>
-  </section>
+    <section class="grid2">
+      <div class="card"><h2>Kategoriye göre katkılar</h2><div class="hbar" id="c-kategori"></div></div>
+      <div class="card"><h2>Faaliyet türü</h2><div class="hbar" id="c-faaliyet"></div></div>
+    </section>
+    <section class="grid2">
+      <div class="card"><h2>Aylık katkı sayısı</h2><div id="c-aylik"></div></div>
+      <div class="card"><h2>Sürdürülebilir Kalkınma Amaçları (SDG)</h2><div class="hbar" id="c-sdg"></div></div>
+    </section>
+    <section class="grid2">
+      <div class="card"><h2>En çok katkı üreten birimler</h2><div class="hbar" id="c-birim"></div></div>
+    </section>
 
-  <section class="card">
-    <div class="tablehead">
-      <h2 style="margin:0">Kayıtlar <span class="sub" id="t-say"></span></h2>
-      <div class="filters" style="margin:0; flex: 1 1 520px; justify-content:flex-end">
-        <select id="f-durum" aria-label="Durum">
-          <option value="katki">Toplumsal katkı</option>
-          <option value="inceleme">İnceleme bekleyen</option>
-          <option value="hepsi">Hepsi</option>
-          <option value="siniflanmamis">Sınıflandırılmamış</option>
-        </select>
-        <select id="f-kategori" aria-label="Kategori"><option value="">Tüm kategoriler</option></select>
-        <input type="search" id="f-q" placeholder="Başlık veya özette ara…">
+    <section class="card">
+      <div class="tablehead">
+        <h2 style="margin:0">Katkılar <span class="sub" id="tk-say"></span></h2>
+        <div class="filters" style="margin:0; flex: 1 1 520px; justify-content:flex-end">
+          <select id="tk-durum" aria-label="Durum">
+            <option value="katki">Tüm katkılar</option>
+            <option value="inceleme">İnceleme bekleyen</option>
+          </select>
+          <select id="f-kategori" aria-label="Kategori"><option value="">Tüm kategoriler</option></select>
+          <input type="search" id="tk-q" placeholder="Başlık veya özette ara…">
+        </div>
       </div>
-    </div>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Tarih</th><th>Kurum</th><th>Birim</th><th>Başlık ve özet</th><th>Kategori</th><th class="num">Güven</th><th>Karar</th></tr></thead>
-        <tbody id="t-body"></tbody>
-      </table>
-    </div>
-    <div class="more"><button id="t-more" hidden>Daha fazla göster</button></div>
-  </section>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Tarih</th><th>Kurum</th><th>Birim</th><th>Başlık ve özet</th><th>Kategori</th><th class="num">Güven</th><th>Karar</th></tr></thead>
+          <tbody id="tk-body"></tbody>
+        </table>
+      </div>
+      <div class="more"><button id="tk-more" hidden>Daha fazla göster</button></div>
+    </section>
+  </div>
+
+  <!-- Taranan veriler -->
+  <div class="panel" id="p-veriler" hidden>
+    <section class="kpis">
+      <div class="card kpi"><div class="label">Taranan kayıt</div><div class="value" id="v-toplam">–</div><div class="note" id="v-toplam-n"></div></div>
+      <div class="card kpi"><div class="label">Toplumsal katkı çıkan</div><div class="value" id="v-katki">–</div><div class="note" id="v-katki-n"></div></div>
+      <div class="card kpi"><div class="label">Aktif kaynak</div><div class="value" id="v-kaynak">–</div><div class="note" id="v-kaynak-n"></div></div>
+      <div class="card kpi"><div class="label">Son tarama</div><div class="value" id="v-tarama" style="font-size:20px; margin-top:8px">–</div><div class="note" id="v-tarama-n"></div></div>
+    </section>
+
+    <section class="grid2">
+      <div class="card"><h2>Tarama yöntemine göre kayıt</h2><div class="hbar" id="v-yontem"></div></div>
+      <div class="card"><h2>Kurum türüne göre</h2>
+        <div class="tablewrap"><table class="compact">
+          <thead><tr><th>Kurum türü</th><th class="num">Kayıt</th><th class="num">Katkı</th><th class="num">Oran</th></tr></thead>
+          <tbody id="v-tur"></tbody>
+        </table></div>
+      </div>
+    </section>
+    <section class="grid2">
+      <div class="card"><h2>Aktif kaynakların tarama yöntemi</h2><div class="hbar" id="v-kaynak-yontem"></div></div>
+      <div class="card"><h2>Son taramalar</h2>
+        <div class="tablewrap"><table class="compact">
+          <thead><tr><th>Başlangıç</th><th class="num">Başarılı</th><th class="num">Hatalı</th><th class="num">Yeni kayıt</th></tr></thead>
+          <tbody id="v-taramalar"></tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="tablehead">
+        <h2 style="margin:0">Taranan kayıtlar <span class="sub" id="tv-say"></span></h2>
+        <div class="filters" style="margin:0; flex: 1 1 520px; justify-content:flex-end">
+          <select id="tv-durum" aria-label="Durum">
+            <option value="hepsi">Hepsi</option>
+            <option value="degil">Katkı değil</option>
+            <option value="katki">Toplumsal katkı</option>
+            <option value="siniflanmamis">Sınıflandırılmamış</option>
+          </select>
+          <input type="search" id="tv-q" placeholder="Başlık veya özette ara…">
+        </div>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Tarih</th><th>Kurum</th><th>Birim</th><th>Başlık ve özet</th><th>Kategori</th><th class="num">Güven</th><th>Karar</th></tr></thead>
+          <tbody id="tv-body"></tbody>
+        </table>
+      </div>
+      <div class="more"><button id="tv-more" hidden>Daha fazla göster</button></div>
+    </section>
+  </div>
+
+  <!-- Maliyet -->
+  <div class="panel" id="p-maliyet" hidden>
+    <p class="section-note">Dönem süzgeci bu sekmede sınıflandırmanın yapıldığı tarihe göre uygulanır. Tarama ücretsizdir; maliyet yalnız yapay zekâ sınıflandırmasıdır.</p>
+    <section class="kpis">
+      <div class="card kpi"><div class="label">Toplam maliyet</div><div class="value" id="m-toplam">–</div><div class="note" id="m-toplam-n"></div></div>
+      <div class="card kpi"><div class="label">Kayıt başına</div><div class="value" id="m-kayit">–</div><div class="note">ölçülen kayıtların ortalaması</div></div>
+      <div class="card kpi"><div class="label">Bulunan katkı başına</div><div class="value" id="m-katki">–</div><div class="note">toplam maliyet ÷ katkı sayısı</div></div>
+      <div class="card kpi"><div class="label">İşlenen metin</div><div class="value" id="m-token">–</div><div class="note" id="m-token-n"></div></div>
+    </section>
+    <section class="grid2">
+      <div class="card"><h2>Aylık maliyet</h2><div id="m-aylik"></div></div>
+      <div class="card"><h2>Kurum türüne göre</h2>
+        <div class="tablewrap"><table class="compact">
+          <thead><tr><th>Kurum türü</th><th class="num">Kayıt</th><th class="num">Maliyet</th><th class="num">Kayıt başı</th></tr></thead>
+          <tbody id="m-tur"></tbody>
+        </table></div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Modele göre</h2>
+      <div class="tablewrap"><table class="compact">
+        <thead><tr><th>Model</th><th class="num">Kayıt</th><th class="num">Maliyet</th><th class="num">Kayıt başı</th></tr></thead>
+        <tbody id="m-model"></tbody>
+      </table></div>
+    </section>
+  </div>
 </div>
 <div id="tip" role="tooltip"></div>
 
@@ -194,14 +294,17 @@ window.fetch = async (...args) => {
 };
 const $ = (id) => document.getElementById(id);
 const fmt = new Intl.NumberFormat("tr-TR");
+const pct = (a, b) => b ? "%" + ((a / b) * 100).toFixed(1).replace(".", ",") : "–";
+const usd = (v, d = 2) => v == null ? "–" : "$" + v.toFixed(d).replace(".", ",");
+const getJSON = async (url) => (await fetch(url)).json();
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const SDG = {1:"Yoksulluğa son",2:"Açlığa son",3:"Sağlık ve kaliteli yaşam",4:"Nitelikli eğitim",5:"Toplumsal cinsiyet eşitliği",
   6:"Temiz su ve sanitasyon",7:"Erişilebilir ve temiz enerji",8:"İnsana yakışır iş ve ekonomik büyüme",9:"Sanayi, yenilikçilik ve altyapı",
   10:"Eşitsizliklerin azaltılması",11:"Sürdürülebilir şehirler",12:"Sorumlu üretim ve tüketim",13:"İklim eylemi",14:"Sudaki yaşam",
   15:"Karasal yaşam",16:"Barış, adalet ve güçlü kurumlar",17:"Amaçlar için ortaklıklar"};
 const ORG_TYPES = {devlet_universitesi:"Devlet üniversitesi", vakif_universitesi:"Vakıf üniversitesi",
-  kamu_kurumu:"Kamu kurumu", vakif:"Vakıf", dernek:"Dernek", stk_diger:"Diğer STK"};
-let state = { sayfa: 1 };
+  kamu_kurumu:"Kamu kurumu", vakif:"Vakıf", dernek:"Dernek", stk_diger:"Diğer STK", belirsiz:"Belirtilmemiş"};
+const YONTEM = {wp_rest:"WordPress API", list:"Liste sayfası", rss:"RSS", ubys_cms:"Ana site (tarayıcı)", none:"Yöntem bulunamadı", belirsiz:"Belirtilmemiş"};
 
 // --- tooltip
 const tip = $("tip");
@@ -214,6 +317,11 @@ function moveTip(e) {
   tip.style.left = x + "px"; tip.style.top = y + "px";
 }
 function hideTip() { tip.style.display = "none"; }
+function withTip(el, html) {
+  el.addEventListener("mouseenter", (e) => showTip(e, html));
+  el.addEventListener("mousemove", moveTip);
+  el.addEventListener("mouseleave", hideTip);
+}
 
 function params(extra = {}) {
   const p = new URLSearchParams();
@@ -227,7 +335,7 @@ function params(extra = {}) {
 }
 
 // --- yatay çubuk
-function hbar(el, rows, { total, label = (r) => r[0], onClick, active } = {}) {
+function hbar(el, rows, { total, label = (r) => r[0], onClick, active, unit = "katkı" } = {}) {
   el.innerHTML = "";
   if (!rows.length) { el.innerHTML = '<div class="empty" style="grid-column:1/-1">Bu dönemde kayıt yok</div>'; return; }
   const max = Math.max(...rows.map((r) => r[1]));
@@ -239,57 +347,27 @@ function hbar(el, rows, { total, label = (r) => r[0], onClick, active } = {}) {
     track.className = "track";
     track.innerHTML = `<div class="bar" style="width:${(r[1] / max) * 88}%"></div><span class="val">${fmt.format(r[1])}</span>`;
     const share = total ? ` · %${Math.round((r[1] / total) * 100)}` : "";
-    track.addEventListener("mouseenter", (e) => showTip(e, `<b>${esc(name)}</b><br>${fmt.format(r[1])} katkı${share}`));
-    track.addEventListener("mousemove", moveTip);
-    track.addEventListener("mouseleave", hideTip);
+    withTip(track, `<b>${esc(name)}</b><br>${fmt.format(r[1])} ${unit}${share}`);
     if (onClick) track.addEventListener("click", () => onClick(r));
+    else track.style.cursor = "default";
     if (active && active === r[0]) { lab.style.color = "var(--ink)"; lab.style.fontWeight = 600; }
     el.append(lab, track);
   }
 }
 
-// --- aylık sütun
-function columns(el, rows) {
+// --- aylık sütun: rows = [ay, değer, ...], tipHtml(row) ipucu, value(row) sütun yüksekliği
+function columns(el, rows, { value = (r) => r[1], text = (r) => r[1] || "", tipHtml } = {}) {
   if (!rows.length) { el.innerHTML = '<div class="empty">Bu dönemde kayıt yok</div>'; return; }
-  const max = Math.max(1, ...rows.map((r) => r[1]));
+  const max = Math.max(1e-9, ...rows.map(value));
   const ay = (m) => new Date(m + "-01").toLocaleDateString("tr-TR", { month: "short", year: "2-digit" });
   el.innerHTML = `<div class="cols">${rows.map((r) =>
-    `<div class="col" data-m="${r[0]}"><span class="v">${r[1] || ""}</span><div class="c" style="height:${(r[1] / max) * 82}%"></div></div>`).join("")}</div>
+    `<div class="col"><span class="v">${text(r)}</span><div class="c" style="height:${(value(r) / max) * 82}%"></div></div>`).join("")}</div>
     <div class="colx">${rows.map((r) => `<span>${ay(r[0])}</span>`).join("")}</div>`;
-  el.querySelectorAll(".col").forEach((c, i) => {
-    const [m, k, t] = rows[i];
-    c.addEventListener("mouseenter", (e) => showTip(e,
-      `<b>${new Date(m + "-01").toLocaleDateString("tr-TR", { month: "long", year: "numeric" })}</b><br>` +
-      `${fmt.format(k)} katkı / ${fmt.format(t)} sınıflandırılan kayıt<br>Oran: %${t ? Math.round((k / t) * 100) : 0}`));
-    c.addEventListener("mousemove", moveTip);
-    c.addEventListener("mouseleave", hideTip);
-  });
+  el.querySelectorAll(".col").forEach((c, i) => tipHtml && withTip(c,
+    `<b>${new Date(rows[i][0] + "-01").toLocaleDateString("tr-TR", { month: "long", year: "numeric" })}</b><br>${tipHtml(rows[i])}`));
 }
 
-async function loadSummary() {
-  const d = await (await fetch("/api/ozet?" + params())).json();
-  $("k-toplam").textContent = fmt.format(d.toplam);
-  $("k-toplam-n").textContent = `${fmt.format(d.siniflanan)} tanesi sınıflandırıldı`;
-  $("k-katki").textContent = fmt.format(d.katki);
-  $("k-katki-n").textContent = d.siniflanan ? `sınıflandırılanların %${((d.katki / d.siniflanan) * 100).toFixed(1).replace(".", ",")}'i` : "";
-  $("k-inceleme").textContent = fmt.format(d.onay_bekleyen);
-  $("k-maliyet").textContent = "$" + d.maliyet_usd.toFixed(2).replace(".", ",");
-  $("k-maliyet-n").textContent = d.maliyet_olculen ? `${fmt.format(d.maliyet_olculen)} kaydın ölçümü · kayıt başı $${(d.maliyet_usd / d.maliyet_olculen).toFixed(5)}` : "henüz ölçüm yok";
-  $("sontarama").textContent = d.son_tarama ? "Son tarama: " + new Date(d.son_tarama).toLocaleString("tr-TR") : "";
-  $("canli-link").hidden = !!d.bulut;
-  $("cikis").hidden = !d.bulut;
-
-  hbar($("c-kategori"), d.kategori, { total: d.katki, active: $("f-kategori").value,
-    onClick: (r) => { $("f-kategori").value = $("f-kategori").value === r[0] ? "" : r[0]; $("f-durum").value = "katki"; reloadTable(); loadSummary(); } });
-  hbar($("c-birim"), d.birim, { total: d.katki });
-  hbar($("c-sdg"), d.sdg.sort((a, b) => b[1] - a[1]).slice(0, 10), { total: d.katki, label: (r) => `SDG ${r[0]} · ${SDG[r[0]] ?? ""}` });
-  columns($("c-aylik"), d.aylik);
-
-  const sel = $("f-kategori"), cur = sel.value;
-  sel.innerHTML = '<option value="">Tüm kategoriler</option>' + d.kategori.map((k) => `<option>${esc(k[0])}</option>`).join("");
-  sel.value = cur;
-}
-
+// --- kayıt tabloları (katkılar ve taranan veriler sekmelerinde ayrı örnek)
 function decisionCell(r) {
   if (r.katki === null) return '<span class="meta">sınıflandırılmadı</span>';
   const ai = r.katki ? '<span class="ai yes">AI: katkı</span>' : '<span class="ai no">AI: değil</span>';
@@ -298,74 +376,161 @@ function decisionCell(r) {
     <button data-id="${r.id}" data-v="false" class="${r.insan === false ? "on-no" : ""}" title="Toplumsal katkı değildir">✗ Değil</button></div>`;
 }
 
-async function loadTable(append = false) {
-  const d = await (await fetch("/api/kayitlar?" + params({
-    q: $("f-q").value.trim(), durum: $("f-durum").value, kategori: $("f-kategori").value, sayfa: state.sayfa,
-  }))).json();
-  $("t-say").textContent = `· ${fmt.format(d.toplam)} kayıt`;
-  const html = d.kayitlar.map((r) => `<tr>
-    <td class="nowrap">${r.tarih ? new Date(r.tarih).toLocaleDateString("tr-TR") : "–"}</td>
-    <td>${esc(r.kurum)}</td>
-    <td>${esc(r.birim)}</td>
-    <td><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.baslik)}</a>
-      ${r.ozet ? `<div class="ozet">${esc(r.ozet)}</div>` : ""}
-      <div class="meta">${r.faaliyet ? esc(r.faaliyet) : ""}${r.paydaslar?.length ? " · Paydaşlar: " + esc(r.paydaslar.join(", ")) : ""}</div>
-      ${r.sdg?.length ? `<div style="margin-top:4px">${r.sdg.map((s) => `<span class="chip" title="${esc(SDG[s])}">SDG ${s}</span>`).join("")}</div>` : ""}</td>
-    <td>${esc(r.kategori ?? "–")}</td>
-    <td class="num">${r.guven != null ? r.guven.toFixed(2).replace(".", ",") : "–"}</td>
-    <td class="nowrap">${decisionCell(r)}</td></tr>`).join("");
-  $("t-body").innerHTML = (append ? $("t-body").innerHTML : "") + (html || (append ? "" : '<tr><td colspan="7" class="empty">Kayıt bulunamadı</td></tr>'));
-  $("t-more").hidden = state.sayfa * 50 >= d.toplam;
+function recordTable(prefix, { kategori } = {}) {
+  const t = { sayfa: 1 };
+  const filters = () => ({ q: $(prefix + "-q").value.trim(), durum: $(prefix + "-durum").value,
+    kategori: kategori ? $(kategori).value : "" });
+  t.load = async (append = false) => {
+    const d = await getJSON("/api/kayitlar?" + params({ ...filters(), sayfa: t.sayfa }));
+    $(prefix + "-say").textContent = `· ${fmt.format(d.toplam)} kayıt`;
+    const html = d.kayitlar.map((r) => `<tr>
+      <td class="nowrap">${r.tarih ? new Date(r.tarih).toLocaleDateString("tr-TR") : "–"}</td>
+      <td>${esc(r.kurum)}</td>
+      <td>${esc(r.birim)}</td>
+      <td><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.baslik)}</a>
+        ${r.ozet ? `<div class="ozet">${esc(r.ozet)}</div>` : ""}
+        <div class="meta">${r.faaliyet ? esc(r.faaliyet) : ""}${r.paydaslar?.length ? " · Paydaşlar: " + esc(r.paydaslar.join(", ")) : ""}</div>
+        ${r.sdg?.length ? `<div style="margin-top:4px">${r.sdg.map((s) => `<span class="chip" title="${esc(SDG[s])}">SDG ${s}</span>`).join("")}</div>` : ""}</td>
+      <td>${esc(r.kategori ?? "–")}</td>
+      <td class="num">${r.guven != null ? r.guven.toFixed(2).replace(".", ",") : "–"}</td>
+      <td class="nowrap">${decisionCell(r)}</td></tr>`).join("");
+    $(prefix + "-body").innerHTML = (append ? $(prefix + "-body").innerHTML : "") +
+      (html || (append ? "" : '<tr><td colspan="7" class="empty">Kayıt bulunamadı</td></tr>'));
+    $(prefix + "-more").hidden = t.sayfa * 50 >= d.toplam;
+  };
+  t.reload = () => { t.sayfa = 1; return t.load(); };
+
+  $(prefix + "-body").addEventListener("click", async (e) => {
+    const b = e.target.closest("button[data-id]");
+    if (!b) return;
+    const on = b.classList.contains("on-yes") || b.classList.contains("on-no");
+    const etiket = on ? null : b.dataset.v === "true";
+    await fetch(`/api/etiket/${b.dataset.id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ etiket }) });
+    b.parentElement.querySelectorAll("button").forEach((x) => x.classList.remove("on-yes", "on-no"));
+    if (etiket !== null) b.classList.add(etiket ? "on-yes" : "on-no");
+    stale.add("katkilar"); stale.add("veriler");
+  });
+  $(prefix + "-more").addEventListener("click", () => { t.sayfa++; t.load(true); });
+  $(prefix + "-durum").addEventListener("change", t.reload);
+  let timer;
+  $(prefix + "-q").addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(t.reload, 250); });
+  return t;
 }
 
-function reloadTable() { state.sayfa = 1; loadTable(); }
+const tabloKatki = recordTable("tk", { kategori: "f-kategori" });
+const tabloVeri = recordTable("tv");
 
-$("t-body").addEventListener("click", async (e) => {
-  const b = e.target.closest("button[data-id]");
-  if (!b) return;
-  const on = b.classList.contains("on-yes") || b.classList.contains("on-no");
-  const etiket = on ? null : b.dataset.v === "true";
-  await fetch(`/api/etiket/${b.dataset.id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ etiket }) });
-  const pair = b.parentElement.querySelectorAll("button");
-  pair.forEach((x) => x.classList.remove("on-yes", "on-no"));
-  if (etiket !== null) b.classList.add(etiket ? "on-yes" : "on-no");
-  loadSummary();
-});
-$("t-more").addEventListener("click", () => { state.sayfa++; loadTable(true); });
-for (const id of ["f-gun", "f-birim"]) $(id).addEventListener("change", () => { loadSummary(); reloadTable(); });
+// --- sekme içerikleri
+async function loadKatkilar() {
+  const d = await getJSON("/api/ozet?" + params());
+  $("k-katki").textContent = fmt.format(d.katki);
+  $("k-katki-n").textContent = `${fmt.format(d.kurum_katki)} kurumdan`;
+  $("k-oran").textContent = pct(d.katki, d.siniflanan);
+  $("k-oran-n").textContent = `${fmt.format(d.siniflanan)} sınıflandırılan kayıt içinde`;
+  $("k-inceleme").textContent = fmt.format(d.onay_bekleyen);
+  $("k-onayli").textContent = fmt.format(d.insan_onayli);
+
+  hbar($("c-kategori"), d.kategori, { total: d.katki, active: $("f-kategori").value,
+    onClick: (r) => { $("f-kategori").value = $("f-kategori").value === r[0] ? "" : r[0]; $("tk-durum").value = "katki"; loadKatkilar(); } });
+  hbar($("c-faaliyet"), d.faaliyet, { total: d.katki });
+  hbar($("c-birim"), d.birim, { total: d.katki });
+  hbar($("c-sdg"), d.sdg.sort((a, b) => b[1] - a[1]).slice(0, 10), { total: d.katki, label: (r) => `SDG ${r[0]} · ${SDG[r[0]] ?? ""}` });
+  columns($("c-aylik"), d.aylik, { tipHtml: ([, k, t]) =>
+    `${fmt.format(k)} katkı / ${fmt.format(t)} sınıflandırılan kayıt<br>Oran: %${t ? Math.round((k / t) * 100) : 0}` });
+
+  const sel = $("f-kategori"), cur = sel.value;
+  sel.innerHTML = '<option value="">Tüm kategoriler</option>' + d.kategori.map((k) => `<option>${esc(k[0])}</option>`).join("");
+  sel.value = cur;
+  await tabloKatki.reload();
+}
+
+async function loadVeriler() {
+  const d = await getJSON("/api/veriler?" + params());
+  $("v-toplam").textContent = fmt.format(d.toplam);
+  $("v-toplam-n").textContent = d.toplam - d.siniflanan ? `${fmt.format(d.toplam - d.siniflanan)} tanesi sınıflandırılmadı` : "hepsi sınıflandırıldı";
+  $("v-katki").textContent = fmt.format(d.katki);
+  $("v-katki-n").textContent = `sınıflandırılanların ${pct(d.katki, d.siniflanan)}'i`;
+  $("v-kaynak").textContent = `${fmt.format(d.kaynak.aktif)} / ${fmt.format(d.kaynak.toplam)}`;
+  $("v-kaynak-n").textContent = `${fmt.format(d.kaynak.kayit_getiren)} tanesi kayıt getirdi · ${fmt.format(d.kaynak.hatali)} hatalı`;
+  const son = d.taramalar.find((t) => t.bitis);
+  $("v-tarama").textContent = son ? new Date(son.bitis).toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" }) : "–";
+  $("v-tarama-n").textContent = son ? `${fmt.format(son.yeni)} yeni kayıt · ${fmt.format(son.hatali)} hatalı kaynak` : "";
+
+  hbar($("v-yontem"), d.yontem, { total: d.toplam, unit: "kayıt", label: (r) => YONTEM[r[0]] || r[0] });
+  hbar($("v-kaynak-yontem"), d.kaynak.yontem, { total: d.kaynak.aktif, unit: "kaynak", label: (r) => YONTEM[r[0]] || r[0] });
+  $("v-tur").innerHTML = d.kurum_turu.map(([t, n, s, k]) => `<tr><td>${esc(ORG_TYPES[t] || t)}</td>
+    <td class="num">${fmt.format(n)}</td><td class="num">${fmt.format(k)}</td><td class="num">${pct(k, s)}</td></tr>`).join("")
+    || '<tr><td colspan="4" class="empty">Kayıt yok</td></tr>';
+  $("v-taramalar").innerHTML = d.taramalar.map((t) => `<tr>
+    <td class="nowrap">${new Date(t.baslangic).toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" })}${t.bitis ? "" : ' <span class="meta">(yarıda kaldı)</span>'}</td>
+    <td class="num">${fmt.format(t.basarili)}</td><td class="num">${fmt.format(t.hatali)}</td><td class="num">${fmt.format(t.yeni)}</td></tr>`).join("")
+    || '<tr><td colspan="4" class="empty">Henüz tarama yok</td></tr>';
+  await tabloVeri.reload();
+}
+
+async function loadMaliyet() {
+  const d = await getJSON("/api/maliyet?" + params());
+  $("m-toplam").textContent = usd(d.toplam_usd);
+  $("m-toplam-n").textContent = `${fmt.format(d.olculen)} / ${fmt.format(d.siniflanan)} kaydın maliyeti ölçüldü`;
+  $("m-kayit").textContent = usd(d.kayit_basi, 5);
+  $("m-katki").textContent = usd(d.katki_basi, 4);
+  const milyon = (n) => (n / 1e6).toFixed(1).replace(".", ",");
+  $("m-token").textContent = milyon(d.girdi_token + d.cikti_token) + " milyon";
+  $("m-token-n").textContent = `token · ${milyon(d.girdi_token)} milyon girdi, ${milyon(d.cikti_token)} milyon çıktı`;
+  columns($("m-aylik"), d.aylik, { value: (r) => r[2], text: (r) => usd(r[2]),
+    tipHtml: ([, n, u]) => `${usd(u, 4)} · ${fmt.format(n)} kayıt` });
+  const satir = ([ad, n, u], label = ad) => `<tr><td>${esc(label)}</td><td class="num">${fmt.format(n)}</td>
+    <td class="num">${usd(u, 4)}</td><td class="num">${usd(n ? u / n : null, 5)}</td></tr>`;
+  const bos = '<tr><td colspan="4" class="empty">Bu dönemde ölçüm yok</td></tr>';
+  $("m-tur").innerHTML = d.kurum_turu.map((r) => satir(r, ORG_TYPES[r[0]] || r[0])).join("") || bos;
+  $("m-model").innerHTML = d.model.map((r) => satir(r)).join("") || bos;
+}
+
+// --- sekmeler: yalnız açık sekme yüklenir, süzgeç değişince diğerleri "eski" sayılır
+const LOADERS = { katkilar: loadKatkilar, veriler: loadVeriler, maliyet: loadMaliyet };
+const stale = new Set(Object.keys(LOADERS));
+const activeTab = () => (LOADERS[location.hash.slice(1)] ? location.hash.slice(1) : "katkilar");
+function showTab() {
+  const tab = activeTab();
+  for (const name of Object.keys(LOADERS)) $("p-" + name).hidden = name !== tab;
+  document.querySelectorAll(".tabs a").forEach((a) =>
+    a.dataset.tab === tab ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
+  if (stale.delete(tab)) LOADERS[tab]();
+}
+function refresh() { Object.keys(LOADERS).forEach((n) => stale.add(n)); showTab(); }
+addEventListener("hashchange", showTab);
+
+$("f-kategori").addEventListener("change", loadKatkilar);
+for (const id of ["f-gun", "f-birim"]) $(id).addEventListener("change", refresh);
 function updateScope() {
   const org = $("f-org").value, kind = $("f-org-type").value;
   $("scope-title").textContent = `${org || ORG_TYPES[kind] || "Türkiye geneli"} · otomatik taranan haber, duyuru ve etkinlikler`;
 }
 async function loadOrganizations() {
-  const kind = $("f-org-type").value;
-  const rows = await (await fetch("/api/kurumlar?" + new URLSearchParams({org_type:kind}))).json();
-  const sel = $("f-org");
-  sel.innerHTML = '<option value="">Tüm kurumlar</option>' + rows.map((r) =>
+  const rows = await getJSON("/api/kurumlar?" + new URLSearchParams({ org_type: $("f-org-type").value }));
+  $("f-org").innerHTML = '<option value="">Tüm kurumlar</option>' + rows.map((r) =>
     `<option value="${esc(r.org)}">${esc(r.org)} (${r.kaynak})</option>`).join("");
   updateScope();
 }
 async function loadUnits() {
-  const query = new URLSearchParams({org_type:$("f-org-type").value, org:$("f-org").value});
-  const rows = await (await fetch("/api/birimler?" + query)).json();
+  const rows = await getJSON("/api/birimler?" + new URLSearchParams({ org_type: $("f-org-type").value, org: $("f-org").value }));
   $("f-birim").innerHTML = '<option value="">Tüm birimler</option>' + rows.map((b) =>
     `<option value="${b.id}">${esc(b.kurum)} · ${esc(b.ad)} (${b.kayit})</option>`).join("");
 }
-$("f-org-type").addEventListener("change", async () => {
-  await loadOrganizations(); await loadUnits(); loadSummary(); reloadTable();
-});
-$("f-org").addEventListener("change", async () => {
-  updateScope(); await loadUnits(); loadSummary(); reloadTable();
-});
-for (const id of ["f-durum", "f-kategori"]) $(id).addEventListener("change", () => { reloadTable(); if (id === "f-kategori") loadSummary(); });
-let t; $("f-q").addEventListener("input", () => { clearTimeout(t); t = setTimeout(reloadTable, 250); });
+$("f-org-type").addEventListener("change", async () => { await loadOrganizations(); await loadUnits(); refresh(); });
+$("f-org").addEventListener("change", async () => { updateScope(); await loadUnits(); refresh(); });
 
 (async () => {
-  const kurumlar = await (await fetch("/api/kurumlar")).json();
+  getJSON("/api/durum").then((d) => {
+    $("sontarama").textContent = d.son_tarama ? "Son tarama: " + new Date(d.son_tarama).toLocaleString("tr-TR") : "";
+    $("canli-link").hidden = d.bulut;
+    $("cikis").hidden = !d.bulut;
+  });
+  const kurumlar = await getJSON("/api/kurumlar");
   const types = [...new Set(kurumlar.map((r) => r.org_type).filter(Boolean))].sort();
   $("f-org-type").innerHTML += types.map((t) => `<option value="${esc(t)}">${esc(ORG_TYPES[t] || t)}</option>`).join("");
   await loadOrganizations(); await loadUnits();
-  loadSummary(); loadTable();
+  showTab();
 })();
 </script>
 </body>

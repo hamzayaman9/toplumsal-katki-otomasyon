@@ -89,26 +89,35 @@ def index() -> FileResponse:
     return FileResponse(STATIC / "index.html")
 
 
+def _scope(query, birim: int | None, org_type: str, org: str):
+    """Kurum türü / kurum / birim süzgeçleri (Source ile birleştirilmiş sorgulara)."""
+    if birim:
+        query = query.where(Source.id == birim)
+    if org_type:
+        query = query.where(Source.org_type == org_type)
+    if org:
+        query = query.where(Source.org == org)
+    return query
+
+
+def _aware(dt: datetime | None) -> datetime | None:
+    # SQLite saat dilimini saklamaz; UTC yazıyoruz
+    return dt.replace(tzinfo=timezone.utc) if dt and dt.tzinfo is None else dt
+
+
 @app.get("/api/ozet")
 def ozet(gun: int | None = None, birim: int | None = None,
          org_type: str = "", org: str = "") -> dict:
     with Session() as s:
         # yalnız gereken sütunlar: haber metni ve ham model çıktısı uzak veritabanından taşınmasın
         base = _period_filter(
-            select(Article.source_id, Article.published_at, Classification.id.label("cid"),
+            select(Article.source_id, Article.published_at, Source.org, Classification.id.label("cid"),
                    Classification.is_contribution, Classification.category, Classification.sdgs,
-                   Classification.activity_type, Classification.human_label, Classification.confidence,
-                   Classification.cost_usd)
+                   Classification.activity_type, Classification.human_label, Classification.confidence)
             .join(Source).outerjoin(Classification),
             gun,
         )
-        if birim:
-            base = base.where(Article.source_id == birim)
-        if org_type:
-            base = base.where(Source.org_type == org_type)
-        if org:
-            base = base.where(Source.org == org)
-        rows = s.execute(base).all()
+        rows = s.execute(_scope(base, birim, org_type, org)).all()
 
         toplam = len(rows)
         siniflanan = [r for r in rows if r.cid is not None]
@@ -123,26 +132,111 @@ def ozet(gun: int | None = None, birim: int | None = None,
 
         names = {i: f"{org_name} · {name or host}" for i, org_name, name, host in
                  s.execute(select(Source.id, Source.org, Source.name, Source.host)).all()}
-        son_tarama = s.scalar(select(func.max(CrawlRun.finished_at)))
-        if son_tarama and son_tarama.tzinfo is None:  # SQLite saat dilimini saklamaz; UTC yazıyoruz
-            son_tarama = son_tarama.replace(tzinfo=timezone.utc)
         aylar = sorted(aylik_toplam)[-12:]
 
         return {
             "toplam": toplam,
             "siniflanan": len(siniflanan),
             "katki": len(katki),
-            "bulut": settings.bulut,
+            "kurum_katki": len({c.org for c in katki}),
+            "insan_onayli": sum(1 for c in katki if c.human_label is not None),
             "onay_bekleyen": sum(1 for c in katki if c.human_label is None and (c.confidence or 0) < 0.7),
-            "maliyet_usd": round(sum(c.cost_usd or 0 for c in siniflanan), 4),
-            "maliyet_olculen": sum(1 for c in siniflanan if c.cost_usd is not None),
-            "son_tarama": son_tarama.isoformat() if son_tarama else None,
             "kategori": kategori.most_common(),
             "faaliyet": faaliyet.most_common(),
             "sdg": sorted(sdg.items()),
             "birim": [(names.get(i, str(i)), n) for i, n in birim_say.most_common(10)],
             "aylik": [(m, aylik_katki.get(m, 0), aylik_toplam[m]) for m in aylar],
         }
+
+
+@app.get("/api/durum")
+def durum() -> dict:
+    """Başlık satırı: son tarama zamanı ve bulutta mı çalışıyoruz."""
+    with Session() as s:
+        son_tarama = _aware(s.scalar(select(func.max(CrawlRun.finished_at))))
+    return {"son_tarama": son_tarama.isoformat() if son_tarama else None, "bulut": settings.bulut}
+
+
+@app.get("/api/veriler")
+def veriler(gun: int | None = None, birim: int | None = None, org_type: str = "", org: str = "") -> dict:
+    """Taranan veriler sekmesi: kayıtların yönteme / kurum türüne göre dağılımı, kaynaklar, son taramalar."""
+    with Session() as s:
+        base = _period_filter(
+            select(Article.via, Source.org_type, Classification.id.label("cid"), Classification.is_contribution)
+            .join(Source).outerjoin(Classification),
+            gun,
+        )
+        rows = s.execute(_scope(base, birim, org_type, org)).all()
+        tur: dict[str, list[int]] = {}
+        for r in rows:
+            t = tur.setdefault(r.org_type or "belirsiz", [0, 0, 0])
+            t[0] += 1
+            t[1] += r.cid is not None
+            t[2] += bool(r.is_contribution)
+
+        kayit_say = dict(s.execute(select(Article.source_id, func.count()).group_by(Article.source_id)).all())
+        kaynaklar = s.execute(_scope(select(Source.id, Source.active, Source.adapter, Source.last_error),
+                                     birim, org_type, org)).all()
+        aktif = [k for k in kaynaklar if k.active]
+        taramalar = s.scalars(select(CrawlRun).order_by(CrawlRun.started_at.desc()).limit(6)).all()
+
+    return {
+        "toplam": len(rows),
+        "siniflanan": sum(r.cid is not None for r in rows),
+        "katki": sum(bool(r.is_contribution) for r in rows),
+        "yontem": Counter(r.via or "belirsiz" for r in rows).most_common(),
+        "kurum_turu": sorted(([k, *v] for k, v in tur.items()), key=lambda x: -x[1]),
+        "kaynak": {
+            "toplam": len(kaynaklar),
+            "aktif": len(aktif),
+            "kayit_getiren": sum(1 for k in aktif if kayit_say.get(k.id)),
+            "hatali": sum(1 for k in aktif if k.last_error),
+            "yontem": Counter(k.adapter or "none" for k in aktif).most_common(),
+        },
+        "taramalar": [
+            {"baslangic": _aware(t.started_at).isoformat(), "bitis": t.finished_at and _aware(t.finished_at).isoformat(),
+             "basarili": t.sources_ok, "hatali": t.sources_failed, "yeni": t.new_articles}
+            for t in taramalar
+        ],
+    }
+
+
+@app.get("/api/maliyet")
+def maliyet(gun: int | None = None, birim: int | None = None, org_type: str = "", org: str = "") -> dict:
+    """Maliyet sekmesi: sınıflandırma harcaması; dönem, sınıflandırmanın yapıldığı tarihe göre."""
+    with Session() as s:
+        query = (select(Classification.model, Classification.cost_usd, Classification.created_at,
+                        Classification.is_contribution, Classification.prompt_tokens,
+                        Classification.completion_tokens, Source.org_type)
+                 .join(Article, Classification.article_id == Article.id).join(Source))
+        if gun:
+            query = query.where(Classification.created_at >= datetime.now(timezone.utc) - timedelta(days=gun))
+        rows = s.execute(_scope(query, birim, org_type, org)).all()
+
+    olculen = [r for r in rows if r.cost_usd is not None]
+    toplam = sum(r.cost_usd for r in olculen)
+    katki = sum(1 for r in rows if r.is_contribution)
+
+    def grupla(key) -> list:
+        g: dict[str, list] = {}
+        for r in olculen:
+            x = g.setdefault(key(r), [0, 0.0])
+            x[0] += 1
+            x[1] += r.cost_usd
+        return sorted(([k, n, round(usd, 4)] for k, (n, usd) in g.items()), key=lambda x: -x[2])
+
+    return {
+        "toplam_usd": round(toplam, 4),
+        "siniflanan": len(rows),
+        "olculen": len(olculen),
+        "kayit_basi": toplam / len(olculen) if olculen else None,
+        "katki_basi": toplam / katki if katki else None,
+        "girdi_token": sum(r.prompt_tokens or 0 for r in rows),
+        "cikti_token": sum(r.completion_tokens or 0 for r in rows),
+        "aylik": sorted(grupla(lambda r: _aware(r.created_at).strftime("%Y-%m")))[-12:],
+        "model": grupla(lambda r: r.model),
+        "kurum_turu": grupla(lambda r: r.org_type or "belirsiz"),
+    }
 
 
 @app.get("/api/birimler")
@@ -180,7 +274,7 @@ def kayitlar(
     org_type: str = "",
     org: str = "",
     q: str = "",
-    durum: str = "katki",  # katki | hepsi | inceleme | siniflanmamis
+    durum: str = "katki",  # katki | degil | hepsi | inceleme | siniflanmamis
     kategori: str = "",
     sayfa: int = 1,
     boyut: int = 50,
@@ -204,6 +298,8 @@ def kayitlar(
             query = query.where(Classification.category == kategori)
         if durum == "katki":
             query = query.where(Classification.is_contribution)
+        elif durum == "degil":
+            query = query.where(Classification.is_contribution.is_(False))
         elif durum == "inceleme":
             query = query.where(Classification.human_label.is_(None), Classification.confidence < 0.7)
         elif durum == "siniflanmamis":
