@@ -25,7 +25,8 @@ _job: asyncio.Task | None = None
 def _period_filter(query, gun: int | None):
     if gun:
         since = datetime.now(timezone.utc) - timedelta(days=gun)
-        query = query.where(Article.published_at >= since)
+        # tarihi bulunamayan kayıtlar ilk görüldükleri tarihle sayılır
+        query = query.where(func.coalesce(Article.published_at, Article.first_seen_at) >= since)
     return query
 
 

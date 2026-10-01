@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime, timedelta, timezone
 
 from katki.crawl import _body_matches_title, _detail_date, _parse_dt, normalize_title
 from katki.list_rules import collect_links, deterministic_rule, links_for_rule
@@ -33,6 +34,11 @@ class HtmlAdaptorTests(unittest.TestCase):
         self.assertEqual(_detail_date('<meta property="article:published_time" content="2026-09-29">').date().isoformat(),
                          "2026-09-29")
         self.assertEqual(normalize_title("İŞ-BİRLİĞİ"), normalize_title("iş birliği"))
+
+    def test_future_event_date_is_not_publish_date(self) -> None:
+        ileri = datetime.now(timezone.utc) + timedelta(days=30)
+        self.assertIsNone(_parse_dt(f"{ileri:%d.%m.%Y}"))
+        self.assertIsNotNone(_parse_dt(f"{datetime.now(timezone.utc):%d.%m.%Y}"))
 
     def test_unrelated_sidebar_text_is_rejected(self) -> None:
         self.assertFalse(_body_matches_title("Kurban Bayramı", "Cumhuriyet Bayramı kutlandı."))

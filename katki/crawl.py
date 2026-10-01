@@ -87,8 +87,9 @@ def _parse_dt(value: str | None) -> datetime | None:
         except ValueError:
             return None
     dt = dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
-    # metindeki tarih benzeri ifadeler (ör. "26.08.1071") yayın tarihi sanılmasın
-    if not (datetime(2000, 1, 1, tzinfo=timezone.utc) <= dt <= datetime.now(timezone.utc) + timedelta(days=366)):
+    # metindeki tarih benzeri ifadeler (ör. "26.08.1071") ve ileri tarihli etkinlik günleri
+    # (ör. "3 Ekim 2026 sempozyumu") yayın tarihi sanılmasın; saat dilimi payı 2 gün
+    if not (datetime(2000, 1, 1, tzinfo=timezone.utc) <= dt <= datetime.now(timezone.utc) + timedelta(days=2)):
         return None
     return dt
 
@@ -237,7 +238,9 @@ async def crawl_list(fetcher: Fetcher, source: Source, limit: int, known_urls: s
                 continue
             explicit_date = _detail_date(detail.text)
             card_date = _parse_dt(link_text.get(url))
-            published = explicit_date or card_date or (None if content_nodes else _parse_dt(data.get("date")))
+            # trafilatura sayfada yalnızca yıl bulursa (ör. "© 2026") 1 Ocak döndürür: tarih yok say
+            guessed = None if content_nodes or str(data.get("date") or "")[5:10] == "01-01" else _parse_dt(data.get("date"))
+            published = explicit_date or card_date or guessed
             years = [int(x) for x in re.findall(r"\b20\d{2}\b", title)]
             if published and not explicit_date and years and all(abs(published.year - year) > 1 for year in years):
                 published = None
