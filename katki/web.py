@@ -330,44 +330,6 @@ def veriler(gun: int | None = None, birim: int | None = None, org_type: str = ""
     }
 
 
-@app.get("/api/maliyet")
-def maliyet(gun: int | None = None, birim: int | None = None, org_type: str = "", org: str = "") -> dict:
-    """Maliyet sekmesi: sınıflandırma harcaması; dönem, sınıflandırmanın yapıldığı tarihe göre."""
-    with Session() as s:
-        query = (select(Classification.model, Classification.cost_usd, Classification.created_at,
-                        Classification.is_contribution, Classification.prompt_tokens,
-                        Classification.completion_tokens, Source.org_type)
-                 .join(Article, Classification.article_id == Article.id).join(Source))
-        if gun:
-            query = query.where(Classification.created_at >= datetime.now(timezone.utc) - timedelta(days=gun))
-        rows = s.execute(_scope(query, birim, org_type, org)).all()
-
-    olculen = [r for r in rows if r.cost_usd is not None]
-    toplam = sum(r.cost_usd for r in olculen)
-    katki = sum(1 for r in rows if r.is_contribution)
-
-    def grupla(key) -> list:
-        g: dict[str, list] = {}
-        for r in olculen:
-            x = g.setdefault(key(r), [0, 0.0])
-            x[0] += 1
-            x[1] += r.cost_usd
-        return sorted(([k, n, round(usd, 4)] for k, (n, usd) in g.items()), key=lambda x: -x[2])
-
-    return {
-        "toplam_usd": round(toplam, 4),
-        "siniflanan": len(rows),
-        "olculen": len(olculen),
-        "kayit_basi": toplam / len(olculen) if olculen else None,
-        "katki_basi": toplam / katki if katki else None,
-        "girdi_token": sum(r.prompt_tokens or 0 for r in rows),
-        "cikti_token": sum(r.completion_tokens or 0 for r in rows),
-        "aylik": sorted(grupla(lambda r: _aware(r.created_at).strftime("%Y-%m")))[-12:],
-        "model": grupla(lambda r: r.model),
-        "kurum_turu": grupla(lambda r: r.org_type or "belirsiz"),
-    }
-
-
 @app.get("/api/birimler")
 def birimler(org_type: str = "", org: str = "") -> list[dict]:
     with Session() as s:

@@ -193,7 +193,6 @@
     <a href="#katkilar" data-tab="katkilar">Toplumsal katkılar</a>
     <a href="#veriler" data-tab="veriler">Taranan veriler</a>
     <a href="#firsatlar" data-tab="firsatlar">AÜ için fırsatlar</a>
-    <a href="#maliyet" data-tab="maliyet">Maliyet</a>
   </nav>
 
   <div class="filters">
@@ -351,32 +350,6 @@
     </section>
   </div>
 
-  <!-- Maliyet -->
-  <div class="panel" id="p-maliyet" hidden>
-    <p class="section-note">Dönem süzgeci bu sekmede sınıflandırmanın yapıldığı tarihe göre uygulanır. Tarama ücretsizdir; maliyet yalnız yapay zekâ sınıflandırmasıdır.</p>
-    <section class="kpis">
-      <div class="card kpi"><div class="label">Toplam maliyet</div><div class="value" id="m-toplam">–</div><div class="note" id="m-toplam-n"></div></div>
-      <div class="card kpi"><div class="label">Kayıt başına</div><div class="value" id="m-kayit">–</div><div class="note">ölçülen kayıtların ortalaması</div></div>
-      <div class="card kpi"><div class="label">Bulunan katkı başına</div><div class="value" id="m-katki">–</div><div class="note">toplam maliyet ÷ katkı sayısı</div></div>
-      <div class="card kpi"><div class="label">İşlenen metin</div><div class="value" id="m-token">–</div><div class="note" id="m-token-n"></div></div>
-    </section>
-    <section class="grid2">
-      <div class="card"><h2>Aylık maliyet</h2><div id="m-aylik"></div></div>
-      <div class="card"><h2>Kurum türüne göre</h2>
-        <div class="tablewrap"><table class="compact">
-          <thead><tr><th>Kurum türü</th><th class="num">Kayıt</th><th class="num">Maliyet</th><th class="num">Kayıt başı</th></tr></thead>
-          <tbody id="m-tur"></tbody>
-        </table></div>
-      </div>
-    </section>
-    <section class="card">
-      <h2>Modele göre</h2>
-      <div class="tablewrap"><table class="compact">
-        <thead><tr><th>Model</th><th class="num">Kayıt</th><th class="num">Maliyet</th><th class="num">Kayıt başı</th></tr></thead>
-        <tbody id="m-model"></tbody>
-      </table></div>
-    </section>
-  </div>
 </div>
 <div id="tip" role="tooltip"></div>
 
@@ -391,7 +364,6 @@ window.fetch = async (...args) => {
 const $ = (id) => document.getElementById(id);
 const fmt = new Intl.NumberFormat("tr-TR");
 const pct = (a, b) => b ? "%" + ((a / b) * 100).toFixed(1).replace(".", ",") : "–";
-const usd = (v, d = 2) => v == null ? "–" : "$" + v.toFixed(d).replace(".", ",");
 const getJSON = async (url) => (await fetch(url)).json();
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const SDG = {1:"Yoksulluğa son",2:"Açlığa son",3:"Sağlık ve kaliteli yaşam",4:"Nitelikli eğitim",5:"Toplumsal cinsiyet eşitliği",
@@ -634,24 +606,6 @@ async function loadVeriler() {
   await tabloVeri.reload();
 }
 
-async function loadMaliyet() {
-  const d = await getJSON("/api/maliyet?" + params());
-  $("m-toplam").textContent = usd(d.toplam_usd);
-  $("m-toplam-n").textContent = `${fmt.format(d.olculen)} / ${fmt.format(d.siniflanan)} kaydın maliyeti ölçüldü`;
-  $("m-kayit").textContent = usd(d.kayit_basi, 5);
-  $("m-katki").textContent = usd(d.katki_basi, 4);
-  const milyon = (n) => (n / 1e6).toFixed(1).replace(".", ",");
-  $("m-token").textContent = milyon(d.girdi_token + d.cikti_token) + " milyon";
-  $("m-token-n").textContent = `token · ${milyon(d.girdi_token)} milyon girdi, ${milyon(d.cikti_token)} milyon çıktı`;
-  columns($("m-aylik"), d.aylik, { value: (r) => r[2], text: (r) => usd(r[2]),
-    tipHtml: ([, n, u]) => `${usd(u, 4)} · ${fmt.format(n)} kayıt` });
-  const satir = ([ad, n, u], label = ad) => `<tr><td>${esc(label)}</td><td class="num">${fmt.format(n)}</td>
-    <td class="num">${usd(u, 4)}</td><td class="num">${usd(n ? u / n : null, 5)}</td></tr>`;
-  const bos = '<tr><td colspan="4" class="empty">Bu dönemde ölçüm yok</td></tr>';
-  $("m-tur").innerHTML = d.kurum_turu.map((r) => satir(r, ORG_TYPES[r[0]] || r[0])).join("") || bos;
-  $("m-model").innerHTML = d.model.map((r) => satir(r)).join("") || bos;
-}
-
 async function loadFirsatlar() {
   const d = await getJSON("/api/firsatlar?" + params({ kategori: $("f-f-kategori").value }));
   $("f-not").textContent = (d.hesaplandi
@@ -684,7 +638,7 @@ async function loadFirsatlar() {
 $("f-f-kategori").addEventListener("change", loadFirsatlar);
 
 // --- sekmeler: yalnız açık sekme yüklenir, süzgeç değişince diğerleri "eski" sayılır
-const LOADERS = { katkilar: loadKatkilar, veriler: loadVeriler, firsatlar: loadFirsatlar, maliyet: loadMaliyet };
+const LOADERS = { katkilar: loadKatkilar, veriler: loadVeriler, firsatlar: loadFirsatlar };
 const stale = new Set(Object.keys(LOADERS));
 const activeTab = () => (LOADERS[location.hash.slice(1)] ? location.hash.slice(1) : "katkilar");
 function showTab() {
