@@ -4,3 +4,7 @@ __pycache__/
 *.pyc
 data/
 raporlar/
+
+.vercel
+.env*
+!.env.example

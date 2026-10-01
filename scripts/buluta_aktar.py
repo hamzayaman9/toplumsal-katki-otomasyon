@@ -1,7 +1,7 @@
 """Yerel SQLite veritabanını (data/katki.db) bulut Postgres'e kopyalar.
 
-Kullanım (hedef boş olmalı; --sil ile önce hedef tablolar boşaltılır):
-    <uv python> scripts/buluta_aktar.py "postgres://..." [--sil]
+Hedef, .env'deki DATABASE_URL'dir (Postgres olmalı). Hedef boş olmalı; --sil ile önce boşaltılır:
+    <uv python> scripts/buluta_aktar.py [--sil]
 """
 import site
 import sys
@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT))
 
 from sqlalchemy import create_engine, func, insert, select, text  # noqa: E402
 
+from katki.config import settings  # noqa: E402
 from katki.db import Base  # noqa: E402
 
 PARCA = 500
@@ -29,14 +30,10 @@ def _temizle(value):
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        sys.exit(__doc__)
-    hedef_url = sys.argv[1]
-    for prefix in ("postgres://", "postgresql://"):
-        if hedef_url.startswith(prefix):
-            hedef_url = "postgresql+psycopg://" + hedef_url[len(prefix):]
+    if not settings.database_url.startswith("postgresql"):
+        sys.exit(".env'deki DATABASE_URL bir Postgres adresi değil.\n" + __doc__)
     kaynak = create_engine(f"sqlite:///{(ROOT / 'data' / 'katki.db').as_posix()}")
-    hedef = create_engine(hedef_url)
+    hedef = create_engine(settings.database_url)
 
     Base.metadata.create_all(hedef)
     tablolar = Base.metadata.sorted_tables
