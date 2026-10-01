@@ -140,7 +140,7 @@ def cmd_konum_belirle(args) -> None:
     from .classify import konumlari_doldur
 
     init_db()
-    ok, hata, usd = asyncio.run(konumlari_doldur(args.limit, rastgele=args.rastgele))
+    ok, hata, usd = asyncio.run(konumlari_doldur(args.limit, args.paralel, rastgele=args.rastgele))
     print(f"Konum: {ok} katkı belirlendi, {hata} hatalı, maliyet ${usd:.4f}")
 
 
@@ -300,6 +300,7 @@ def main() -> None:
     k = sub.add_parser("konum-belirle", help="Konumu sorulmamış katkılara bölge/il sor (Jev)")
     k.add_argument("--limit", type=int, default=10000)
     k.add_argument("--rastgele", action="store_true", help="en yeniler yerine rastgele örnek")
+    k.add_argument("--paralel", type=int, default=4, help="aynı anda kaç istek (Jev için 16-24 sorunsuz)")
     k.set_defaults(fn=cmd_konum_belirle)
 
     sub.add_parser("sources", help="Kaynak durumunu göster").set_defaults(fn=cmd_sources)
