@@ -334,9 +334,9 @@ async def crawl_all(hosts: list[str] | None = None, limit: int = 20, on_event: E
                         source_id=src.id,
                         url=url,
                         external_id=item.external_id,
-                        title=item.title,
+                        title=item.title.replace("\x00", ""),  # Postgres metinde NUL kabul etmez
                         published_at=item.published_at,
-                        text=item.text,
+                        text=item.text.replace("\x00", ""),
                         categories=item.categories,
                         content_hash=digest,
                         via=src.adapter,

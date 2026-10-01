@@ -114,7 +114,11 @@ class CrawlRun(Base):
 if settings.database_url.startswith("sqlite"):
     (ROOT / "data").mkdir(exist_ok=True)
 
-engine = create_engine(settings.database_url, connect_args={"timeout": 30} if settings.database_url.startswith("sqlite") else {})
+if settings.database_url.startswith("sqlite"):
+    engine = create_engine(settings.database_url, connect_args={"timeout": 30})
+else:
+    # Neon boşta bağlantıyı kapatabiliyor; sunucusuz ortamda havuzu küçük tut
+    engine = create_engine(settings.database_url, pool_pre_ping=True, pool_size=2, max_overflow=3, pool_recycle=300)
 Session = sessionmaker(engine, expire_on_commit=False)
 
 
@@ -127,8 +131,8 @@ def init_db() -> None:
         conn.execute(text("UPDATE sources SET org_type = 'devlet_universitesi', city = 'Ankara' "
                           "WHERE (host = 'ankara.edu.tr' OR host LIKE '%.ankara.edu.tr') "
                           "AND (org_type IS NULL OR city IS NULL)"))
-        conn.execute(text("UPDATE sources SET focus = 0 WHERE focus IS NULL"))
-        conn.execute(text("UPDATE sources SET js_render_required = 0 WHERE js_render_required IS NULL"))
+        conn.execute(text("UPDATE sources SET focus = FALSE WHERE focus IS NULL"))
+        conn.execute(text("UPDATE sources SET js_render_required = FALSE WHERE js_render_required IS NULL"))
 
 
 def backup_db(keep: int = 5) -> str | None:

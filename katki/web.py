@@ -1,18 +1,20 @@
 """Basit yerel panel: python -m katki web  ->  http://127.0.0.1:8000"""
 
 import asyncio
+import hashlib
+import hmac
 import random
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, StreamingResponse
 from pydantic import BaseModel
 from sqlalchemy import func, or_, select
+from sqlalchemy.orm import defer
 
-from .classify import classify_pending
-from .crawl import crawl_all
+from .config import settings
 from .db import Article, Classification, CrawlRun, Session, Source, init_db
 from .events import Bus
 
@@ -20,6 +22,58 @@ STATIC = Path(__file__).parent / "static"
 app = FastAPI(title="Toplumsal Katkı Paneli")
 bus = Bus()
 _job: asyncio.Task | None = None
+
+# --- giriş (PANEL_SIFRE tanımlıysa) ---------------------------------------------
+
+OTURUM_CEREZI = "katki_oturum"
+_ACIK_YOLLAR = {"/giris", "/favicon.ico"}
+
+
+def _oturum_degeri() -> str:
+    return hmac.new(settings.panel_sifre.encode(), b"katki-panel-oturum", hashlib.sha256).hexdigest()
+
+
+@app.middleware("http")
+async def sifre_kontrolu(request: Request, call_next):
+    if not settings.panel_sifre or request.url.path in _ACIK_YOLLAR:
+        return await call_next(request)
+    if hmac.compare_digest(request.cookies.get(OTURUM_CEREZI, ""), _oturum_degeri()):
+        return await call_next(request)
+    if request.url.path.startswith("/api/"):
+        return JSONResponse({"detail": "Giriş gerekli"}, status_code=401)
+    return RedirectResponse("/giris", status_code=303)
+
+
+class Giris(BaseModel):
+    sifre: str
+
+
+@app.get("/giris")
+def giris_sayfasi() -> FileResponse:
+    return FileResponse(STATIC / "giris.html")
+
+
+@app.post("/giris")
+def giris(body: Giris, request: Request) -> JSONResponse:
+    if not settings.panel_sifre or not hmac.compare_digest(body.sifre.encode(), settings.panel_sifre.encode()):
+        raise HTTPException(401, "Şifre yanlış")
+    resp = JSONResponse({"ok": True})
+    resp.set_cookie(OTURUM_CEREZI, _oturum_degeri(), max_age=60 * 60 * 24 * 30, httponly=True,
+                    samesite="lax", secure=request.url.scheme == "https")
+    return resp
+
+
+@app.post("/cikis")
+def cikis() -> RedirectResponse:
+    resp = RedirectResponse("/giris", status_code=303)
+    resp.delete_cookie(OTURUM_CEREZI)
+    return resp
+
+
+def _yerel_ozellik() -> None:
+    """Tarama ve canlı izleme yalnız yerel panelde çalışır (Vercel'de uzun iş ve Playwright yok)."""
+    if settings.bulut:
+        raise HTTPException(404, "Bu özellik yalnız yerel panelde var")
 
 
 def _period_filter(query, gun: int | None):
@@ -39,7 +93,15 @@ def index() -> FileResponse:
 def ozet(gun: int | None = None, birim: int | None = None,
          org_type: str = "", org: str = "") -> dict:
     with Session() as s:
-        base = _period_filter(select(Article, Classification).join(Source).outerjoin(Classification), gun)
+        # yalnız gereken sütunlar: haber metni ve ham model çıktısı uzak veritabanından taşınmasın
+        base = _period_filter(
+            select(Article.source_id, Article.published_at, Classification.id.label("cid"),
+                   Classification.is_contribution, Classification.category, Classification.sdgs,
+                   Classification.activity_type, Classification.human_label, Classification.confidence,
+                   Classification.cost_usd)
+            .join(Source).outerjoin(Classification),
+            gun,
+        )
         if birim:
             base = base.where(Article.source_id == birim)
         if org_type:
@@ -49,15 +111,15 @@ def ozet(gun: int | None = None, birim: int | None = None,
         rows = s.execute(base).all()
 
         toplam = len(rows)
-        siniflanan = [c for _, c in rows if c is not None]
-        katki = [(a, c) for a, c in rows if c is not None and c.is_contribution]
+        siniflanan = [r for r in rows if r.cid is not None]
+        katki = [r for r in siniflanan if r.is_contribution]
 
-        kategori = Counter(c.category or "Belirtilmemiş" for _, c in katki)
-        sdg = Counter(n for _, c in katki for n in (c.sdgs or []))
-        faaliyet = Counter(c.activity_type or "Belirtilmemiş" for _, c in katki)
-        birim_say = Counter(a.source_id for a, _ in katki)
-        aylik_toplam = Counter(a.published_at.strftime("%Y-%m") for a, c in rows if a.published_at and c)
-        aylik_katki = Counter(a.published_at.strftime("%Y-%m") for a, _ in katki if a.published_at)
+        kategori = Counter(c.category or "Belirtilmemiş" for c in katki)
+        sdg = Counter(n for c in katki for n in (c.sdgs or []))
+        faaliyet = Counter(c.activity_type or "Belirtilmemiş" for c in katki)
+        birim_say = Counter(c.source_id for c in katki)
+        aylik_toplam = Counter(r.published_at.strftime("%Y-%m") for r in siniflanan if r.published_at)
+        aylik_katki = Counter(c.published_at.strftime("%Y-%m") for c in katki if c.published_at)
 
         names = {i: f"{org_name} · {name or host}" for i, org_name, name, host in
                  s.execute(select(Source.id, Source.org, Source.name, Source.host)).all()}
@@ -70,7 +132,8 @@ def ozet(gun: int | None = None, birim: int | None = None,
             "toplam": toplam,
             "siniflanan": len(siniflanan),
             "katki": len(katki),
-            "onay_bekleyen": sum(1 for _, c in katki if c.human_label is None and (c.confidence or 0) < 0.7),
+            "bulut": settings.bulut,
+            "onay_bekleyen": sum(1 for c in katki if c.human_label is None and (c.confidence or 0) < 0.7),
             "maliyet_usd": round(sum(c.cost_usd or 0 for c in siniflanan), 4),
             "maliyet_olculen": sum(1 for c in siniflanan if c.cost_usd is not None),
             "son_tarama": son_tarama.isoformat() if son_tarama else None,
@@ -123,7 +186,11 @@ def kayitlar(
     boyut: int = 50,
 ) -> dict:
     with Session() as s:
-        query = _period_filter(select(Article, Classification, Source).join(Source).outerjoin(Classification), gun)
+        query = _period_filter(
+            select(Article, Classification, Source).join(Source).outerjoin(Classification)
+            .options(defer(Article.text), defer(Classification.raw), defer(Source.list_rules)),
+            gun,
+        )
         if birim:
             query = query.where(Article.source_id == birim)
         if org_type:
@@ -192,17 +259,20 @@ def etiketle(article_id: int, body: Etiket) -> dict:
 
 @app.get("/canli")
 def canli() -> FileResponse:
+    _yerel_ozellik()
     return FileResponse(STATIC / "canli.html")
 
 
 @app.get("/api/olaylar")
 async def olaylar() -> StreamingResponse:
+    _yerel_ozellik()
     return StreamingResponse(bus.stream(), media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
 
 
 @app.post("/api/olay")
 async def olay(events: list[dict]) -> dict:
     """Komut satırından çalışan tarama/sınıflandırmanın olaylarını canlı sayfaya aktarır (yalnız localhost)."""
+    _yerel_ozellik()
     for e in events:
         if isinstance(e, dict) and isinstance(e.get("tip"), str):
             bus.emit(e["tip"], **{k: v for k, v in e.items() if k != "tip"})
@@ -223,10 +293,15 @@ class Calistir(BaseModel):
 async def calistir(body: Calistir) -> dict:
     """Gerçek tarama + sınıflandırma başlatır; ilerleme /api/olaylar üzerinden izlenir."""
     global _job
+    _yerel_ozellik()
     if _busy():
         raise HTTPException(409, "Zaten çalışan bir iş var")
 
     async def job() -> None:
+        # ağır bağımlılıklar (Playwright, trafilatura) yalnız yerelde yüklenir
+        from .classify import classify_pending
+        from .crawl import crawl_all
+
         try:
             run = await crawl_all(limit=body.limit, on_event=bus.emit)
             if run.new_articles:
@@ -253,6 +328,7 @@ class Tekrar(BaseModel):
 async def tekrar(body: Tekrar) -> dict:
     """Veritabanındaki gerçek sonuçları kayıttan oynatır (tanıtım için; yeni istek atmaz)."""
     global _job
+    _yerel_ozellik()
     if _busy():
         raise HTTPException(409, "Zaten çalışan bir iş var")
 

@@ -128,7 +128,7 @@
       <h1>Toplumsal Katkı Paneli</h1>
       <div class="sub" id="scope-title">Türkiye geneli · otomatik taranan haber, duyuru ve etkinlikler</div>
     </div>
-    <div class="sub"><span id="sontarama"></span> · <a href="/canli" style="color:var(--series-1)">Canlı süreci izle →</a></div>
+    <div class="sub"><span id="sontarama"></span><span id="canli-link"> · <a href="/canli" style="color:var(--series-1)">Canlı süreci izle →</a></span><span id="cikis" hidden> · <form method="post" action="/cikis" style="display:inline"><button type="submit" style="all:unset;cursor:pointer;color:var(--series-1)">Çıkış</button></form></span></div>
   </header>
 
   <div class="filters">
@@ -185,6 +185,13 @@
 <div id="tip" role="tooltip"></div>
 
 <script>
+// oturum süresi dolarsa giriş sayfasına dön
+const _fetch = window.fetch.bind(window);
+window.fetch = async (...args) => {
+  const r = await _fetch(...args);
+  if (r.status === 401) location.href = "/giris";
+  return r;
+};
 const $ = (id) => document.getElementById(id);
 const fmt = new Intl.NumberFormat("tr-TR");
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -269,6 +276,8 @@ async function loadSummary() {
   $("k-maliyet").textContent = "$" + d.maliyet_usd.toFixed(2).replace(".", ",");
   $("k-maliyet-n").textContent = d.maliyet_olculen ? `${fmt.format(d.maliyet_olculen)} kaydın ölçümü · kayıt başı $${(d.maliyet_usd / d.maliyet_olculen).toFixed(5)}` : "henüz ölçüm yok";
   $("sontarama").textContent = d.son_tarama ? "Son tarama: " + new Date(d.son_tarama).toLocaleString("tr-TR") : "";
+  $("canli-link").hidden = !!d.bulut;
+  $("cikis").hidden = !d.bulut;
 
   hbar($("c-kategori"), d.kategori, { total: d.katki, active: $("f-kategori").value,
     onClick: (r) => { $("f-kategori").value = $("f-kategori").value === r[0] ? "" : r[0]; $("f-durum").value = "katki"; reloadTable(); loadSummary(); } });

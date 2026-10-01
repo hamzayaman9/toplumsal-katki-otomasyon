@@ -1,0 +1,15 @@
+# Vercel'e yalnız panel gider: api/, katki/, requirements.txt, vercel.json
+.env
+.venv/
+data/
+raporlar/
+research/
+docs/
+scripts/
+tests/
+config/
+*.bat
+katki_calistir.py
+# pyproject/uv.lock yüklenirse Vercel tarama bağımlılıklarını (Playwright vb.) da kurar
+pyproject.toml
+uv.lock

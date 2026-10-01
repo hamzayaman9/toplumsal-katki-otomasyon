@@ -8,9 +8,22 @@ ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(ROOT / ".env")
 
 
+def _database_url() -> str:
+    url = os.getenv("DATABASE_URL") or f"sqlite:///{(ROOT / 'data' / 'katki.db').as_posix()}"
+    # Neon/Vercel "postgres://" verir; SQLAlchemy psycopg 3 sürücüsünü açıkça ister
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url[len(prefix):]
+    return url
+
+
 @dataclass(frozen=True)
 class Settings:
-    database_url: str = os.getenv("DATABASE_URL", f"sqlite:///{(ROOT / 'data' / 'katki.db').as_posix()}")
+    database_url: str = _database_url()
+    # Vercel'de çalışırken tarama/canlı izleme kapalı (uzun iş ve Playwright yok)
+    bulut: bool = bool(os.getenv("VERCEL"))
+    # boş değilse panel bu şifreyi ister
+    panel_sifre: str = os.getenv("PANEL_SIFRE", "")
     openrouter_api_key: str | None = os.getenv("OPENROUTER_API_KEY")
     llm_model: str = os.getenv("LLM_MODEL", "typesafe/jev-router")
     llm_reasoning: str = os.getenv("LLM_REASONING", "off")  # off: akıl yürütme kapalı | on: model varsayılanı
