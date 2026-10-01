@@ -1,7 +1,7 @@
 """Eğitilmiş Laya ile yerel karar — Jev'le aynı soru ve cevap biçimi (models/laya-katki-tr-v*).
 
-Laya, Jev'in kararlarından damıtıldı (laya_katki/). CPU'da çalışır, ücretsizdir ama yavaştır
-(~3-5 sn/soru). Güveni eşiğin altında kalan soru setleri Jev'e sorulur (yedek), böylece belirsiz
+Laya, Jev'in kararlarından damıtıldı (laya_katki/). Ücretsizdir; bu laptopun CPU'sunda yavaş
+(~5 sn/kayıt), GPU'lu bilgisayarda LAYA_DEVICE=cuda ile çalıştırılması düşünülüyor. Güveni eşiğin altında kalan soru setleri Jev'e sorulur (yedek), böylece belirsiz
 kayıtlarda kalite düşmez.
 """
 
@@ -33,7 +33,7 @@ def _predict(state: dict, questions: dict) -> dict:
         if _agent is None:
             import laya  # ağır (torch); yalnız Laya kullanılırken yüklenir
 
-            _agent = laya.load(str(model_dir()), device="cpu")
+            _agent = laya.load(str(model_dir()), device=settings.laya_device)
         return _agent.predict(state, questions)
 
 

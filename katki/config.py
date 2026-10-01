@@ -36,6 +36,7 @@ class Settings:
     # laya: kararlar yerel Laya'dan (boşsa models/ altındaki en yeni laya-katki-tr-v*);
     # güveni bu eşiğin altındaki soru setleri Jev'e sorulur (0: hiç sorma)
     laya_model: str = os.getenv("LAYA_MODEL", "")
+    laya_device: str = os.getenv("LAYA_DEVICE", "cpu")  # GPU'lu bilgisayarda "cuda"
     laya_yedek_esigi: float = float(os.getenv("LAYA_YEDEK_ESIGI", "0.7"))  # v1 testinde %36 Jev'e, uyum %95
     user_agent: str = os.getenv(
         "USER_AGENT", "AU-ToplumsalKatki-Bot/0.1 (+Ankara Universitesi Toplumsal Katki Koordinatorlugu)"
