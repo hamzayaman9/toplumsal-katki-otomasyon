@@ -22,6 +22,8 @@ PARCA_BAYT = 1_500_000
 BULUTTA_DUZENLENEN = {"classifications": {"human_label"}}
 # her seferinde tamamı gönderilen küçük/güncellenen tablolar; diğerleri yalnız yeni id'ler
 TAM_GONDERILEN = {"sources", "crawl_runs"}
+# yerelde her hafta baştan hesaplanan tablolar: bulutta önce boşaltılır (silinen satırlar kalmasın)
+YENIDEN_KURULAN = {"baglantilar"}
 
 
 class Neon:
@@ -123,7 +125,9 @@ def esitle(tam: bool = False, log=print) -> dict:
     with Session() as s:
         for table in Base.metadata.sorted_tables:
             query = select(table).order_by(table.c.id)
-            if not tam and table.name not in TAM_GONDERILEN:
+            if table.name in YENIDEN_KURULAN:
+                neon.sorgu(f"DELETE FROM {table.name}")
+            elif not tam and table.name not in TAM_GONDERILEN:
                 uzak_max = neon.sorgu(f"SELECT COALESCE(MAX(id), 0) AS m FROM {table.name}")[0]["m"]
                 query = query.where(table.c.id > int(uzak_max))
             rows = s.execute(query).mappings().all()

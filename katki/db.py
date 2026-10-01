@@ -104,6 +104,20 @@ class Classification(Base):
     article: Mapped[Article] = relationship(back_populates="classification")
 
 
+class Baglanti(Base):
+    """Bir dış kurum katkısının Ankara Üniversitesi faaliyetleriyle bağı (katki/baglanti.py yazar)."""
+
+    __tablename__ = "baglantilar"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    article_id: Mapped[int] = mapped_column(ForeignKey("articles.id"), unique=True)
+    benzer: Mapped[list] = mapped_column(JSON, default=list)  # [{"id": AÜ article_id, "skor": 0-1}], en yakın 3
+    en_yakin: Mapped[float] = mapped_column(Float)  # en yakın AÜ faaliyetine benzerlik
+    au_birim_id: Mapped[int | None] = mapped_column(ForeignKey("sources.id"))  # konuya en yakın AÜ birimi
+    firsat: Mapped[float] = mapped_column(Float)  # AÜ'de yakın benzeri yoksa yüksek
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
 class CrawlRun(Base):
     __tablename__ = "crawl_runs"
 

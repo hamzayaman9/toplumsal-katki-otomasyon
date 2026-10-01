@@ -246,6 +246,14 @@ def cmd_web(args) -> None:
     run(port=args.port)
 
 
+def cmd_baglanti_kur(args) -> None:
+    from .baglanti import kur
+
+    init_db()
+    r = kur()
+    print(f"AÜ bağlantısı: {r['dis_katki']} dış katkı, {r['au_katki']} AÜ katkısı, {r['au_birim']} AÜ birimiyle eşleştirildi")
+
+
 def cmd_bulut_esitle(args) -> None:
     from .bulut import esitle
 
@@ -309,6 +317,9 @@ def main() -> None:
     w = sub.add_parser("web", help="Yerel paneli başlat (http://127.0.0.1:8000)")
     w.add_argument("--port", type=int, default=8000)
     w.set_defaults(fn=cmd_web)
+
+    sub.add_parser("baglanti-kur", help="Dış katkıları AÜ faaliyetleriyle eşleştir (yerel benzerlik modeli)").set_defaults(
+        fn=cmd_baglanti_kur)
 
     b = sub.add_parser("bulut-esitle", help="Yeni kayıtları Vercel paneli için bulut veritabanına (Neon) gönder")
     b.add_argument("--tam", action="store_true", help="yalnız yenileri değil tüm satırları gönder")

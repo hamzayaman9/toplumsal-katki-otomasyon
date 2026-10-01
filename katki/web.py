@@ -15,7 +15,7 @@ from sqlalchemy import func, or_, select
 from sqlalchemy.orm import defer
 
 from .config import settings
-from .db import Article, Classification, CrawlRun, Session, Source, init_db
+from .db import Article, Baglanti, Classification, CrawlRun, Session, Source, init_db
 from .events import Bus
 from .sorular import GENEL_KAPSAMLAR
 
@@ -175,6 +175,106 @@ def harita(gun: int | None = None, birim: int | None = None, org_type: str = "",
         "iller": Counter(r.il for r in rows if r.il),
         "genel": Counter(r.bolge for r in rows if r.bolge in GENEL_KAPSAMLAR),
         "belirlenmedi": sum(1 for r in rows if not r.bolge),
+    }
+
+
+AU = "Ankara Üniversitesi"
+# fırsat kartlarında uygulanabilirlik: AÜ'nün benzerini kurabileceği kalıcı işler öne, rapor/tek etkinlik geriye
+FIRSAT_AGIRLIK = {
+    "Toplumsal proje": 1.0, "Ücretsiz hizmet (sağlık taraması, hukuki destek vb.)": 1.0, "Gönüllülük faaliyeti": 1.0,
+    "Halka açık eğitim / kurs / seminer": 0.9, "Kurumlarla protokol / iş birliği": 0.9,
+    "Bağış / yardım kampanyası": 0.8, "Halka açık etkinlik (konferans, sergi, festival)": 0.6,
+    "Rapor / yayın / politika önerisi": 0.4, "Diğer": 0.5,
+}
+
+
+@app.get("/api/firsatlar")
+def firsatlar(gun: int | None = None, org_type: str = "", org: str = "", kategori: str = "",
+              adet: int = 24) -> dict:
+    """AÜ bağlantısı: fırsat kartları, ortak kurum önerileri, kategori payları ve boşluklar (katki/baglanti.py)."""
+    with Session() as s:
+        query = _period_filter(
+            select(Baglanti, Article.id, Article.title, Article.url, Article.published_at, Source.org,
+                   Source.org_type, Classification.category, Classification.activity_type, Classification.il,
+                   Classification.bolge, Classification.summary, Classification.confidence,
+                   Classification.human_label, Classification.partners)
+            .join(Article, Baglanti.article_id == Article.id).join(Source)
+            .join(Classification, Classification.article_id == Article.id),
+            gun,
+        )
+        query = _scope(query, None, org_type, org)
+        if kategori:
+            query = query.where(Classification.category == kategori)
+        rows = s.execute(query).all()
+        au_ids = {b["id"] for r in rows for b in r.Baglanti.benzer[:1]}
+        au_ids |= {r.Baglanti.au_birim_id for r in rows if r.Baglanti.au_birim_id}
+        au_haber = {a.id: a for a in s.scalars(select(Article).where(Article.id.in_(au_ids)).options(
+            defer(Article.text)))} if au_ids else {}
+        birim_adi = dict(s.execute(select(Source.id, func.coalesce(Source.name, Source.host))
+                                   .where(Source.org == AU)).all())
+        # AÜ'nün kendi katkıları: kategori payı ve boşluk karşılaştırması için (aynı dönem)
+        au_katki = s.execute(_period_filter(
+            select(Classification.category, Classification.activity_type)
+            .join(Article, Classification.article_id == Article.id)
+            .join(Source).where(Source.org == AU, Classification.is_contribution), gun)).all()
+
+    def kart(r) -> dict:
+        b = r.Baglanti
+        yakin = au_haber.get(b.benzer[0]["id"]) if b.benzer else None
+        return {
+            "id": r.id, "baslik": r.title, "url": r.url, "kurum": r.org, "org_type": r.org_type,
+            "tarih": r.published_at.date().isoformat() if r.published_at else None,
+            "kategori": r.category, "faaliyet": r.activity_type, "konum": r.il or r.bolge, "ozet": r.summary,
+            "firsat": round(b.firsat * FIRSAT_AGIRLIK.get(r.activity_type, 0.5), 4), "benzerlik": b.en_yakin,
+            "au_birim": birim_adi.get(b.au_birim_id),
+            "au_yakin": {"baslik": yakin.title, "url": yakin.url, "birim": birim_adi.get(yakin.source_id),
+                         "skor": b.benzer[0]["skor"]} if yakin else None,
+        }
+
+    # fırsat kartları: ilgili bir AÜ birimi var ama AÜ bu işin benzerini yapmamış (birimsiz olanlar AÜ'nün
+    # alanı dışında kalıyor: park yenileme, cami açılışı...); güvenilir katkılar, kurum başına en fazla 2 kart
+    guvenilir = [r for r in rows if r.Baglanti.au_birim_id and (
+        r.human_label is True or (r.human_label is None and (r.confidence or 0) >= 0.7))]
+    kartlar, kurum_say = [], Counter()
+    for r in sorted(guvenilir, key=lambda r: -r.Baglanti.firsat * FIRSAT_AGIRLIK.get(r.activity_type, 0.5)):
+        if kurum_say[r.org] < 2:
+            kartlar.append(kart(r))
+            kurum_say[r.org] += 1
+        if len(kartlar) >= adet:
+            break
+
+    # ortak kurum önerisi: AÜ'nün yaptıklarına en çok benzeyen işleri yapan kurumlar (benzerlikte üst çeyrek)
+    esik = sorted(r.Baglanti.en_yakin for r in rows)[int(len(rows) * 0.75)] if rows else 1
+    ortak: dict[str, dict] = {}
+    for r in rows:
+        if r.Baglanti.en_yakin < esik:
+            continue
+        o = ortak.setdefault(r.org, {"kurum": r.org, "org_type": r.org_type, "adet": 0, "kategoriler": Counter(),
+                                     "zaten_ortak": False, "ornek": None, "_skor": 0})
+        o["adet"] += 1
+        o["kategoriler"][r.category or "Diğer"] += 1
+        o["zaten_ortak"] |= any(AU.lower() in (p or "").lower() for p in (r.partners or []))
+        if r.Baglanti.en_yakin > o["_skor"]:
+            o["_skor"], o["ornek"] = r.Baglanti.en_yakin, kart(r)
+    ortaklar = sorted(ortak.values(), key=lambda o: -o["adet"])[:12]
+    for o in ortaklar:
+        o["kategoriler"] = [k for k, _ in o["kategoriler"].most_common(3)]
+        o.pop("_skor")
+
+    # kategori payı ve boşluklar: diğer kurumlarda yoğun, AÜ'de hiç olmayan kategori × faaliyet türü
+    dis_kat, au_kat = Counter(r.category for r in rows), Counter(k for k, _ in au_katki)
+    dis_tur = Counter((r.category, r.activity_type) for r in rows if r.category and r.activity_type)
+    au_tur = Counter(au_katki)
+    bosluklar = sorted(([k, t, n] for (k, t), n in dis_tur.items() if n >= 3 and not au_tur[(k, t)]),
+                       key=lambda x: -x[2])[:15]
+    return {
+        "dis_katki": len(rows),
+        "kartlar": kartlar,
+        "ortaklar": ortaklar,
+        "kategori_payi": sorted(([k or "Diğer", au_kat[k], n] for k, n in dis_kat.items()), key=lambda x: -x[2]),
+        "bosluklar": bosluklar,
+        "hesaplandi": _aware(max((r.Baglanti.created_at for r in rows), default=None)) and
+        _aware(max(r.Baglanti.created_at for r in rows)).isoformat(),
     }
 
 

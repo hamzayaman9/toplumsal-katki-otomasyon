@@ -134,6 +134,19 @@
   .section-note { color: var(--muted); font-size: 12px; margin: -4px 0 12px; }
   table.compact td { padding: 7px 8px; }
 
+  /* fırsatlar */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .fcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .fcard .ust { color: var(--muted); font-size: 12px; }
+  .fcard h3 { font-size: 14px; color: var(--ink); margin: 0; }
+  .fcard h3 a { color: inherit; text-decoration: none; }
+  .fcard h3 a:hover { text-decoration: underline; }
+  .fcard .ozet { font-size: 13px; }
+  .fcard .au { border-top: 1px solid var(--grid); padding-top: 8px; margin-top: auto; font-size: 12px; color: var(--ink-2); }
+  .fcard .au b { color: var(--ink); font-weight: 600; }
+  .fcard .au a { color: var(--series-1); }
+  .badge { display: inline-block; font-size: 11px; border-radius: 999px; padding: 1px 8px; background: var(--series-1-soft); color: var(--ink); }
+
   /* harita */
   .map-card { margin-bottom: 12px; }
   .map-grid { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(220px, 1fr); gap: 16px; }
@@ -179,6 +192,7 @@
   <nav class="tabs" aria-label="Bölümler">
     <a href="#katkilar" data-tab="katkilar">Toplumsal katkılar</a>
     <a href="#veriler" data-tab="veriler">Taranan veriler</a>
+    <a href="#firsatlar" data-tab="firsatlar">AÜ için fırsatlar</a>
     <a href="#maliyet" data-tab="maliyet">Maliyet</a>
   </nav>
 
@@ -301,6 +315,39 @@
         </table>
       </div>
       <div class="more"><button id="tv-more" hidden>Daha fazla göster</button></div>
+    </section>
+  </div>
+
+  <!-- AÜ için fırsatlar -->
+  <div class="panel" id="p-firsatlar" hidden>
+    <p class="section-note" id="f-not"></p>
+    <div class="filters" style="margin-bottom:12px">
+      <select id="f-f-kategori" aria-label="Kategori"><option value="">Tüm kategoriler</option></select>
+    </div>
+    <section style="margin-bottom:12px">
+      <h2>Fırsat kartları <span class="sub">· ilgili bir AÜ birimi var ama AÜ'de benzeri yapılmamış katkılar</span></h2>
+      <div class="cards" id="f-kartlar"></div>
+    </section>
+    <section class="card" style="margin-bottom:12px">
+      <h2>İş birliği önerilen kurumlar <span class="sub">· AÜ'nün yaptıklarına en çok benzeyen işleri yapanlar</span></h2>
+      <div class="tablewrap"><table class="compact">
+        <thead><tr><th>Kurum</th><th class="num">Benzer faaliyet</th><th>Ortak alanlar</th><th>En benzer örnek</th></tr></thead>
+        <tbody id="f-ortaklar"></tbody>
+      </table></div>
+    </section>
+    <section class="grid2">
+      <div class="card"><h2>Kategorilere göre AÜ'nün payı</h2>
+        <div class="tablewrap"><table class="compact">
+          <thead><tr><th>Kategori</th><th class="num">AÜ</th><th class="num">Diğer kurumlar</th><th class="num">AÜ payı</th></tr></thead>
+          <tbody id="f-pay"></tbody>
+        </table></div>
+      </div>
+      <div class="card"><h2>Boşluklar <span class="sub">· diğer kurumlarda var, AÜ'de hiç yok</span></h2>
+        <div class="tablewrap"><table class="compact">
+          <thead><tr><th>Kategori</th><th>Faaliyet türü</th><th class="num">Diğer kurumlar</th></tr></thead>
+          <tbody id="f-bosluk"></tbody>
+        </table></div>
+      </div>
     </section>
   </div>
 
@@ -605,8 +652,39 @@ async function loadMaliyet() {
   $("m-model").innerHTML = d.model.map((r) => satir(r)).join("") || bos;
 }
 
+async function loadFirsatlar() {
+  const d = await getJSON("/api/firsatlar?" + params({ kategori: $("f-f-kategori").value }));
+  $("f-not").textContent = (d.hesaplandi
+    ? `Diğer kurumların ${fmt.format(d.dis_katki)} katkısı, AÜ'nün faaliyetleriyle yerel bir benzerlik modeliyle karşılaştırıldı (${new Date(d.hesaplandi).toLocaleDateString("tr-TR")}). `
+    : "Henüz karşılaştırma yapılmadı (haftalık turda baglanti-kur). ") +
+    "Birim önerisi yaklaşıktır; AÜ'nün taranan katkısı az olduğu için en yakın somut faaliyeti de gösteriyoruz.";
+  const sel = $("f-f-kategori");
+  if (sel.options.length === 1) sel.innerHTML += d.kategori_payi.map(([k]) => `<option>${esc(k)}</option>`).join("");
+  $("f-kartlar").innerHTML = d.kartlar.map((k) => `<article class="fcard">
+      <div class="ust">${esc(k.kurum)}${k.tarih ? " · " + new Date(k.tarih).toLocaleDateString("tr-TR") : ""}${k.konum ? " · " + esc(k.konum) : ""}</div>
+      <h3><a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(k.baslik)}</a></h3>
+      ${k.ozet ? `<div class="ozet">${esc(k.ozet)}</div>` : ""}
+      <div>${k.kategori ? `<span class="chip">${esc(k.kategori)}</span>` : ""}${k.faaliyet ? `<span class="chip">${esc(k.faaliyet)}</span>` : ""}</div>
+      <div class="au">İlgili olabilecek AÜ birimi: <b>${esc(k.au_birim)}</b>
+        ${k.au_yakin ? `<br>AÜ'de en yakın faaliyet: <a href="${esc(k.au_yakin.url)}" target="_blank" rel="noopener">${esc(k.au_yakin.baslik)}</a>
+          <span class="meta">(${esc(k.au_yakin.birim || "")})</span>` : ""}</div>
+    </article>`).join("") || '<div class="empty">Bu süzgeçte fırsat bulunamadı</div>';
+  $("f-ortaklar").innerHTML = d.ortaklar.map((o) => `<tr>
+      <td>${esc(o.kurum)}<div class="meta">${esc(ORG_TYPES[o.org_type] || o.org_type || "")}${o.zaten_ortak ? ' · <span class="badge">AÜ ile ortak çalışmış</span>' : ""}</div></td>
+      <td class="num">${fmt.format(o.adet)}</td>
+      <td>${o.kategoriler.map((k) => `<span class="chip">${esc(k)}</span>`).join("")}</td>
+      <td>${o.ornek ? `<a href="${esc(o.ornek.url)}" target="_blank" rel="noopener">${esc(o.ornek.baslik)}</a>
+        ${o.ornek.au_yakin ? `<div class="meta">AÜ: ${esc(o.ornek.au_yakin.baslik)}</div>` : ""}` : ""}</td></tr>`).join("")
+    || '<tr><td colspan="4" class="empty">Öneri yok</td></tr>';
+  $("f-pay").innerHTML = d.kategori_payi.map(([k, au, dis]) => `<tr><td>${esc(k)}</td>
+      <td class="num">${fmt.format(au)}</td><td class="num">${fmt.format(dis)}</td><td class="num">${pct(au, au + dis)}</td></tr>`).join("");
+  $("f-bosluk").innerHTML = d.bosluklar.map(([k, t, n]) => `<tr><td>${esc(k)}</td><td>${esc(t)}</td>
+      <td class="num">${fmt.format(n)}</td></tr>`).join("") || '<tr><td colspan="3" class="empty">Boşluk bulunamadı</td></tr>';
+}
+$("f-f-kategori").addEventListener("change", loadFirsatlar);
+
 // --- sekmeler: yalnız açık sekme yüklenir, süzgeç değişince diğerleri "eski" sayılır
-const LOADERS = { katkilar: loadKatkilar, veriler: loadVeriler, maliyet: loadMaliyet };
+const LOADERS = { katkilar: loadKatkilar, veriler: loadVeriler, firsatlar: loadFirsatlar, maliyet: loadMaliyet };
 const stale = new Set(Object.keys(LOADERS));
 const activeTab = () => (LOADERS[location.hash.slice(1)] ? location.hash.slice(1) : "katkilar");
 function showTab() {
