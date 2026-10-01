@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canlı Süreç</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11, 11, 11, 0.10); --hover: rgba(11, 11, 11, 0.04);
+    --flow: #2a78d6; --flow-soft: #cde2fb; --good: #0ca30c; --good-ink: #006300; --critical: #d03b3b;
+    --idle: #e1e0d9; --other: #a8a69f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10); --hover: rgba(255, 255, 255, 0.05);
+      --flow: #3987e5; --flow-soft: #184f95; --good-ink: #0ca30c; --critical: #e66767; --idle: #2c2c2a; --other: #6b6a65;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10); --hover: rgba(255, 255, 255, 0.05);
+    --flow: #3987e5; --flow-soft: #184f95; --good-ink: #0ca30c; --critical: #e66767; --idle: #2c2c2a; --other: #6b6a65;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 24px 16px 64px; }
+  header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  h1 { font-size: 20px; margin: 0; font-weight: 650; display: flex; align-items: center; gap: 10px; }
+  .sub { color: var(--ink-2); font-size: 13px; }
+  a { color: var(--flow); }
+  .badge { font-size: 11px; font-weight: 600; letter-spacing: .04em; border-radius: 999px; padding: 2px 8px; border: 1px solid var(--border); color: var(--ink-2); }
+  .badge.live { color: var(--critical); border-color: var(--critical); }
+  .badge.live::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--critical); margin-right: 5px; animation: blink 1.2s infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button { font: inherit; border: 1px solid var(--border); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 7px 12px; cursor: pointer; }
+  button.primary { background: var(--flow); border-color: var(--flow); color: #fff; }
+  button:disabled { opacity: .5; cursor: default; }
+  select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+
+  /* aşamalar */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+  @media (max-width: 700px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  .step { padding: 12px 14px; }
+  .step .n { font-size: 12px; color: var(--muted); }
+  .step .t { font-weight: 600; margin: 2px 0 8px; }
+  .step .bar { height: 6px; background: var(--grid); border-radius: 3px; overflow: hidden; }
+  .step .bar i { display: block; height: 100%; width: 0; background: var(--flow); border-radius: 3px; transition: width .4s ease; }
+  .step .s { font-size: 12px; color: var(--ink-2); margin-top: 6px; font-variant-numeric: tabular-nums; min-height: 18px; }
+  .step.active { border-color: var(--flow); }
+  .step.done .bar i { background: var(--good); }
+
+  /* sahne */
+  .stage { position: relative; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(170px, .7fr) minmax(0, 1fr); gap: 16px; min-height: 360px; }
+  @media (max-width: 820px) { .stage { grid-template-columns: 1fr; } }
+  #fx { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+  .zone h2 { font-size: 13px; font-weight: 600; margin: 0 0 10px; color: var(--ink-2); }
+  .sources { --tile: 18px; --tile-gap: 5px; max-height: 620px; overflow-y: auto; }
+  .source-group { margin-bottom: 12px; }
+  .source-group h3 { margin: 0 0 5px; color: var(--ink-2); font-size: 11px; font-weight: 600; }
+  .source-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--tile), 1fr)); gap: var(--tile-gap); }
+  .src { aspect-ratio: 1; border-radius: 4px; background: var(--idle); position: relative; transition: background .3s, transform .3s; }
+  .src.busy { background: var(--flow-soft); animation: pulse .8s ease-in-out infinite; }
+  .src.new { background: var(--flow); }
+  .src.none { background: var(--axis); }
+  .src.err { background: transparent; outline: 2px solid var(--critical); outline-offset: -2px; }
+  .src .c { position: absolute; inset: 0; display: grid; place-items: center; font-size: 9px; color: #fff; font-weight: 700; }
+  @keyframes pulse { 50% { transform: scale(.78); } }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; font-size: 12px; color: var(--ink-2); }
+  .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; background: var(--k); }
+
+  .core { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 10px; }
+  .node { width: 132px; height: 132px; border-radius: 50%; border: 2px solid var(--flow); display: grid; place-items: center; position: relative; background: var(--surface); }
+  .node.working { box-shadow: 0 0 0 0 var(--flow); animation: ring 1.4s ease-out infinite; }
+  @keyframes ring { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--flow) 45%, transparent); } 100% { box-shadow: 0 0 0 22px transparent; } }
+  .node b { font-size: 15px; }
+  .node small { display: block; color: var(--ink-2); font-size: 11px; }
+  .model { font-size: 12px; color: var(--ink-2); min-height: 18px; transition: opacity .2s; }
+  .queue { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .buckets { display: grid; gap: 12px; align-content: start; }
+  .bucket { border: 1px solid var(--border); border-radius: 12px; padding: 14px; transition: transform .15s; }
+  .bucket.bump { transform: scale(1.03); }
+  .bucket .h { display: flex; justify-content: space-between; align-items: baseline; }
+  .bucket .h span { color: var(--ink-2); font-size: 13px; }
+  .bucket .v { font-size: 34px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .bucket.yes { border-left: 4px solid var(--good); }
+  .bucket.no { border-left: 4px solid var(--other); }
+  .cats { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 8px; margin-top: 8px; font-size: 12px; }
+  .cats .l { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cats .l i { display: block; height: 4px; background: var(--good); border-radius: 0 2px 2px 0; margin-top: 2px; transition: width .3s; }
+  .cats .n { font-variant-numeric: tabular-nums; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 12px 0; }
+  .kpi .l { font-size: 12px; color: var(--ink-2); }
+  .kpi .v { font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; }
+
+  /* akış */
+  .feed { display: grid; gap: 8px; margin-top: 12px; }
+  .item { display: grid; grid-template-columns: 4px 1fr auto; gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); animation: slide .45s ease-out; }
+  @keyframes slide { from { opacity: 0; transform: translateY(-8px); } }
+  .item .k { border-radius: 2px; background: var(--other); }
+  .item.yes .k { background: var(--good); }
+  .item .t { font-weight: 550; }
+  .item .m { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .item .o { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .item .r { text-align: right; font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+  .tag { display: inline-block; font-size: 11px; border-radius: 999px; padding: 0 7px; border: 1px solid var(--border); }
+  .tag.yes { color: var(--good-ink); border-color: var(--good); }
+  .empty { color: var(--muted); padding: 12px 0; }
+  #tip { position: fixed; pointer-events: none; z-index: 10; display: none; background: var(--surface); color: var(--ink); border: 1px solid var(--border); border-radius: 8px; padding: 6px 9px; font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+  @media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Canlı Süreç <span class="badge" id="mode">BEKLEMEDE</span></h1>
+      <div class="sub">Siteler taranıyor → yeni kayıtlar Jev'e gidiyor (katkı çıkanların özeti LLM'den) → toplumsal katkı olarak ayrılıyor · <a href="/">Panele dön</a></div>
+    </div>
+    <div class="actions">
+      <button id="b-tekrar" title="Veritabanındaki gerçek sonuçları yeniden oynatır; yeni istek atmaz">▶ Kayıttan oynat</button>
+      <select id="hiz" aria-label="Oynatma hızı"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select>
+      <button id="b-calistir" class="primary" title="Tüm siteleri gerçekten tarar ve yeni kayıtları sınıflandırır">⟳ Gerçek tarama başlat</button>
+    </div>
+  </header>
+
+  <section class="steps">
+    <div class="card step" id="st-1"><div class="n">1</div><div class="t">Kaynaklar</div><div class="bar"><i></i></div><div class="s"></div></div>
+    <div class="card step" id="st-2"><div class="n">2</div><div class="t">Tarama</div><div class="bar"><i></i></div><div class="s"></div></div>
+    <div class="card step" id="st-3"><div class="n">3</div><div class="t">Sınıflandırma</div><div class="bar"><i></i></div><div class="s"></div></div>
+    <div class="card step" id="st-4"><div class="n">4</div><div class="t">Panel</div><div class="bar"><i></i></div><div class="s"></div></div>
+  </section>
+
+  <section class="card">
+    <div class="stage" id="stage">
+      <canvas id="fx"></canvas>
+      <div class="zone">
+        <h2 id="src-title">Kaynak siteler</h2>
+        <div class="sources" id="sources"><div class="empty">Başlatmak için yukarıdaki butonlardan birini kullan.</div></div>
+        <div class="legend">
+          <span style="--k: var(--idle)">bekliyor</span>
+          <span style="--k: var(--flow-soft)">taranıyor</span>
+          <span style="--k: var(--flow)">yeni kayıt var</span>
+          <span style="--k: var(--axis)">yeni yok</span>
+        </div>
+      </div>
+      <div class="zone core">
+        <div class="node" id="node"><div><b>Jev 1.13</b><small>TypeSafe karar modeli</small></div></div>
+        <div class="model" id="model"></div>
+        <div class="queue" id="queue"></div>
+      </div>
+      <div class="zone buckets">
+        <div class="bucket yes" id="bk-yes"><div class="h"><span>Toplumsal katkı</span><span id="yes-pct"></span></div><div class="v" id="yes">0</div><div class="cats" id="cats"></div></div>
+        <div class="bucket no" id="bk-no"><div class="h"><span>Diğer</span></div><div class="v" id="no">0</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="kpis">
+    <div class="card kpi"><div class="l">Taranan site</div><div class="v" id="k-site">0</div></div>
+    <div class="card kpi"><div class="l">Yeni kayıt</div><div class="v" id="k-yeni">0</div></div>
+    <div class="card kpi"><div class="l">Sınıflandırılan</div><div class="v" id="k-sin">0</div></div>
+    <div class="card kpi"><div class="l">LLM maliyeti</div><div class="v" id="k-mal">$0</div></div>
+    <div class="card kpi"><div class="l">Geçen süre</div><div class="v" id="k-sure">0 sn</div></div>
+  </section>
+
+  <section>
+    <h2 style="font-size:14px; margin: 16px 0 0">Son sınıflandırılanlar</h2>
+    <div class="feed" id="feed"><div class="empty">Henüz sonuç yok.</div></div>
+  </section>
+</div>
+<div id="tip"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const fmt = new Intl.NumberFormat("tr-TR");
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+let S; // durum
+function reset() {
+  S = { sources: new Map(), total: 0, done: 0, yeni: 0, sin: 0, hedef: 0, yes: 0, no: 0, mal: 0, queue: 0, cats: {}, t0: null, running: false, replay: false };
+  $("feed").innerHTML = '<div class="empty">Henüz sonuç yok.</div>';
+  ["yes", "no"].forEach((k) => ($(k).textContent = "0"));
+  $("cats").innerHTML = ""; $("yes-pct").textContent = ""; $("model").textContent = ""; $("queue").textContent = "";
+  for (let i = 1; i <= 4; i++) setStep(i, 0, "", "");
+  kpis();
+}
+reset();
+let live = false; // geçmiş olaylar animasyonsuz uygulanır
+
+// ---------- aşamalar ve sayaçlar
+function setStep(i, pct, text, st) {
+  const el = $("st-" + i);
+  el.querySelector("i").style.width = Math.round(pct * 100) + "%";
+  el.querySelector(".s").textContent = text;
+  el.classList.toggle("active", st === "active");
+  el.classList.toggle("done", st === "done");
+}
+function kpis() {
+  $("k-site").textContent = `${fmt.format(S.done)} / ${fmt.format(S.total)}`;
+  $("k-yeni").textContent = fmt.format(S.yeni);
+  $("k-sin").textContent = fmt.format(S.sin);
+  $("k-mal").textContent = "$" + S.mal.toFixed(4).replace(".", ",");
+  $("queue").textContent = S.queue ? `kuyrukta ${fmt.format(S.queue)} kayıt` : "";
+}
+setInterval(() => { if (S.t0) { const s = Math.round((Date.now() - S.t0) / 1000); $("k-sure").textContent = s < 60 ? `${s} sn` : `${Math.floor(s / 60)} dk ${s % 60} sn`; } }, 500);
+
+// ---------- parçacıklar
+const cv = $("fx"), ctx = cv.getContext("2d");
+let parts = [];
+function sizeCanvas() {
+  const r = $("stage").getBoundingClientRect(), dpr = devicePixelRatio || 1;
+  cv.width = r.width * dpr; cv.height = r.height * dpr; cv.style.width = r.width + "px"; cv.style.height = r.height + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+addEventListener("resize", sizeCanvas); sizeCanvas();
+function center(el) {
+  const s = $("stage").getBoundingClientRect(), r = el.getBoundingClientRect();
+  return [r.left - s.left + r.width / 2, r.top - s.top + r.height / 2];
+}
+function fly(fromEl, toEl, color, onArrive, delay = 0) {
+  if (reduce || !live) { onArrive && onArrive(); return; }
+  const [x0, y0] = center(fromEl), [x1, y1] = center(toEl);
+  const cx = (x0 + x1) / 2 + (Math.random() - .5) * 80, cy = Math.min(y0, y1) - 40 - Math.random() * 60;
+  parts.push({ x0, y0, x1, y1, cx, cy, t: -delay, dur: 700 + Math.random() * 400, color, onArrive });
+}
+let last = performance.now();
+function frame(now) {
+  const dt = now - last; last = now;
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  parts = parts.filter((p) => {
+    p.t += dt;
+    if (p.t < 0) return true;
+    const k = Math.min(1, p.t / p.dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    const x = (1 - e) ** 2 * p.x0 + 2 * (1 - e) * e * p.cx + e * e * p.x1;
+    const y = (1 - e) ** 2 * p.y0 + 2 * (1 - e) * e * p.cy + e * e * p.y1;
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fillStyle = p.color; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = css("--surface"); ctx.stroke();
+    if (k >= 1) { p.onArrive && p.onArrive(); return false; }
+    return true;
+  });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+// ---------- olay işleyiciler
+const tip = $("tip");
+function buildSources(list) {
+  const box = $("sources"); box.innerHTML = "";
+  S.total = list.length;
+  $("src-title").textContent = `Kaynak siteler (${fmt.format(list.length)})`;
+  const tile = list.length > 650 ? 8 : list.length > 300 ? 11 : list.length > 150 ? 14 : 18;
+  box.style.setProperty("--tile", tile + "px");
+  box.style.setProperty("--tile-gap", (tile <= 11 ? 2 : 4) + "px");
+  const groups = new Map();
+  for (const k of list) {
+    const label = ({devlet_universitesi:"Devlet üniversiteleri", vakif_universitesi:"Vakıf üniversiteleri",
+      kamu_kurumu:"Kamu kurumları", vakif:"Vakıflar", dernek:"Dernekler", stk_diger:"Diğer STK"})[k.org_type] || "Diğer kaynaklar";
+    if (!groups.has(label)) groups.set(label, []);
+    groups.get(label).push(k);
+  }
+  for (const [label, sources] of groups) {
+    const section = document.createElement("section"); section.className = "source-group";
+    const title = document.createElement("h3"); title.textContent = `${label} (${fmt.format(sources.length)})`;
+    const grid = document.createElement("div"); grid.className = "source-grid";
+    section.append(title, grid); box.append(section);
+    for (const k of sources) {
+      const d = document.createElement("div");
+      d.className = "src"; d.dataset.id = k.id;
+      d.addEventListener("mouseenter", (e) => { tip.textContent = `${k.kurum || ""} · ${k.ad} · ${k.yontem}` + (d.dataset.n ? ` · ${d.dataset.n} yeni` : ""); tip.style.display = "block"; });
+      d.addEventListener("mousemove", (e) => { tip.style.left = e.clientX + 12 + "px"; tip.style.top = e.clientY + 12 + "px"; });
+      d.addEventListener("mouseleave", () => (tip.style.display = "none"));
+      grid.append(d); S.sources.set(k.id, d);
+    }
+  }
+  setStep(1, 1, `${fmt.format(list.length)} aktif site`, "done");
+  requestAnimationFrame(sizeCanvas);
+}
+function bump(el) { if (!live || reduce) return; el.classList.add("bump"); setTimeout(() => el.classList.remove("bump"), 160); }
+function drawCats() {
+  const rows = Object.entries(S.cats).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const max = rows[0]?.[1] || 1;
+  $("cats").innerHTML = rows.map(([c, n]) => `<div class="l" title="${esc(c)}">${esc(c)}<i style="width:${(n / max) * 100}%"></i></div><div class="n">${n}</div>`).join("");
+}
+function addFeed(e) {
+  const feed = $("feed");
+  if (feed.querySelector(".empty")) feed.innerHTML = "";
+  const div = document.createElement("div");
+  div.className = "item" + (e.katki ? " yes" : "");
+  div.innerHTML = `<div class="k"></div>
+    <div><div class="t">${esc(e.baslik)}</div><div class="m">${esc(e.birim)}</div>${e.katki && e.ozet ? `<div class="o">${esc(e.ozet)}</div>` : ""}</div>
+    <div class="r">${e.katki ? `<span class="tag yes">✓ ${esc(e.kategori || "katkı")}</span>` : '<span class="tag">diğer</span>'}
+      <div style="margin-top:4px">güven ${e.guven != null ? e.guven.toFixed(2).replace(".", ",") : "–"}</div>
+      <div style="color:var(--muted)">${esc((e.model || "").split("/").pop())} · $${(e.maliyet || 0).toFixed(5)}</div></div>`;
+  feed.prepend(div);
+  while (feed.children.length > 40) feed.lastChild.remove();
+}
+
+const H = {
+  tekrar_basladi() { S.replay = true; },
+  tarama_basladi(e) {
+    const replay = S.replay || e.tekrar; reset(); S.replay = replay; S.running = true; S.t0 = Date.now();
+    buildSources(e.kaynaklar);
+    setStep(2, 0, "başladı", "active");
+    setMode();
+  },
+  kaynak_basladi(e) { S.sources.get(e.id)?.classList.add("busy"); },
+  kaynak_bitti(e) {
+    const d = S.sources.get(e.id); if (!d) return;
+    d.classList.remove("busy");
+    S.done++;
+    if (e.hata) d.classList.add("err");
+    else if (e.yeni.length) {
+      d.classList.add("new"); d.dataset.n = e.yeni.length;
+      if (e.yeni.length > 1) d.innerHTML = `<span class="c">${e.yeni.length > 9 ? "9+" : e.yeni.length}</span>`;
+      S.yeni += e.yeni.length;
+      e.yeni.forEach((_, i) => fly(d, $("node"), css("--flow"), () => { S.queue++; kpis(); }, i * 90));
+    } else d.classList.add("none");
+    setStep(2, S.done / S.total, `${fmt.format(S.done)} / ${fmt.format(S.total)} site · ${fmt.format(S.yeni)} yeni`, "active");
+    kpis();
+  },
+  tarama_bitti(e) { setStep(2, 1, `${fmt.format(e.basarili)} başarılı · ${fmt.format(e.hatali)} hatalı · ${fmt.format(e.yeni)} yeni`, "done"); },
+  siniflandirma_basladi(e) { S.hedef = e.adet; $("node").classList.add("working"); setStep(3, 0, `${fmt.format(e.adet)} kayıt`, "active"); if (!live) S.queue = e.adet; kpis(); },
+  siniflandirildi(e) {
+    S.queue = Math.max(0, S.queue - 1); S.sin++; S.mal += e.maliyet || 0;
+    const m = $("model"); m.textContent = "→ " + (e.model || "");
+    setStep(3, S.hedef ? S.sin / S.hedef : 0, `${fmt.format(S.sin)} / ${fmt.format(S.hedef)}`, "active");
+    kpis();
+    const target = e.katki ? $("bk-yes") : $("bk-no");
+    fly($("node"), target, e.katki ? css("--good") : css("--other"), () => {
+      if (e.katki) { S.yes++; S.cats[e.kategori || "Diğer"] = (S.cats[e.kategori || "Diğer"] || 0) + 1; drawCats(); }
+      else S.no++;
+      $("yes").textContent = fmt.format(S.yes); $("no").textContent = fmt.format(S.no);
+      $("yes-pct").textContent = S.yes + S.no ? "%" + Math.round((S.yes / (S.yes + S.no)) * 100) : "";
+      bump(target); addFeed(e);
+      setStep(4, S.hedef ? (S.yes + S.no) / S.hedef : 0, `${fmt.format(S.yes)} katkı panele eklendi`, "active");
+    });
+  },
+  siniflandirma_bitti(e) {
+    $("node").classList.remove("working");
+    const bekleyen = Math.max(0, S.yeni - S.sin);
+    S.queue = 0; kpis();
+    $("queue").textContent = bekleyen ? `${fmt.format(bekleyen)} kayıt sınıflandırılmayı bekliyor` : "";
+    setStep(3, 1, e.not_ || `${fmt.format(e.basarili)} başarılı · ${fmt.format(e.hatali)} hatalı`, "done");
+  },
+  hata(e) { setStep(2, 1, "Hata: " + e.mesaj, "active"); },
+  is_bitti() {
+    S.running = false; setStep(4, 1, `${fmt.format(S.yes)} yeni katkı panelde`, "done");
+    setTimeout(() => ($("model").textContent = ""), 1500); setMode();
+  },
+  gecmis_bitti() { live = true; },
+};
+function setMode() {
+  const m = $("mode");
+  m.className = "badge" + (S.running ? " live" : "");
+  m.textContent = S.running ? (S.replay ? "KAYITTAN OYNATMA" : "CANLI") : "BEKLEMEDE";
+  $("b-calistir").disabled = $("b-tekrar").disabled = S.running;
+}
+
+function connect() {
+  live = false;
+  const es = new EventSource("/api/olaylar");
+  es.onmessage = (m) => { const e = JSON.parse(m.data); H[e.tip]?.(e); };
+  es.onerror = () => { es.close(); setTimeout(connect, 2000); };
+}
+connect();
+
+async function post(url, body) {
+  const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  if (!r.ok) alert((await r.json()).detail || "Başlatılamadı");
+}
+$("b-tekrar").onclick = () => post("/api/tekrar", { adet: 80, hiz: +$("hiz").value });
+$("b-calistir").onclick = () => {
+  if (confirm("Tüm siteler gerçekten taranacak ve yeni kayıtlar sınıflandırılacak (birkaç dakika sürer, az miktarda LLM maliyeti oluşur). Devam edilsin mi?")) post("/api/calistir", { limit: 20 });
+};
+</script>
+</body>
+</html>

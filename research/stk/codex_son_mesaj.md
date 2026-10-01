@@ -1,0 +1,5 @@
+Kaynak haritası tamamlandı. `ilerleme.json` içindeki **768 adayın** keşfi bitti; kayıtlı hata yok. Son haritada **500 kurum**, **456 doğrulanmış canlı site** ve **294 taranabilir haber girişi** var.
+
+Canlı sitelerin 105’inde WP REST, 111’inde RSS, 177’sinde yalnız HTML listesi doğrulandı; 6’sı JS render gerektiriyor. **203 kurum Ankara merkezli**, 27 kurumda ayrı toplumsal katkı veya ilgili sayfa bulundu.
+
+Çıktılar: [harita.json](C:/Users/User1/AppData/Local/Temp/claude/C--Users-User1-Desktop-toplumsalkatkiotomasyon/cce9a77d-289a-47b1-ad59-e104cb320b3c/scratchpad/codex-stk/harita.json), [rapor.md](C:/Users/User1/AppData/Local/Temp/claude/C--Users-User1-Desktop-toplumsalkatkiotomasyon/cce9a77d-289a-47b1-ad59-e104cb320b3c/scratchpad/codex-stk/rapor.md), [ilerleme.json](C:/Users/User1/AppData/Local/Temp/claude/C--Users-User1-Desktop-toplumsalkatkiotomasyon/cce9a77d-289a-47b1-ad59-e104cb320b3c/scratchpad/codex-stk/ilerleme.json).

@@ -1,0 +1,29 @@
+import os
+from dataclasses import dataclass
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(ROOT / ".env")
+
+
+@dataclass(frozen=True)
+class Settings:
+    database_url: str = os.getenv("DATABASE_URL", f"sqlite:///{(ROOT / 'data' / 'katki.db').as_posix()}")
+    openrouter_api_key: str | None = os.getenv("OPENROUTER_API_KEY")
+    llm_model: str = os.getenv("LLM_MODEL", "typesafe/jev-router")
+    llm_reasoning: str = os.getenv("LLM_REASONING", "off")  # off: akıl yürütme kapalı | on: model varsayılanı
+    # jev: kararlar Jev'den, özet/paydaş yalnız katkılar için LLM'den | llm: her şey LLM'den (eski yöntem)
+    classifier: str = os.getenv("CLASSIFIER", "jev")
+    jev_model: str = os.getenv("JEV_MODEL", "typesafe/jev-1.13")
+    user_agent: str = os.getenv(
+        "USER_AGENT", "AU-ToplumsalKatki-Bot/0.1 (+Ankara Universitesi Toplumsal Katki Koordinatorlugu)"
+    )
+    robots_policy: str = os.getenv("ROBOTS_POLICY", "ignore")  # "respect" | "ignore"
+    min_host_delay: float = float(os.getenv("MIN_HOST_DELAY", "2"))
+    max_crawl_delay: float = float(os.getenv("MAX_CRAWL_DELAY", "10"))
+    concurrency: int = int(os.getenv("CONCURRENCY", "5"))
+
+
+settings = Settings()

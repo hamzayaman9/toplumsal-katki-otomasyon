@@ -1,0 +1,3390 @@
+[
+  {
+    "host": "aacd.ankara.edu.tr",
+    "ad": "Ankara Avrupa Çalışmaları Dergisi",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "abamer.ankara.edu.tr",
+    "ad": "Bağımlılıkla Mücadele Uygulama ve Araştırma Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "abisis.ankara.edu.tr",
+    "ad": "Hata Oluştu",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 404",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "acaum.ankara.edu.tr",
+    "ad": "AÜ Afrika Çalışmaları Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": "https://acaum.ankara.edu.tr/afrikadan-haberler/",
+    "duyuru_url": "https://acaum.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://acaum.ankara.edu.tr/etkinlikler/",
+    "rss_url": "https://acaum.ankara.edu.tr/feed/",
+    "sitemap_url": "https://acaum.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "acikders.ankara.edu.tr",
+    "ad": "Ana sayfa",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 404",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "aday.ankara.edu.tr",
+    "ad": "ASYM",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 404",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "adayogrenci.ankara.edu.tr",
+    "ad": "Aday Öğrenci (ana siteye yönleniyor)",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Yönlendirme: https://www.ankara.edu.tr/aday-ogrenci/; ayrı yayın kaynağı sayılmamalı"
+    ]
+  },
+  {
+    "host": "adlibilimler.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Adli Bİlimler Enstitüsü Resmi Sitesi",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://adlibilimler.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://adlibilimler.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://adlibilimler.ankara.edu.tr/feed/",
+    "sitemap_url": "https://adlibilimler.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "admissions.ankara.edu.tr",
+    "ad": "admissions.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)"
+    ]
+  },
+  {
+    "host": "afam.ankara.edu.tr",
+    "ad": "Afet Yönetimi Uygulama ve Araştırma Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "afetriskyonetimi.ankara.edu.tr",
+    "ad": "Afet Risk Yönetimi Anabilim Dalı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "agri.ankara.edu.tr",
+    "ad": "agri.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.agri.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "agrifest.ankara.edu.tr",
+    "ad": "Uluslararası Tarım Teknolojileri Festivali",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "akcam.ankara.edu.tr",
+    "ad": "Kalkınma Çalışmaları Uygulama ve Araştırma Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "aktuam.ankara.edu.tr",
+    "ad": "Ankara Keçisi ve Tiftik Uygulama ve Araştırma Merkezi Müdürlüğü",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://aktuam.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://aktuam.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://aktuam.ankara.edu.tr/feed/",
+    "sitemap_url": "https://aktuam.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "aktuerya.ankara.edu.tr",
+    "ad": "Aktüerya Bilimleri Bölümü",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "akyurtmyo.ankara.edu.tr",
+    "ad": "Akyurt Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "altair.ankara.edu.tr",
+    "ad": "altair.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: The operation was aborted due to timeout",
+      "Ana sayfa HTTP 0 (The operation was aborted due to timeout)"
+    ]
+  },
+  {
+    "host": "ankamer.ankara.edu.tr",
+    "ad": "Ankara Çalışmaları Araştırma ve Uygulama Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "anket.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Rektörlüğü Anket Sistemi",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 404",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "ankudem.ankara.edu.tr",
+    "ad": "Ölçme ve Değerlendirme Uygulama ve Araştırma Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://ankudem.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://ankudem.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://ankudem.ankara.edu.tr/feed/",
+    "sitemap_url": "https://ankudem.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "ankusam.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Siyasal Bilgiler Araştırma ve Uygulama Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "ankusem.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Sürekli Eğitim Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": "https://ankusem.ankara.edu.tr/events/",
+    "rss_url": "https://ankusem.ankara.edu.tr/feed/",
+    "sitemap_url": "https://ankusem.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-content/uploads/wc-logs/, /wp-content/uploads/woocommerce_transient_files/, /wp-content/uploads/woocommerce_uploads/, /*?add-to-cart=, /*?*add-to-cart=, /wp-admin/"
+    ]
+  },
+  {
+    "host": "ankustore.ankara.edu.tr",
+    "ad": "ankustore.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "ankuzef.ankara.edu.tr",
+    "ad": "ANKUZEF",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /administrator/, /bin/, /cache/, /cli/, /components/, /includes/, /installation/, /language/, /layouts/, /libraries/, /logs/, /modules/, /plugins/, /tmp/, /destek/",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "ankuzem.ankara.edu.tr",
+    "ad": "ANKUZEF",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt erişim hatası: CERT_HAS_EXPIRED",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /administrator/, /bin/, /cache/, /cli/, /components/, /includes/, /installation/, /language/, /layouts/, /libraries/, /logs/, /modules/, /plugins/, /tmp/, /destek/",
+      "Geçerli XML sitemap bulunamadı",
+      "Yönlendirme: https://ankuzef.ankara.edu.tr/tr/; ayrı yayın kaynağı sayılmamalı"
+    ]
+  },
+  {
+    "host": "antos.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Taşıt Kartı Başvuru ANTOS",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 404",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "antropolojidergisi.ankara.edu.tr",
+    "ad": "Antropoloji",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "apam.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Asya-Pasifik Çalışmaları Uygulama ve Araştırma Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "apsis.ankara.edu.tr",
+    "ad": "APSİS",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "aquaculture.agri.ankara.edu.tr",
+    "ad": "Programme of Fisheries and Aquaculture",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "ardek.ankara.edu.tr",
+    "ad": "Araştırma Dekanlığı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": "https://ardek.ankara.edu.tr/haber-duyuru-arsivi/",
+    "duyuru_url": "https://ardek.ankara.edu.tr/haber-duyuru-arsivi/",
+    "etkinlik_url": "https://ardek.ankara.edu.tr/etkinlik-arsivi/",
+    "rss_url": "https://ardek.ankara.edu.tr/feed/",
+    "sitemap_url": "https://ardek.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "ardekilan.ankara.edu.tr",
+    "ad": "Ardek İlan",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "arkeopolitics.ankara.edu.tr",
+    "ad": "Arkeopolitics",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://arkeopolitics.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://arkeopolitics.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://arkeopolitics.ankara.edu.tr/feed/",
+    "sitemap_url": "https://arkeopolitics.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "asos.ankara.edu.tr",
+    "ad": "asos.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": "https://asos.ankara.edu.tr/sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "Angular/özel",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200"
+    ]
+  },
+  {
+    "host": "aspam.ankara.edu.tr",
+    "ad": "Sporda Performans Analizi Uygulama ve Araştırma Merkezi (ASPAM)",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://aspam.ankara.edu.tr/duyurular-2/",
+    "etkinlik_url": "https://aspam.ankara.edu.tr/etkinlikler/",
+    "rss_url": "https://aspam.ankara.edu.tr/feed/",
+    "sitemap_url": "https://aspam.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "aspendosexcavation.ankara.edu.tr",
+    "ad": "Aspendos Projesi",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "astam.ankara.edu.tr",
+    "ad": "Akıllı Sistemler ve Teknolojiler Uygulama ve Araştırma Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "atosis.ankara.edu.tr",
+    "ad": "ATOSIS",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "audk.ankara.edu.tr",
+    "ad": "audk.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.audk.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "austore.ankara.edu.tr",
+    "ad": "austore.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "avicennakimo.medicine.ankara.edu.tr",
+    "ad": "avicennakimo.medicine.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)"
+    ]
+  },
+  {
+    "host": "ayasmyo.ankara.edu.tr",
+    "ad": "Ayaş Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "ayos.ankara.edu.tr",
+    "ad": "Yabancı Uyruklu Öğrenci Sınavı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://ayos.ankara.edu.tr/duyurular/",
+    "etkinlik_url": null,
+    "rss_url": "https://ayos.ankara.edu.tr/feed/",
+    "sitemap_url": "https://ayos.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "bahce.agri.ankara.edu.tr",
+    "ad": "Bahçe Bitkileri Bölümü",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "balamyo.ankara.edu.tr",
+    "ad": "Bala Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": "https://balamyo.ankara.edu.tr/tum-haberler/",
+    "duyuru_url": "https://balamyo.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://balamyo.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://balamyo.ankara.edu.tr/feed/",
+    "sitemap_url": "https://balamyo.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "bds.ankara.edu.tr",
+    "ad": "bds.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "beypazarimyo.ankara.edu.tr",
+    "ad": "Beypazarı Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "bid.ankara.edu.tr",
+    "ad": "Bilgi İşlem Daire Başkanlığı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "bilgitoplulugu.humanity.ankara.edu.tr",
+    "ad": "Bilgi-Sizsiniz",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "bilisimteknolojilerimyo.ankara.edu.tr",
+    "ad": "Bilişim Teknolojileri Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://bilisimteknolojilerimyo.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://bilisimteknolojilerimyo.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://bilisimteknolojilerimyo.ankara.edu.tr/feed/",
+    "sitemap_url": "https://bilisimteknolojilerimyo.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "bitki.agri.ankara.edu.tr",
+    "ad": "Bitki Koruma Bölümü",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "bologna.ankara.edu.tr",
+    "ad": "Bologna Bilgi Sistemi",
+    "tur": "koordinatörlük",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "Angular/özel",
+    "notlar": [
+      "robots.txt HTTP 404",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "bthae.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Banka ve Ticaret Hukuku Araştırma Enstitüsü",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "cc.ankara.edu.tr",
+    "ad": "cc.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: The operation was aborted due to timeout",
+      "Ana sayfa HTTP 0 (The operation was aborted due to timeout)"
+    ]
+  },
+  {
+    "host": "cesur.ankara.edu.tr",
+    "ad": "Süperiletken Teknolojileri Uygulama ve Araştırma Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://cesur.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://cesur.ankara.edu.tr/bilimsel-etkinlikler/",
+    "rss_url": "https://cesur.ankara.edu.tr/feed/",
+    "sitemap_url": "https://cesur.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "cocukendokrinoloji.medicine.ankara.edu.tr",
+    "ad": "Çocuk Endokrinolojisi Bilim Dalı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "cocukuniversitesi.ankara.edu.tr",
+    "ad": "Çocuk Üniversitesi",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "cokaum.ankara.edu.tr",
+    "ad": "Çocuk Kültürü Araştırma ve Uygulama Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "csci.science.ankara.edu.tr",
+    "ad": "Bilgisayar Bilimleri Bölümü",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": "https://csci.science.ankara.edu.tr/tum-haberler/",
+    "duyuru_url": "https://csci.science.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://csci.science.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://csci.science.ankara.edu.tr/feed/",
+    "sitemap_url": "https://csci.science.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "dentistry.ankara.edu.tr",
+    "ad": "dentistry.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.dentistry.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "derece.ankara.edu.tr",
+    "ad": "Derecelendirme Koordinatörlüğü",
+    "tur": "koordinatörlük",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "divinity.ankara.edu.tr",
+    "ad": "divinity.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.divinity.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "dtcf.ankara.edu.tr",
+    "ad": "dtcf.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.dtcf.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "dtds.ankara.edu.tr",
+    "ad": "dtds.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt erişim hatası: The operation was aborted due to timeout",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "e-yadis.ankara.edu.tr",
+    "ad": "e-Yadis",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 404",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "ebb.education.ankara.edu.tr",
+    "ad": "Eğitim Bilimleri Bölümü",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "ebeyas.ankara.edu.tr",
+    "ad": "T.C. Ankara Üniversitesi e-BEYAS",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 404",
+      "Ana sayfa HTTP 200",
+      "Geçerli XML sitemap bulunamadı"
+    ]
+  },
+  {
+    "host": "education.ankara.edu.tr",
+    "ad": "education.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.education.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "eduroam.ankara.edu.tr",
+    "ad": "Eduroam",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "egitim.ankara.edu.tr",
+    "ad": "Eğitim Bilimleri Enstitüsü",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "ekonomi.agri.ankara.edu.tr",
+    "ad": "Tarım Ekonomisi",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "elmadagmyo.ankara.edu.tr",
+    "ad": "Elmadağ Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "eng.ankara.edu.tr",
+    "ad": "eng.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.eng.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "erasmus.ankara.edu.tr",
+    "ad": "erasmus.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.erasmus.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "etkinlik.ankara.edu.tr",
+    "ad": "etkinlik.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "fenbilimleri.ankara.edu.tr",
+    "ad": "Fen Bilimleri Enstitüsü",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "fizyopatoloji.medicine.ankara.edu.tr",
+    "ad": "Fizyopatoloji Bilim Dalı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "fkimya.pharmacy.ankara.edu.tr",
+    "ad": "Farmasötik Kimya Anabilim Dalı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "gamamyo.ankara.edu.tr",
+    "ad": "gamamyo.ankara.edu.tr",
+    "tur": "MYO",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)"
+    ]
+  },
+  {
+    "host": "gazeteankaratip.medicine.ankara.edu.tr",
+    "ad": "GAZETE ANKARA TIP",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "gedam.ankara.edu.tr",
+    "ad": "Gençlik Danışma Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "genelcerrahionkoloji.medicine.ankara.edu.tr",
+    "ad": "Cerrahi Onkoloji Bilim Dalı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "gimre.ankara.edu.tr",
+    "ad": "Girişimsel MR Klinik AR-GE Enstitüsü",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": "https://gimre.ankara.edu.tr/haberler/",
+    "duyuru_url": "https://gimre.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://gimre.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://gimre.ankara.edu.tr/feed/",
+    "sitemap_url": "https://gimre.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "gsf.ankara.edu.tr",
+    "ad": "gsf.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.gsf.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "haymanamyo.ankara.edu.tr",
+    "ad": "Haymana Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "health.ankara.edu.tr",
+    "ad": "Sağlık Bilimleri Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "hidroket.ankara.edu.tr",
+    "ad": "Hidroket Web Sayfası",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "humanity.ankara.edu.tr",
+    "ad": "humanity.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)"
+    ]
+  },
+  {
+    "host": "ilef.ankara.edu.tr",
+    "ad": "ilef.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.ilef.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "imid.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi İdari ve Mali İşler Daire Başkanlığı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "japonoloji.humanity.ankara.edu.tr",
+    "ad": "Japon Dili ve Edebiyatı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "kadinplatformu.ankara.edu.tr",
+    "ad": "Kadın Platformu Koordinatörlüğü",
+    "tur": "koordinatörlük",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://kadinplatformu.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://kadinplatformu.ankara.edu.tr/diger-etkinlikler/",
+    "rss_url": "https://kadinplatformu.ankara.edu.tr/feed/",
+    "sitemap_url": "https://kadinplatformu.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "kalecikmyo.ankara.edu.tr",
+    "ad": "Kalecik Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://kalecikmyo.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://kalecikmyo.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://kalecikmyo.ankara.edu.tr/feed/",
+    "sitemap_url": "https://kalecikmyo.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "kalite.ankara.edu.tr",
+    "ad": "Kalite Koordinatörlüğü",
+    "tur": "koordinatörlük",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "kizilcahamammyo.ankara.edu.tr",
+    "ad": "kizilcahamammyo.ankara.edu.tr",
+    "tur": "MYO",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "kokens.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Kök Hücre Enstitüsü",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "kurumsaliletisim.ankara.edu.tr",
+    "ad": "Kurumsal İletişim",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://kurumsaliletisim.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://kurumsaliletisim.ankara.edu.tr/event-directory/",
+    "rss_url": "https://kurumsaliletisim.ankara.edu.tr/feed/",
+    "sitemap_url": "https://kurumsaliletisim.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "law.ankara.edu.tr",
+    "ad": "law.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.law.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "makina.agri.ankara.edu.tr",
+    "ad": "Tarım Makinaları ve Teknolojileri Mühendisliği",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "medicine.ankara.edu.tr",
+    "ad": "medicine.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.medicine.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "metabolizmateletip.ankara.edu.tr",
+    "ad": "metabolizmateletip.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "midwiferydepartment.nursing.ankara.edu.tr",
+    "ad": "Ebelik Bölümü",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "mydispense.ankara.edu.tr",
+    "ad": "mydispense.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "nallihanmyo.ankara.edu.tr",
+    "ad": "Nallıhan Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "ntp.ankara.edu.tr",
+    "ad": "ntp.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: The operation was aborted due to timeout",
+      "Ana sayfa HTTP 0 (The operation was aborted due to timeout)"
+    ]
+  },
+  {
+    "host": "nursing.ankara.edu.tr",
+    "ad": "Hemşirelik Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "nutrition.health.ankara.edu.tr",
+    "ad": "Beslenme ve Diyetetik Bölümü",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "oibs.ankara.edu.tr",
+    "ad": "oibs.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "oidb.ankara.edu.tr",
+    "ad": "Öğrenci İşleri Daire Başkanlığı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "osbmyo.ankara.edu.tr",
+    "ad": "osbmyo.ankara.edu.tr",
+    "tur": "MYO",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "ozdegerlendirme.ankara.edu.tr",
+    "ad": "ozdegerlendirme.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: The operation was aborted due to timeout",
+      "Ana sayfa HTTP 0 (The operation was aborted due to timeout)"
+    ]
+  },
+  {
+    "host": "pdo.ankara.edu.tr",
+    "ad": "Proje Destek Ofisi",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": "https://pdo.ankara.edu.tr/category/haber/",
+    "duyuru_url": "https://pdo.ankara.edu.tr/category/duyuru/",
+    "etkinlik_url": "https://pdo.ankara.edu.tr/category/etkinlik/",
+    "rss_url": null,
+    "sitemap_url": "https://pdo.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/, /wp-includes/, /ekran/, /feed/, */feed/, /kampus-haritasi/, /veri/, /en/",
+      "robots.txt RSS yolunu engelliyor",
+      "Doğrulanmış RSS/Atom bulunamadı"
+    ]
+  },
+  {
+    "host": "personeldb.ankara.edu.tr",
+    "ad": "Personel Daire Başkanlığı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "peyzaj.agri.ankara.edu.tr",
+    "ad": "Peyzaj Mimarlığı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "pharmacy.ankara.edu.tr",
+    "ad": "pharmacy.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.pharmacy.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "politics.ankara.edu.tr",
+    "ad": "politics.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.politics.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "promotion.ankara.edu.tr",
+    "ad": "Uluslararası Tanıtım ve Marka Koordinatörlüğü",
+    "tur": "koordinatörlük",
+    "canli": true,
+    "haber_url": "https://promotion.ankara.edu.tr/category/news/",
+    "duyuru_url": "https://promotion.ankara.edu.tr/category/announcements/",
+    "etkinlik_url": "https://promotion.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://promotion.ankara.edu.tr/feed/",
+    "sitemap_url": "https://promotion.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "sagbilens.ankara.edu.tr",
+    "ad": "Sağlık Bilimleri Enstitüsü",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "saglikhizmetlerimyo.ankara.edu.tr",
+    "ad": "Sağlık Hizmetleri Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "science.ankara.edu.tr",
+    "ad": "science.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.science.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "sgdb.ankara.edu.tr",
+    "ad": "Strateji Geliştirme Daire Başkanlığı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://sgdb.ankara.edu.tr/eua-duyurulari/",
+    "etkinlik_url": "https://sgdb.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://sgdb.ankara.edu.tr/feed/",
+    "sitemap_url": "https://sgdb.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "siberguvenlikmyo.ankara.edu.tr",
+    "ad": "Siber Güvenlik Meslek Yüksek Okulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": "https://siberguvenlikmyo.ankara.edu.tr/haberler/",
+    "duyuru_url": "https://siberguvenlikmyo.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://siberguvenlikmyo.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://siberguvenlikmyo.ankara.edu.tr/feed/",
+    "sitemap_url": "https://siberguvenlikmyo.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "sirius.ankara.edu.tr",
+    "ad": "sirius.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: The operation was aborted due to timeout",
+      "Ana sayfa HTTP 0 (The operation was aborted due to timeout)"
+    ]
+  },
+  {
+    "host": "sosyalpediatri.medicine.ankara.edu.tr",
+    "ad": "Sosyal Pediatri Bilim Dalı",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "sporbilimleri.ankara.edu.tr",
+    "ad": "sporbilimleri.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)",
+      "www.sporbilimleri.ankara.edu.tr canlı; bu host ayrı içerik sunmuyor."
+    ]
+  },
+  {
+    "host": "su.agri.ankara.edu.tr",
+    "ad": "Su Ürünleri Mühendisliği",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "sut.agri.ankara.edu.tr",
+    "ad": "Süt Teknolojisi Bölümü",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "suyonetimi.ankara.edu.tr",
+    "ad": "Su Yönetimi Enstitüsü",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "tarimbilimleri.agri.ankara.edu.tr",
+    "ad": "Tarım Bilimleri Dergisi",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "tarimsalyapilar.agri.ankara.edu.tr",
+    "ad": "Tarımsal Yapılar ve Sulama",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "tarla.agri.ankara.edu.tr",
+    "ad": "Tarla Bitkileri Bölümü",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "teknikbilimlermyo.ankara.edu.tr",
+    "ad": "Teknik Bilimler Meslek Yüksekokulu",
+    "tur": "MYO",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "tidsinav.ankara.edu.tr",
+    "ad": "tidsinav.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+      "Ana sayfa HTTP 0 (UNABLE_TO_VERIFY_LEAF_SIGNATURE)"
+    ]
+  },
+  {
+    "host": "tite.ankara.edu.tr",
+    "ad": "Türk İnkılap Tarihi Enstitüsü",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://tite.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://tite.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://tite.ankara.edu.tr/feed/",
+    "sitemap_url": "https://tite.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "tomer.ankara.edu.tr",
+    "ad": "TÖMER",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "toplumsalkatki.ankara.edu.tr",
+    "ad": "Toplumsal Katkı Koordinatörlüğü",
+    "tur": "koordinatörlük",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "toprak.agri.ankara.edu.tr",
+    "ad": "Department of Soil Science and Plant Nutrition",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "tyk.ankara.edu.tr",
+    "ad": "Teknofest ve Yarışmalar Koordinatörlüğü",
+    "tur": "koordinatörlük",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "ubf.ankara.edu.tr",
+    "ad": "Uygulamalı Bilimler Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "usaum.ankara.edu.tr",
+    "ad": "Üreme Sağlığı Teşhis, Tedavi, Eğitim, Araştırma ve Uygulama Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": "https://usaum.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://usaum.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://usaum.ankara.edu.tr/feed/",
+    "sitemap_url": "https://usaum.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "uyum.ankara.edu.tr",
+    "ad": "Uyum Programı Koordinatörlüğü",
+    "tur": "koordinatörlük",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "veterinary.ankara.edu.tr",
+    "ad": "veterinary.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "özel/belirsiz",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "Geçerli XML sitemap bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.admissions.ankara.edu.tr",
+    "ad": "www.admissions.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "www.agri.ankara.edu.tr",
+    "ad": "Ziraat Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Rektörlüğü",
+    "tur": "rektörlük",
+    "canli": true,
+    "haber_url": "https://www.ankara.edu.tr/kategori/haberler/1",
+    "duyuru_url": "https://www.ankara.edu.tr/kategori/duyurular/1",
+    "etkinlik_url": "https://www.ankara.edu.tr/kategori/etkinlikler/1",
+    "rss_url": null,
+    "sitemap_url": "https://www.ankara.edu.tr/sitemap.xml",
+    "sitemap_lastmod": true,
+    "cms": "Angular/özel (WordPress medya varlıkları)",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Angular uygulaması; haber HTML yanıtı boş kabuk. Sitemap 2508 URL içeriyor, tüm lastmod değerleri 2026-04-17 ve aynı; artımlı taramada güvenilmez."
+    ]
+  },
+  {
+    "host": "www.audk.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Devlet Konservatuvarı",
+    "tur": "yüksekokul",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.avicennakimo.medicine.ankara.edu.tr",
+    "ad": "www.avicennakimo.medicine.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "www.dentistry.ankara.edu.tr",
+    "ad": "Diş Hekimliği Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.divinity.ankara.edu.tr",
+    "ad": "İlahiyat Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": "https://www.divinity.ankara.edu.tr/tum-haberler/",
+    "duyuru_url": "https://www.divinity.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://www.divinity.ankara.edu.tr/dunya-dinleri-bolumu-etkinlik-galerisi/",
+    "rss_url": "https://www.divinity.ankara.edu.tr/feed/",
+    "sitemap_url": "https://www.divinity.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "www.dtcf.ankara.edu.tr",
+    "ad": "Dil ve Tarih-Coğrafya Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.education.ankara.edu.tr",
+    "ad": "Eğitim Bilimleri Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.eng.ankara.edu.tr",
+    "ad": "Mühendislik Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.erasmus.ankara.edu.tr",
+    "ad": "AB Eğitim Programları Koordinatörlüğü",
+    "tur": "koordinatörlük",
+    "canli": true,
+    "haber_url": "https://www.erasmus.ankara.edu.tr/hakkimizda-2/haberler/",
+    "duyuru_url": "https://www.erasmus.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://www.erasmus.ankara.edu.tr/tum-etkinlikler/",
+    "rss_url": "https://www.erasmus.ankara.edu.tr/feed/",
+    "sitemap_url": "https://www.erasmus.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "www.gamamyo.ankara.edu.tr",
+    "ad": "www.gamamyo.ankara.edu.tr",
+    "tur": "MYO",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ENOTFOUND",
+      "Ana sayfa HTTP 0 (ENOTFOUND)"
+    ]
+  },
+  {
+    "host": "www.gsf.ankara.edu.tr",
+    "ad": "Güzel Sanatlar Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": "https://www.gsf.ankara.edu.tr/tum-haberler/",
+    "duyuru_url": "https://www.gsf.ankara.edu.tr/tum-duyurular/",
+    "etkinlik_url": "https://www.gsf.ankara.edu.tr/category/etkinlik/",
+    "rss_url": "https://www.gsf.ankara.edu.tr/feed/",
+    "sitemap_url": "https://www.gsf.ankara.edu.tr/wp-sitemap.xml",
+    "sitemap_lastmod": false,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /wp-admin/"
+    ]
+  },
+  {
+    "host": "www.health.ankara.edu.tr",
+    "ad": "Sağlık Bilimleri Fakültesi",
+    "tur": "fakülte",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)"
+    ]
+  },
+  {
+    "host": "www.humanity.ankara.edu.tr",
+    "ad": "www.humanity.ankara.edu.tr",
+    "tur": "diğer",
+    "canli": false,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": null,
+    "notlar": [
+      "robots.txt erişim hatası: ECONNREFUSED",
+      "Ana sayfa HTTP 0 (ECONNREFUSED)"
+    ]
+  },
+  {
+    "host": "www.ilef.ankara.edu.tr",
+    "ad": "İletişim Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.law.ankara.edu.tr",
+    "ad": "Hukuk Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.medicine.ankara.edu.tr",
+    "ad": "Ankara Üniversitesi Tıp Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.pharmacy.ankara.edu.tr",
+    "ad": "Eczacılık Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.politics.ankara.edu.tr",
+    "ad": "Siyasal Bilgiler Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.science.ankara.edu.tr",
+    "ad": "Fen Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.sporbilimleri.ankara.edu.tr",
+    "ad": "Spor Bilimleri Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "www.veterinary.ankara.edu.tr",
+    "ad": "Veteriner Fakültesi",
+    "tur": "fakülte",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "yabdil.ankara.edu.tr",
+    "ad": "Yabancı Diller Yüksekokulu",
+    "tur": "yüksekokul",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "yebim.ankara.edu.tr",
+    "ad": "Yer Bilimleri Uygulama Ve Araştırma Merkezi",
+    "tur": "araştırma merkezi",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "yze.ankara.edu.tr",
+    "ad": "Yapay Zeka Enstitüsü",
+    "tur": "enstitü",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  },
+  {
+    "host": "zootekni.agri.ankara.edu.tr",
+    "ad": "Zootekni",
+    "tur": "diğer",
+    "canli": true,
+    "haber_url": null,
+    "duyuru_url": null,
+    "etkinlik_url": null,
+    "rss_url": null,
+    "sitemap_url": null,
+    "sitemap_lastmod": null,
+    "cms": "WordPress",
+    "notlar": [
+      "robots.txt HTTP 200",
+      "Ana sayfa HTTP 200",
+      "robots.txt Disallow: /, /cgi-bin/",
+      "robots.txt RSS yolunu engelliyor",
+      "Geçerli XML sitemap bulunamadı",
+      "Doğrulanmış RSS/Atom bulunamadı",
+      "Tüm içerik yolu robots.txt ile yasak; kaynak URL’leri taranmadı. Crawler taramamalı."
+    ]
+  }
+]

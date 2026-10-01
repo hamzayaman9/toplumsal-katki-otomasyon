@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toplumsal Katkı Paneli</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7;
+    --surface: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --muted: #898781;
+    --grid: #e1e0d9;
+    --axis: #c3c2b7;
+    --border: rgba(11, 11, 11, 0.10);
+    --series-1: #2a78d6;
+    --series-1-soft: #cde2fb;
+    --good: #0ca30c;
+    --good-ink: #006300;
+    --critical: #d03b3b;
+    --hover: rgba(11, 11, 11, 0.04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10);
+      --series-1: #3987e5; --series-1-soft: #184f95; --good-ink: #0ca30c; --critical: #e66767;
+      --hover: rgba(255, 255, 255, 0.05);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10);
+    --series-1: #3987e5; --series-1-soft: #184f95; --good-ink: #0ca30c; --critical: #e66767;
+    --hover: rgba(255, 255, 255, 0.05);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 24px 16px 64px; }
+  header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 20px; }
+  h1 { font-size: 20px; margin: 0; font-weight: 650; }
+  .sub { color: var(--ink-2); font-size: 13px; }
+  h2 { font-size: 14px; font-weight: 600; margin: 0 0 12px; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  select, input[type=search] {
+    font: inherit; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; min-width: 0;
+  }
+  input[type=search] { flex: 1 1 220px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 12px; }
+  .kpi .label { color: var(--ink-2); font-size: 13px; }
+  .kpi .value { font-size: 30px; font-weight: 650; margin-top: 2px; }
+  .kpi .note { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 12px; margin-bottom: 12px; }
+  @media (max-width: 440px) { .grid2 { grid-template-columns: 1fr; } }
+
+  /* yatay çubuk */
+  .hbar { display: grid; grid-template-columns: minmax(90px, 42%) 1fr; gap: 6px 10px; align-items: center; }
+  .hbar .lab { color: var(--ink-2); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .hbar .track { display: flex; align-items: center; gap: 6px; min-height: 22px; cursor: pointer; border-radius: 4px; }
+  .hbar .track:hover .bar { filter: brightness(1.1); }
+  .hbar .bar { height: 14px; background: var(--series-1); border-radius: 0 4px 4px 0; min-width: 2px; }
+  .hbar .val { color: var(--ink); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .hbar .row.active .lab { color: var(--ink); font-weight: 600; }
+
+  /* aylık sütun */
+  .cols { display: flex; align-items: flex-end; gap: 6px; height: 170px; border-bottom: 1px solid var(--axis); padding-top: 18px; }
+  .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; position: relative; cursor: default; }
+  .col .c { width: 100%; max-width: 36px; background: var(--series-1); border-radius: 4px 4px 0 0; min-height: 1px; }
+  .col .v { font-size: 11px; color: var(--ink-2); margin-bottom: 3px; font-variant-numeric: tabular-nums; }
+  .colx { display: flex; gap: 6px; margin-top: 6px; }
+  .colx span { flex: 1; text-align: center; font-size: 11px; color: var(--muted); }
+
+  #tip {
+    position: fixed; pointer-events: none; z-index: 10; display: none;
+    background: var(--surface); color: var(--ink); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,.12); max-width: 280px;
+  }
+  #tip b { font-weight: 600; }
+
+  /* tablo */
+  .tablehead { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-weight: 600; color: var(--ink-2); padding: 8px; border-bottom: 1px solid var(--axis); white-space: nowrap; }
+  td { padding: 10px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+  tr:hover td { background: var(--hover); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td a { color: var(--ink); text-decoration: none; font-weight: 550; }
+  td a:hover { text-decoration: underline; }
+  .ozet { color: var(--ink-2); margin-top: 3px; }
+  .meta { color: var(--muted); font-size: 12px; margin-top: 3px; }
+  .chip { display: inline-block; border: 1px solid var(--border); border-radius: 999px; padding: 0 7px; font-size: 11px; color: var(--ink-2); margin: 0 3px 3px 0; }
+  .nowrap { white-space: nowrap; }
+  .lbl { display: inline-flex; gap: 4px; }
+  .lbl button {
+    font: inherit; font-size: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--ink-2);
+    border-radius: 6px; padding: 3px 8px; cursor: pointer;
+  }
+  .lbl button:hover { background: var(--hover); }
+  .lbl button.on-yes { border-color: var(--good); color: var(--good-ink); font-weight: 600; }
+  .lbl button.on-no { border-color: var(--critical); color: var(--critical); font-weight: 600; }
+  .ai { font-size: 12px; }
+  .ai.yes { color: var(--good-ink); }
+  .ai.no { color: var(--muted); }
+  .more { margin-top: 12px; text-align: center; }
+  .more button { font: inherit; border: 1px solid var(--border); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 7px 14px; cursor: pointer; }
+  .empty { color: var(--muted); padding: 16px 0; }
+  .clear { font-size: 12px; color: var(--series-1); cursor: pointer; background: none; border: 0; padding: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Toplumsal Katkı Paneli</h1>
+      <div class="sub" id="scope-title">Türkiye geneli · otomatik taranan haber, duyuru ve etkinlikler</div>
+    </div>
+    <div class="sub"><span id="sontarama"></span> · <a href="/canli" style="color:var(--series-1)">Canlı süreci izle →</a></div>
+  </header>
+
+  <div class="filters">
+    <select id="f-gun" aria-label="Dönem">
+      <option value="30">Son 30 gün</option>
+      <option value="90">Son 90 gün</option>
+      <option value="365">Son 1 yıl</option>
+      <option value="">Tüm kayıtlar</option>
+    </select>
+    <select id="f-org-type" aria-label="Kurum türü"><option value="">Tüm kurum türleri</option></select>
+    <select id="f-org" aria-label="Kurum"><option value="">Tüm kurumlar</option></select>
+    <select id="f-birim" aria-label="Birim"><option value="">Tüm birimler</option></select>
+  </div>
+
+  <section class="kpis">
+    <div class="card kpi"><div class="label">Taranan kayıt</div><div class="value" id="k-toplam">–</div><div class="note" id="k-toplam-n"></div></div>
+    <div class="card kpi"><div class="label">Toplumsal katkı</div><div class="value" id="k-katki">–</div><div class="note" id="k-katki-n"></div></div>
+    <div class="card kpi"><div class="label">İnceleme bekleyen</div><div class="value" id="k-inceleme">–</div><div class="note">güveni 0,7'nin altındaki katkılar</div></div>
+    <div class="card kpi"><div class="label">Sınıflandırma maliyeti</div><div class="value" id="k-maliyet">–</div><div class="note" id="k-maliyet-n"></div></div>
+  </section>
+
+  <section class="grid2">
+    <div class="card"><h2>Kategoriye göre katkılar</h2><div class="hbar" id="c-kategori"></div></div>
+    <div class="card"><h2>Aylık katkı sayısı</h2><div id="c-aylik"></div></div>
+  </section>
+  <section class="grid2">
+    <div class="card"><h2>En çok katkı üreten birimler</h2><div class="hbar" id="c-birim"></div></div>
+    <div class="card"><h2>Sürdürülebilir Kalkınma Amaçları (SDG)</h2><div class="hbar" id="c-sdg"></div></div>
+  </section>
+
+  <section class="card">
+    <div class="tablehead">
+      <h2 style="margin:0">Kayıtlar <span class="sub" id="t-say"></span></h2>
+      <div class="filters" style="margin:0; flex: 1 1 520px; justify-content:flex-end">
+        <select id="f-durum" aria-label="Durum">
+          <option value="katki">Toplumsal katkı</option>
+          <option value="inceleme">İnceleme bekleyen</option>
+          <option value="hepsi">Hepsi</option>
+          <option value="siniflanmamis">Sınıflandırılmamış</option>
+        </select>
+        <select id="f-kategori" aria-label="Kategori"><option value="">Tüm kategoriler</option></select>
+        <input type="search" id="f-q" placeholder="Başlık veya özette ara…">
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Tarih</th><th>Kurum</th><th>Birim</th><th>Başlık ve özet</th><th>Kategori</th><th class="num">Güven</th><th>Karar</th></tr></thead>
+        <tbody id="t-body"></tbody>
+      </table>
+    </div>
+    <div class="more"><button id="t-more" hidden>Daha fazla göster</button></div>
+  </section>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const fmt = new Intl.NumberFormat("tr-TR");
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const SDG = {1:"Yoksulluğa son",2:"Açlığa son",3:"Sağlık ve kaliteli yaşam",4:"Nitelikli eğitim",5:"Toplumsal cinsiyet eşitliği",
+  6:"Temiz su ve sanitasyon",7:"Erişilebilir ve temiz enerji",8:"İnsana yakışır iş ve ekonomik büyüme",9:"Sanayi, yenilikçilik ve altyapı",
+  10:"Eşitsizliklerin azaltılması",11:"Sürdürülebilir şehirler",12:"Sorumlu üretim ve tüketim",13:"İklim eylemi",14:"Sudaki yaşam",
+  15:"Karasal yaşam",16:"Barış, adalet ve güçlü kurumlar",17:"Amaçlar için ortaklıklar"};
+const ORG_TYPES = {devlet_universitesi:"Devlet üniversitesi", vakif_universitesi:"Vakıf üniversitesi",
+  kamu_kurumu:"Kamu kurumu", vakif:"Vakıf", dernek:"Dernek", stk_diger:"Diğer STK"};
+let state = { sayfa: 1 };
+
+// --- tooltip
+const tip = $("tip");
+function showTip(e, html) { tip.innerHTML = html; tip.style.display = "block"; moveTip(e); }
+function moveTip(e) {
+  const pad = 14, r = tip.getBoundingClientRect();
+  let x = e.clientX + pad, y = e.clientY + pad;
+  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - pad;
+  if (y + r.height > innerHeight - 8) y = e.clientY - r.height - pad;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+function hideTip() { tip.style.display = "none"; }
+
+function params(extra = {}) {
+  const p = new URLSearchParams();
+  const gun = $("f-gun").value, birim = $("f-birim").value;
+  if (gun) p.set("gun", gun);
+  if (birim) p.set("birim", birim);
+  if ($("f-org-type").value) p.set("org_type", $("f-org-type").value);
+  if ($("f-org").value) p.set("org", $("f-org").value);
+  for (const [k, v] of Object.entries(extra)) if (v !== "" && v != null) p.set(k, v);
+  return p.toString();
+}
+
+// --- yatay çubuk
+function hbar(el, rows, { total, label = (r) => r[0], onClick, active } = {}) {
+  el.innerHTML = "";
+  if (!rows.length) { el.innerHTML = '<div class="empty" style="grid-column:1/-1">Bu dönemde kayıt yok</div>'; return; }
+  const max = Math.max(...rows.map((r) => r[1]));
+  for (const r of rows) {
+    const name = label(r);
+    const lab = document.createElement("div");
+    lab.className = "lab"; lab.textContent = name; lab.title = name;
+    const track = document.createElement("div");
+    track.className = "track";
+    track.innerHTML = `<div class="bar" style="width:${(r[1] / max) * 88}%"></div><span class="val">${fmt.format(r[1])}</span>`;
+    const share = total ? ` · %${Math.round((r[1] / total) * 100)}` : "";
+    track.addEventListener("mouseenter", (e) => showTip(e, `<b>${esc(name)}</b><br>${fmt.format(r[1])} katkı${share}`));
+    track.addEventListener("mousemove", moveTip);
+    track.addEventListener("mouseleave", hideTip);
+    if (onClick) track.addEventListener("click", () => onClick(r));
+    if (active && active === r[0]) { lab.style.color = "var(--ink)"; lab.style.fontWeight = 600; }
+    el.append(lab, track);
+  }
+}
+
+// --- aylık sütun
+function columns(el, rows) {
+  if (!rows.length) { el.innerHTML = '<div class="empty">Bu dönemde kayıt yok</div>'; return; }
+  const max = Math.max(1, ...rows.map((r) => r[1]));
+  const ay = (m) => new Date(m + "-01").toLocaleDateString("tr-TR", { month: "short", year: "2-digit" });
+  el.innerHTML = `<div class="cols">${rows.map((r) =>
+    `<div class="col" data-m="${r[0]}"><span class="v">${r[1] || ""}</span><div class="c" style="height:${(r[1] / max) * 82}%"></div></div>`).join("")}</div>
+    <div class="colx">${rows.map((r) => `<span>${ay(r[0])}</span>`).join("")}</div>`;
+  el.querySelectorAll(".col").forEach((c, i) => {
+    const [m, k, t] = rows[i];
+    c.addEventListener("mouseenter", (e) => showTip(e,
+      `<b>${new Date(m + "-01").toLocaleDateString("tr-TR", { month: "long", year: "numeric" })}</b><br>` +
+      `${fmt.format(k)} katkı / ${fmt.format(t)} sınıflandırılan kayıt<br>Oran: %${t ? Math.round((k / t) * 100) : 0}`));
+    c.addEventListener("mousemove", moveTip);
+    c.addEventListener("mouseleave", hideTip);
+  });
+}
+
+async function loadSummary() {
+  const d = await (await fetch("/api/ozet?" + params())).json();
+  $("k-toplam").textContent = fmt.format(d.toplam);
+  $("k-toplam-n").textContent = `${fmt.format(d.siniflanan)} tanesi sınıflandırıldı`;
+  $("k-katki").textContent = fmt.format(d.katki);
+  $("k-katki-n").textContent = d.siniflanan ? `sınıflandırılanların %${((d.katki / d.siniflanan) * 100).toFixed(1).replace(".", ",")}'i` : "";
+  $("k-inceleme").textContent = fmt.format(d.onay_bekleyen);
+  $("k-maliyet").textContent = "$" + d.maliyet_usd.toFixed(2).replace(".", ",");
+  $("k-maliyet-n").textContent = d.maliyet_olculen ? `${fmt.format(d.maliyet_olculen)} kaydın ölçümü · kayıt başı $${(d.maliyet_usd / d.maliyet_olculen).toFixed(5)}` : "henüz ölçüm yok";
+  $("sontarama").textContent = d.son_tarama ? "Son tarama: " + new Date(d.son_tarama).toLocaleString("tr-TR") : "";
+
+  hbar($("c-kategori"), d.kategori, { total: d.katki, active: $("f-kategori").value,
+    onClick: (r) => { $("f-kategori").value = $("f-kategori").value === r[0] ? "" : r[0]; $("f-durum").value = "katki"; reloadTable(); loadSummary(); } });
+  hbar($("c-birim"), d.birim, { total: d.katki });
+  hbar($("c-sdg"), d.sdg.sort((a, b) => b[1] - a[1]).slice(0, 10), { total: d.katki, label: (r) => `SDG ${r[0]} · ${SDG[r[0]] ?? ""}` });
+  columns($("c-aylik"), d.aylik);
+
+  const sel = $("f-kategori"), cur = sel.value;
+  sel.innerHTML = '<option value="">Tüm kategoriler</option>' + d.kategori.map((k) => `<option>${esc(k[0])}</option>`).join("");
+  sel.value = cur;
+}
+
+function decisionCell(r) {
+  if (r.katki === null) return '<span class="meta">sınıflandırılmadı</span>';
+  const ai = r.katki ? '<span class="ai yes">AI: katkı</span>' : '<span class="ai no">AI: değil</span>';
+  return `${ai}<div class="lbl" style="margin-top:4px">
+    <button data-id="${r.id}" data-v="true" class="${r.insan === true ? "on-yes" : ""}" title="Toplumsal katkıdır">✓ Katkı</button>
+    <button data-id="${r.id}" data-v="false" class="${r.insan === false ? "on-no" : ""}" title="Toplumsal katkı değildir">✗ Değil</button></div>`;
+}
+
+async function loadTable(append = false) {
+  const d = await (await fetch("/api/kayitlar?" + params({
+    q: $("f-q").value.trim(), durum: $("f-durum").value, kategori: $("f-kategori").value, sayfa: state.sayfa,
+  }))).json();
+  $("t-say").textContent = `· ${fmt.format(d.toplam)} kayıt`;
+  const html = d.kayitlar.map((r) => `<tr>
+    <td class="nowrap">${r.tarih ? new Date(r.tarih).toLocaleDateString("tr-TR") : "–"}</td>
+    <td>${esc(r.kurum)}</td>
+    <td>${esc(r.birim)}</td>
+    <td><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.baslik)}</a>
+      ${r.ozet ? `<div class="ozet">${esc(r.ozet)}</div>` : ""}
+      <div class="meta">${r.faaliyet ? esc(r.faaliyet) : ""}${r.paydaslar?.length ? " · Paydaşlar: " + esc(r.paydaslar.join(", ")) : ""}</div>
+      ${r.sdg?.length ? `<div style="margin-top:4px">${r.sdg.map((s) => `<span class="chip" title="${esc(SDG[s])}">SDG ${s}</span>`).join("")}</div>` : ""}</td>
+    <td>${esc(r.kategori ?? "–")}</td>
+    <td class="num">${r.guven != null ? r.guven.toFixed(2).replace(".", ",") : "–"}</td>
+    <td class="nowrap">${decisionCell(r)}</td></tr>`).join("");
+  $("t-body").innerHTML = (append ? $("t-body").innerHTML : "") + (html || (append ? "" : '<tr><td colspan="7" class="empty">Kayıt bulunamadı</td></tr>'));
+  $("t-more").hidden = state.sayfa * 50 >= d.toplam;
+}
+
+function reloadTable() { state.sayfa = 1; loadTable(); }
+
+$("t-body").addEventListener("click", async (e) => {
+  const b = e.target.closest("button[data-id]");
+  if (!b) return;
+  const on = b.classList.contains("on-yes") || b.classList.contains("on-no");
+  const etiket = on ? null : b.dataset.v === "true";
+  await fetch(`/api/etiket/${b.dataset.id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ etiket }) });
+  const pair = b.parentElement.querySelectorAll("button");
+  pair.forEach((x) => x.classList.remove("on-yes", "on-no"));
+  if (etiket !== null) b.classList.add(etiket ? "on-yes" : "on-no");
+  loadSummary();
+});
+$("t-more").addEventListener("click", () => { state.sayfa++; loadTable(true); });
+for (const id of ["f-gun", "f-birim"]) $(id).addEventListener("change", () => { loadSummary(); reloadTable(); });
+function updateScope() {
+  const org = $("f-org").value, kind = $("f-org-type").value;
+  $("scope-title").textContent = `${org || ORG_TYPES[kind] || "Türkiye geneli"} · otomatik taranan haber, duyuru ve etkinlikler`;
+}
+async function loadOrganizations() {
+  const kind = $("f-org-type").value;
+  const rows = await (await fetch("/api/kurumlar?" + new URLSearchParams({org_type:kind}))).json();
+  const sel = $("f-org");
+  sel.innerHTML = '<option value="">Tüm kurumlar</option>' + rows.map((r) =>
+    `<option value="${esc(r.org)}">${esc(r.org)} (${r.kaynak})</option>`).join("");
+  updateScope();
+}
+async function loadUnits() {
+  const query = new URLSearchParams({org_type:$("f-org-type").value, org:$("f-org").value});
+  const rows = await (await fetch("/api/birimler?" + query)).json();
+  $("f-birim").innerHTML = '<option value="">Tüm birimler</option>' + rows.map((b) =>
+    `<option value="${b.id}">${esc(b.kurum)} · ${esc(b.ad)} (${b.kayit})</option>`).join("");
+}
+$("f-org-type").addEventListener("change", async () => {
+  await loadOrganizations(); await loadUnits(); loadSummary(); reloadTable();
+});
+$("f-org").addEventListener("change", async () => {
+  updateScope(); await loadUnits(); loadSummary(); reloadTable();
+});
+for (const id of ["f-durum", "f-kategori"]) $(id).addEventListener("change", () => { reloadTable(); if (id === "f-kategori") loadSummary(); });
+let t; $("f-q").addEventListener("input", () => { clearTimeout(t); t = setTimeout(reloadTable, 250); });
+
+(async () => {
+  const kurumlar = await (await fetch("/api/kurumlar")).json();
+  const types = [...new Set(kurumlar.map((r) => r.org_type).filter(Boolean))].sort();
+  $("f-org-type").innerHTML += types.map((t) => `<option value="${esc(t)}">${esc(ORG_TYPES[t] || t)}</option>`).join("");
+  await loadOrganizations(); await loadUnits();
+  loadSummary(); loadTable();
+})();
+</script>
+</body>
+</html>
