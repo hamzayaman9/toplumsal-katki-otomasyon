@@ -29,9 +29,14 @@ class Settings:
     openrouter_api_key: str | None = os.getenv("OPENROUTER_API_KEY")
     llm_model: str = os.getenv("LLM_MODEL", "typesafe/jev-router")
     llm_reasoning: str = os.getenv("LLM_REASONING", "off")  # off: akıl yürütme kapalı | on: model varsayılanı
-    # jev: kararlar Jev'den, özet/paydaş yalnız katkılar için LLM'den | llm: her şey LLM'den (eski yöntem)
+    # jev: kararlar Jev'den | laya: kararlar yerel Laya'dan (belirsizler Jev'e); ikisinde de özet/paydaş
+    # yalnız katkılar için LLM'den | llm: her şey LLM'den (eski yöntem)
     classifier: str = os.getenv("CLASSIFIER", "jev")
     jev_model: str = os.getenv("JEV_MODEL", "typesafe/jev-1.13")
+    # laya: kararlar yerel Laya'dan (boşsa models/ altındaki en yeni laya-katki-tr-v*);
+    # güveni bu eşiğin altındaki soru setleri Jev'e sorulur (0: hiç sorma)
+    laya_model: str = os.getenv("LAYA_MODEL", "")
+    laya_yedek_esigi: float = float(os.getenv("LAYA_YEDEK_ESIGI", "0.75"))
     user_agent: str = os.getenv(
         "USER_AGENT", "AU-ToplumsalKatki-Bot/0.1 (+Ankara Universitesi Toplumsal Katki Koordinatorlugu)"
     )

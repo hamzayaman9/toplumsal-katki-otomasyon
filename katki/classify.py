@@ -9,7 +9,7 @@ from sqlalchemy import func, select
 from .config import settings
 from .db import Article, Classification, Session, Source
 from .events import EventFn, noop
-from .jev import decide
+from . import jev as jev_model, laya
 from .llm import LLMError, Usage, chat_json
 from .sorular import BOLGE_ILLERI, BOLGE_SORUSU, KARAR_SORULARI, FaaliyetTuru, Kategori, il_sorusu
 
@@ -47,6 +47,18 @@ SYSTEM = (
 
 JEV_QUESTIONS = KARAR_SORULARI
 KATKI_ESIGI = 0.5
+
+
+async def decide(state: dict, questions: dict):
+    """Karar modeli: CLASSIFIER=laya ise yerel Laya (belirsizler Jev'e), değilse Jev."""
+    if settings.classifier == "laya":
+        return await laya.decide(state, questions)
+    return await jev_model.decide(state, questions)
+
+
+def _katki_esigi(model: str) -> float:
+    # Laya'nın kendi eşiği calib'de seçildi; Jev'e düşen kayıtlarda Jev'in 0,5'i geçerli
+    return laya.esikler().get("katki", KATKI_ESIGI) if model.startswith("laya-") and "→" not in model else KATKI_ESIGI
 
 
 class KatkiDetay(BaseModel):
@@ -101,12 +113,12 @@ async def konum_sor(state: dict) -> tuple[dict, dict, Usage]:
 
 
 async def _classify_jev(article: Article) -> tuple[dict, str, Usage, int]:
-    """Kararlar Jev'den; katkıysa özet/paydaş LLM'den. (alanlar, model, kullanım, girdi_karakter)"""
+    """Kararlar Jev'den ya da Laya'dan; katkıysa özet/paydaş LLM'den. (alanlar, model, kullanım, girdi_karakter)"""
     state = _state(article)
     jev = await decide(state, JEV_QUESTIONS)
     a = jev.answers
     p = float(a["katki"]["noul"])
-    katki = p >= KATKI_ESIGI
+    katki = p >= _katki_esigi(jev.model)
     fields = {
         "is_contribution": katki,
         "confidence": max(p, 1 - p),  # verilen kararın olasılığı
@@ -195,7 +207,7 @@ async def classify_pending(
     failed_cost = 0.0
     on_event("siniflandirma_basladi", adet=len(articles))
 
-    classify_one = _classify_jev if settings.classifier == "jev" else _classify_llm
+    classify_one = _classify_jev if settings.classifier in ("jev", "laya") else _classify_llm
 
     async def one(article: Article) -> Classification | None:
         nonlocal failed_cost
