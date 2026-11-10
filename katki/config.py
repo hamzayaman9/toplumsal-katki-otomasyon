@@ -33,6 +33,9 @@ class Settings:
     # yalnız katkılar için LLM'den | llm: her şey LLM'den (eski yöntem)
     classifier: str = os.getenv("CLASSIFIER", "jev")
     jev_model: str = os.getenv("JEV_MODEL", "typesafe/jev-1.13")
+    # 1: katkılar için özet/SDG/paydaş adlarını ayrıca LLM'den al | 0 (varsayılan): her şey Jev'in
+    # tek isteğindeki sorulardan (konu, SDG, hedef kitle, paydaş türü); özet üretilmez
+    llm_detay: bool = os.getenv("LLM_DETAY", "0") == "1"
     # laya: kararlar yerel Laya'dan (boşsa models/ altındaki en yeni laya-katki-tr-v*);
     # güveni bu eşiğin altındaki soru setleri Jev'e sorulur (0: hiç sorma)
     laya_model: str = os.getenv("LAYA_MODEL", "")

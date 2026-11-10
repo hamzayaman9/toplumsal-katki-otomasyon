@@ -278,7 +278,10 @@ async def crawl_source(fetcher: Fetcher, source: Source, limit: int, known_urls:
 
 
 async def crawl_all(hosts: list[str] | None = None, limit: int = 20, on_event: EventFn = noop,
-                    recheck_known: bool = False) -> CrawlRun:
+                    recheck_known: bool = False, sonra: datetime | None = None) -> CrawlRun:
+    """sonra: verilirse yayın tarihi bundan önce olan kayıtlar atlanır (tarihi bilinmeyenler alınır)."""
+    if sonra is not None and sonra.tzinfo is None:
+        sonra = sonra.replace(tzinfo=timezone.utc)  # SQLite saat dilimsiz saklar; UTC yazıyoruz
     fetcher = Fetcher()
     try:
         with Session() as session:
@@ -318,6 +321,10 @@ async def crawl_all(hosts: list[str] | None = None, limit: int = 20, on_event: E
                 run.sources_ok += 1
                 added = []
                 for item in result:
+                    if sonra is not None and item.published_at is not None:
+                        pub = item.published_at if item.published_at.tzinfo else item.published_at.replace(tzinfo=timezone.utc)
+                        if pub < sonra:
+                            continue
                     url = canonical_url(item.url)
                     digest = content_hash(item.title, item.text)
                     if url in known_urls or digest in known_hashes:

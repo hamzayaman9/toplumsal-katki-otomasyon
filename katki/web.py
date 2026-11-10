@@ -114,7 +114,8 @@ def ozet(gun: int | None = None, birim: int | None = None,
         base = _period_filter(
             select(Article.source_id, Article.published_at, Source.org, Classification.id.label("cid"),
                    Classification.is_contribution, Classification.category, Classification.sdgs,
-                   Classification.activity_type, Classification.human_label, Classification.confidence)
+                   Classification.activity_type, Classification.human_label, Classification.confidence,
+                   Classification.konular)
             .join(Source).outerjoin(Classification),
             gun,
         )
@@ -126,6 +127,7 @@ def ozet(gun: int | None = None, birim: int | None = None,
 
         kategori = Counter(c.category or "Belirtilmemiş" for c in katki)
         sdg = Counter(n for c in katki for n in (c.sdgs or []))
+        konu = Counter(k for c in katki for k in (c.konular or []))
         faaliyet = Counter(c.activity_type or "Belirtilmemiş" for c in katki)
         birim_say = Counter(c.source_id for c in katki)
         aylik_toplam = Counter(r.published_at.strftime("%Y-%m") for r in siniflanan if r.published_at)
@@ -145,6 +147,7 @@ def ozet(gun: int | None = None, birim: int | None = None,
             "kategori": kategori.most_common(),
             "faaliyet": faaliyet.most_common(),
             "sdg": sorted(sdg.items()),
+            "konu": konu.most_common(),
             "birim": [(names.get(i, str(i)), n) for i, n in birim_say.most_common(10)],
             "aylik": [(m, aylik_katki.get(m, 0), aylik_toplam[m]) for m in aylar],
         }
@@ -420,6 +423,8 @@ def kayitlar(
                     "faaliyet": c.activity_type if c else None,
                     "sdg": c.sdgs if c else [],
                     "paydaslar": c.partners if c else [],
+                    "konular": (c.konular or []) if c else [],
+                    "hedef_kitle": (c.beneficiaries or []) if c else [],
                     "ozet": c.summary if c else None,
                     "insan": c.human_label if c else None,
                     "konum": (c.il or c.bolge) if c else None,

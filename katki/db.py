@@ -84,6 +84,7 @@ class Classification(Base):
     beneficiaries: Mapped[list] = mapped_column(JSON, default=list)
     partners: Mapped[list] = mapped_column(JSON, default=list)
     summary: Mapped[str | None] = mapped_column(Text)
+    konular: Mapped[list | None] = mapped_column(JSON, default=list)  # Jev konu etiketleri (her habere)
     # faaliyetin yeri: bolge = 7 bölgeden biri ya da Türkiye geneli / Yurt dışı / Çevrimiçi; il yalnız tek bölgede
     bolge: Mapped[str | None] = mapped_column(String(50))
     il: Mapped[str | None] = mapped_column(String(50))

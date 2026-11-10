@@ -242,6 +242,7 @@
     </section>
     <section class="grid2">
       <div class="card"><h2>En çok katkı üreten birimler</h2><div class="hbar" id="c-birim"></div></div>
+      <div class="card"><h2>Konulara göre katkılar</h2><div class="hbar" id="c-konu"></div></div>
     </section>
 
     <section class="card">
@@ -457,8 +458,8 @@ function recordTable(prefix, { kategori, il } = {}) {
       <td>${esc(r.birim)}</td>
       <td><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.baslik)}</a>
         ${r.ozet ? `<div class="ozet">${esc(r.ozet)}</div>` : ""}
-        <div class="meta">${r.faaliyet ? esc(r.faaliyet) : ""}${r.paydaslar?.length ? " · Paydaşlar: " + esc(r.paydaslar.join(", ")) : ""}</div>
-        ${r.sdg?.length ? `<div style="margin-top:4px">${r.sdg.map((s) => `<span class="chip" title="${esc(SDG[s])}">SDG ${s}</span>`).join("")}</div>` : ""}</td>
+        <div class="meta">${r.faaliyet ? esc(r.faaliyet) : ""}${r.paydaslar?.length ? " · Paydaşlar: " + esc(r.paydaslar.join(", ")) : ""}${r.hedef_kitle?.length ? " · Hedef kitle: " + esc(r.hedef_kitle.join(", ")) : ""}</div>
+        ${r.konular?.length || r.sdg?.length ? `<div style="margin-top:4px">${(r.konular || []).map((k) => `<span class="chip">${esc(k)}</span>`).join("")}${(r.sdg || []).map((s) => `<span class="chip" title="${esc(SDG[s])}">SDG ${s}</span>`).join("")}</div>` : ""}</td>
       <td>${esc(r.kategori ?? "–")}</td>
       <td class="num">${r.guven != null ? r.guven.toFixed(2).replace(".", ",") : "–"}</td>
       <td class="nowrap">${decisionCell(r)}</td></tr>`).join("");
@@ -572,6 +573,7 @@ async function loadKatkilar() {
     onClick: (r) => { $("f-kategori").value = $("f-kategori").value === r[0] ? "" : r[0]; $("tk-durum").value = "katki"; loadKatkilar(); } });
   hbar($("c-faaliyet"), d.faaliyet, { total: d.katki });
   hbar($("c-birim"), d.birim, { total: d.katki });
+  hbar($("c-konu"), (d.konu || []).slice(0, 12), { total: d.katki });
   hbar($("c-sdg"), d.sdg.sort((a, b) => b[1] - a[1]).slice(0, 10), { total: d.katki, label: (r) => `SDG ${r[0]} · ${SDG[r[0]] ?? ""}` });
   columns($("c-aylik"), d.aylik, { tipHtml: ([, k, t]) =>
     `${fmt.format(k)} katkı / ${fmt.format(t)} sınıflandırılan kayıt<br>Oran: %${t ? Math.round((k / t) * 100) : 0}` });

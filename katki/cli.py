@@ -118,10 +118,24 @@ def _events() -> Forwarder:
     return _forwarder
 
 
+def _son_tarama():
+    """Son tamamlanan taramanın başlangıç zamanı (yoksa None)."""
+    from sqlalchemy import select
+
+    from .db import CrawlRun, Session
+
+    with Session() as s:
+        return s.scalar(select(CrawlRun.started_at).where(CrawlRun.finished_at.is_not(None))
+                        .order_by(CrawlRun.started_at.desc()).limit(1))
+
+
 def cmd_crawl(args) -> None:
     init_db()
     ev = _events()
-    run = asyncio.run(crawl_all(args.host or None, args.limit, on_event=ev))
+    sonra = _son_tarama() if getattr(args, "son_taramadan_sonra", False) else None
+    if sonra:
+        print(f"Yalnız {sonra:%Y-%m-%d %H:%M} (UTC) sonrası yayımlananlar alınacak")
+    run = asyncio.run(crawl_all(args.host or None, args.limit, on_event=ev, sonra=sonra))
     print(f"Tarama: {run.sources_ok} site başarılı, {run.sources_failed} hatalı, {run.new_articles} yeni kayıt")
     ev.flush()
     return run
@@ -220,6 +234,7 @@ def cmd_export(args) -> None:
                 "guven": None if c is None else c.confidence,
                 "kategori": c.category if c else None,
                 "faaliyet_turu": c.activity_type if c else None,
+                "konular": (c.konular or []) if c else [],
                 "sdg": c.sdgs if c else [],
                 "hedef_kitle": c.beneficiaries if c else [],
                 "paydaslar": c.partners if c else [],
@@ -290,6 +305,8 @@ def main() -> None:
         c = sub.add_parser(name, help=help_)
         c.add_argument("--host", action="append")
         c.add_argument("--limit", type=int, default=20, help="Kaynak başına en fazla kayıt / sınıflandırma sayısı")
+        c.add_argument("--son-taramadan-sonra", action="store_true",
+                       help="Son tamamlanan taramadan önce yayımlananları alma (tarihsizler alınır)")
         c.set_defaults(fn=fn)
 
     c = sub.add_parser("classify", help="Sınıflandırılmamış haberleri sınıflandır")

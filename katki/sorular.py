@@ -75,6 +75,110 @@ KARAR_SORULARI = {
     },
 }
 
+# --- Çok etiketli sorular (LLM özeti yerine) -------------------------------------------
+# Her etiket ayrı bir evet/hayır (noul) sorusu; hepsi karar sorularıyla aynı Jev isteğinde sorulur.
+# Soru anahtarı = önek + kısa ad; olasılık >= ETIKET_ESIGI ise etiket verilir.
+ETIKET_ESIGI = 0.5
+
+# haber ne hakkında? (katkı olsun olmasın her habere)
+KONULAR = {
+    "egitim": ("Eğitim", "Okul, kurs, ders, atölye, seminer ya da eğitim programı"),
+    "ogrenci_destek": ("Öğrenci destekleri", "Burs, yemek, barınma, ulaşım gibi öğrencilere sosyal destek"),
+    "saglik": ("Sağlık", "Sağlık hizmeti, hastalık, tarama, tedavi, sağlıklı yaşam"),
+    "hastane": ("Hastane ve klinik", "Hastane, klinik, poliklinik, hasta hizmetleri"),
+    "ruh_sagligi": ("Ruh sağlığı", "Psikolojik destek, ruh sağlığı, bağımlılık"),
+    "cevre": ("Çevre ve iklim", "Çevre, iklim değişikliği, geri dönüşüm, ağaçlandırma, doğa"),
+    "enerji_su": ("Enerji ve su", "Enerji, yenilenebilir enerji, su kaynakları, sanitasyon"),
+    "tarim_gida": ("Tarım ve gıda", "Tarım, hayvancılık, gıda, beslenme, çiftçiler"),
+    "kultur_sanat": ("Kültür ve sanat", "Konser, sergi, tiyatro, sinema, edebiyat, sanat etkinliği"),
+    "tarih_miras": ("Tarih ve kültürel miras", "Tarih, arkeoloji, müze, kültürel miras, restorasyon"),
+    "spor": ("Spor", "Spor etkinliği, turnuva, fiziksel aktivite"),
+    "bilim_teknoloji": ("Bilim ve teknoloji", "Bilimsel araştırma, bilim şenliği, teknoloji, Ar-Ge"),
+    "dijital": ("Dijital beceriler", "Yazılım, kodlama, yapay zekâ, bilişim, dijital okuryazarlık"),
+    "girisimcilik": ("Girişimcilik ve inovasyon", "Girişimcilik, kuluçka merkezi, teknopark, inovasyon"),
+    "istihdam": ("İstihdam ve kariyer", "İş bulma, kariyer, mesleki beceri, staj"),
+    "ekonomi": ("Ekonomi", "Ekonomik kalkınma, yerel ekonomi, finans, kooperatif"),
+    "afet": ("Afet ve acil durum", "Deprem, sel, yangın, afet hazırlığı, ilk yardım"),
+    "yardim_bagis": ("Yardım ve bağış", "Bağış kampanyası, kan bağışı, ayni/nakdi yardım"),
+    "sosyal_icerme": ("Sosyal içerme", "Yoksulluk, dezavantajlı gruplar, eşitsizlik, sosyal destek"),
+    "engelli": ("Engelliler ve erişilebilirlik", "Engelli bireyler, erişilebilirlik, özel gereksinim"),
+    "kadin": ("Kadın ve toplumsal cinsiyet", "Kadınlar, kadın hakları, toplumsal cinsiyet eşitliği"),
+    "cocuk_genclik": ("Çocuk ve gençlik", "Çocuklar, gençler, gençlik çalışmaları"),
+    "yasli": ("Yaşlılar", "Yaşlılar, yaşlı bakımı, yaşlılara yönelik hizmetler"),
+    "goc": ("Göç ve mülteciler", "Göçmenler, mülteciler, sığınmacılar"),
+    "hukuk": ("Hukuk ve insan hakları", "Hukuki destek, insan hakları, tüketici hakları"),
+    "kent_ulasim": ("Kent ve ulaşım", "Şehircilik, ulaşım, altyapı, konut"),
+    "hayvan": ("Hayvanlar", "Hayvan hakları, sokak hayvanları, veteriner hizmetleri"),
+    "medya": ("Medya ve iletişim", "Gazetecilik, medya, yayıncılık, iletişim"),
+    "uluslararasi": ("Uluslararası iş birliği", "Yurt dışı kurumlarla ortak çalışma, uluslararası proje"),
+    "kamu_politikasi": ("Kamu politikası", "Kamu kurumlarına danışmanlık, politika önerisi, rapor"),
+}
+
+SDG_ADLARI = {
+    1: "Yoksulluğa son", 2: "Açlığa son", 3: "Sağlık ve kaliteli yaşam", 4: "Nitelikli eğitim",
+    5: "Toplumsal cinsiyet eşitliği", 6: "Temiz su ve sanitasyon", 7: "Erişilebilir ve temiz enerji",
+    8: "İnsana yakışır iş ve ekonomik büyüme", 9: "Sanayi, yenilikçilik ve altyapı",
+    10: "Eşitsizliklerin azaltılması", 11: "Sürdürülebilir şehirler ve topluluklar",
+    12: "Sorumlu üretim ve tüketim", 13: "İklim eylemi", 14: "Sudaki yaşam", 15: "Karasal yaşam",
+    16: "Barış, adalet ve güçlü kurumlar", 17: "Amaçlar için ortaklıklar",
+}
+
+HEDEF_KITLELER = {
+    "cocuklar": ("Çocuklar", "Okul öncesi ve ilk/ortaokul çağındaki çocuklar"),
+    "gencler": ("Gençler ve öğrenciler", "Lise/üniversite öğrencileri, gençler"),
+    "kadinlar": ("Kadınlar", "Kadınlar"),
+    "yaslilar": ("Yaşlılar", "Yaşlılar"),
+    "engelliler": ("Engelliler", "Engelli bireyler ve aileleri"),
+    "gocmenler": ("Göçmenler ve mülteciler", "Göçmenler, mülteciler"),
+    "hastalar": ("Hastalar", "Hastalar ve hasta yakınları"),
+    "dezavantajli": ("Dezavantajlı gruplar", "Yoksul, kırsal ya da imkânı kısıtlı kesimler"),
+    "afetzedeler": ("Afetzedeler", "Afetten etkilenenler"),
+    "ogretmenler": ("Öğretmenler", "Öğretmenler ve eğitimciler"),
+    "ciftciler": ("Çiftçiler ve üreticiler", "Çiftçiler, küçük üreticiler"),
+    "isletmeler": ("Girişimciler ve işletmeler", "Girişimciler, KOBİ'ler, sanayi"),
+    "kamu": ("Kamu kurumları", "Belediyeler, bakanlıklar ve diğer kamu kurumları"),
+    "genel_halk": ("Genel halk", "Belirli bir grup değil, herkese açık"),
+}
+
+PAYDAS_TURLERI = {
+    "belediye": ("Belediye / valilik", "Belediye, valilik, kaymakamlık gibi yerel yönetimler"),
+    "bakanlik": ("Bakanlık / kamu kurumu", "Bakanlık, genel müdürlük, kamu kurumu"),
+    "okul": ("Okul / MEB", "Okullar, il/ilçe millî eğitim müdürlükleri"),
+    "universite": ("Başka üniversite", "Haberi yayımlayan kurumdan başka bir üniversite"),
+    "stk": ("STK / vakıf / dernek", "Sivil toplum kuruluşları, vakıflar, dernekler"),
+    "ozel_sektor": ("Özel sektör", "Şirketler, bankalar, meslek odaları"),
+    "hastane": ("Hastane / sağlık kurumu", "Hastaneler ve sağlık kuruluşları"),
+    "uluslararasi": ("Uluslararası kuruluş", "BM, AB, yabancı üniversite ya da kuruluş"),
+}
+AU_ADI = "Ankara Üniversitesi"
+
+
+def _noul(soru: str, evet: str) -> dict:
+    return {"type": "noul", "instructions": soru, "criteria": {"true": evet, "false": "Hayır ya da metinde geçmiyor."}}
+
+
+ETIKET_SORULARI = {
+    **{f"konu_{k}": _noul(f"Haber '{ad}' konusuyla ilgili mi?", aciklama) for k, (ad, aciklama) in KONULAR.items()},
+    **{f"sdg_{n}": _noul(f"Faaliyet BM Sürdürülebilir Kalkınma Amacı {n} ({ad}) ile ilgili mi?", f"SDG {n}: {ad}")
+       for n, ad in SDG_ADLARI.items()},
+    **{f"kitle_{k}": _noul(f"Faaliyetten '{ad}' faydalanıyor mu?", aciklama)
+       for k, (ad, aciklama) in HEDEF_KITLELER.items()},
+    **{f"paydas_{k}": _noul(f"Faaliyette dış paydaş olarak '{ad}' yer alıyor mu?", aciklama)
+       for k, (ad, aciklama) in PAYDAS_TURLERI.items()},
+    "paydas_au": _noul(f"Faaliyette {AU_ADI} (birimleri dahil) paydaş ya da ortak olarak geçiyor mu?",
+                       f"Metinde {AU_ADI} ya da bir fakültesi/birimi ortak olarak anılıyor."),
+}
+
+
+def etiketler(answers: dict, onek: str, sozluk: dict) -> list:
+    """Olasılığı eşiği geçen etiketlerin adları (sözlük değeri tuple ise ilk eleman)."""
+    out = []
+    for k, v in sozluk.items():
+        a = answers.get(f"{onek}{k}")
+        if a is not None and float(a.get("noul", 0)) >= ETIKET_ESIGI:
+            out.append(k if onek == "sdg_" else (v[0] if isinstance(v, tuple) else v))
+    return out
+
 # Laya her seçeneği 48 token'da kırpar: iller nüfus sırasıyla, sığmayanlar "ve diğer ... illeri"
 # (Laya tokenizer'ıyla ölçüldü; Jev de aynı metni görür ki iki model aynı soruya cevap versin)
 BOLGE_SECENEKLERI = {

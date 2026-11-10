@@ -11,7 +11,10 @@ from .db import Article, Classification, Session, Source
 from .events import EventFn, noop
 from . import jev as jev_model, laya
 from .llm import LLMError, Usage, chat_json
-from .sorular import BOLGE_ILLERI, BOLGE_SORUSU, KARAR_SORULARI, FaaliyetTuru, Kategori, il_sorusu
+from .sorular import (
+    AU_ADI, BOLGE_ILLERI, BOLGE_SORUSU, ETIKET_ESIGI, ETIKET_SORULARI, HEDEF_KITLELER, KARAR_SORULARI, KONULAR,
+    PAYDAS_TURLERI, SDG_ADLARI, FaaliyetTuru, Kategori, etiketler, il_sorusu,
+)
 
 log = logging.getLogger(__name__)
 
@@ -93,10 +96,9 @@ def _add_usage(total: Usage, part: Usage) -> None:
         setattr(total, k, getattr(total, k) + getattr(part, k))
 
 
-async def konum_sor(state: dict) -> tuple[dict, dict, Usage]:
-    """Faaliyetin yeri: önce bölge, tek bölgeyse il (Jev). (alanlar, ham cevaplar, kullanım)"""
-    jev = await decide(state, BOLGE_SORUSU)
-    usage, b = jev.usage, jev.answers["bolge"]
+async def il_sor(state: dict, b: dict) -> tuple[dict, dict, Usage]:
+    """Bölge cevabından konum alanları; tek bölgeyse ili ayrıca sorar (Jev). (alanlar, ham cevaplar, kullanım)"""
+    usage = Usage()
     fields = {"bolge": b["choice"], "il": None, "konum_guven": b.get("confidence")}
     raw = {"bolge": b}
     if b["choice"] in BOLGE_ILLERI:
@@ -109,37 +111,60 @@ async def konum_sor(state: dict) -> tuple[dict, dict, Usage]:
     return fields, raw, usage
 
 
+async def konum_sor(state: dict) -> tuple[dict, dict, Usage]:
+    """Faaliyetin yeri: önce bölge, tek bölgeyse il (Jev). (alanlar, ham cevaplar, kullanım)"""
+    jev = await decide(state, BOLGE_SORUSU)
+    fields, raw, usage = await il_sor(state, jev.answers["bolge"])
+    _add_usage(usage, jev.usage)
+    return fields, raw, usage
+
+
+# tek Jev isteğinde sorulanlar: karar + bölge + çok etiketli sorular (konu, SDG, hedef kitle, paydaş türü)
+TUM_SORULAR = {**JEV_QUESTIONS, **BOLGE_SORUSU, **ETIKET_SORULARI}
+
+
 async def _classify_jev(article: Article) -> tuple[dict, str, Usage, int]:
-    """Kararlar Jev'den ya da Laya'dan; katkıysa özet/paydaş LLM'den. (alanlar, model, kullanım, girdi_karakter)"""
+    """Her şey tek Jev (ya da Laya) isteğinden; katkıysa il için ikinci istek. (alanlar, model, kullanım, girdi_karakter)
+
+    LLM_DETAY=1 ise katkılar için özet/SDG/hedef kitle/paydaş adları ayrıca LLM'den alınır (eski yöntem).
+    """
     state = _state(article)
-    jev = await decide(state, JEV_QUESTIONS)
+    jev = await decide(state, TUM_SORULAR)
     a = jev.answers
     p = float(a["katki"]["noul"])
     katki = p >= KATKI_ESIGI
+    paydas = etiketler(a, "paydas_", PAYDAS_TURLERI)
+    if "paydas_au" in a and float(a["paydas_au"].get("noul", 0)) >= ETIKET_ESIGI:
+        paydas.append(AU_ADI)
     fields = {
         "is_contribution": katki,
         "confidence": max(p, 1 - p),  # verilen kararın olasılığı
         "category": a["kategori"]["choice"] if katki else None,
         "activity_type": a["faaliyet"]["choice"] if katki else None,
-        "sdgs": [], "beneficiaries": [], "partners": [], "summary": None,
+        "konular": etiketler(a, "konu_", KONULAR),  # haber ne hakkında: katkı olmasa da
+        "sdgs": etiketler(a, "sdg_", SDG_ADLARI) if katki else [],
+        "beneficiaries": etiketler(a, "kitle_", HEDEF_KITLELER) if katki else [],
+        "partners": paydas if katki else [],
+        "summary": None,
         "raw": {"jev": a, "katki_olasiligi": p},
     }
     usage, model, chars = jev.usage, jev.model, len(str(state))
     if katki:
-        prompt = _prompt(article) + f"\nKategori (Jev): {fields['category']}"
-        det = await chat_json(DETAY_SYSTEM, prompt, KatkiDetay)
-        d = det.value
-        fields.update(
-            sdgs=sorted({x for x in d.sdg if 1 <= x <= 17}),
-            beneficiaries=d.hedef_kitle,
-            partners=d.paydaslar,
-            summary=d.ozet,
-        )
-        fields["raw"]["detay"] = d.model_dump()
-        _add_usage(usage, det.usage)
-        model = f"{jev.model} + {det.model}"
-        chars += len(DETAY_SYSTEM) + len(prompt)
-        konum, konum_raw, konum_usage = await konum_sor(state)
+        if settings.llm_detay:
+            prompt = _prompt(article) + f"\nKategori (Jev): {fields['category']}"
+            det = await chat_json(DETAY_SYSTEM, prompt, KatkiDetay)
+            d = det.value
+            fields.update(
+                sdgs=sorted({x for x in d.sdg if 1 <= x <= 17}),
+                beneficiaries=d.hedef_kitle,
+                partners=d.paydaslar,
+                summary=d.ozet,
+            )
+            fields["raw"]["detay"] = d.model_dump()
+            _add_usage(usage, det.usage)
+            model = f"{jev.model} + {det.model}"
+            chars += len(DETAY_SYSTEM) + len(prompt)
+        konum, konum_raw, konum_usage = await il_sor(state, a["bolge"])
         fields.update(konum)
         fields["raw"]["jev"].update(konum_raw)
         _add_usage(usage, konum_usage)
